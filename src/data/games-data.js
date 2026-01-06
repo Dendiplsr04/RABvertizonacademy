@@ -381,5 +381,6 @@ export const gamesNote = {
   status: 'DRAFT',
   message: 'Fun Games ini masih berupa usulan dan dapat direvisi sesuai keputusan panitia.',
   totalDuration: '2 jam (08:30 - 10:30)',
+  day: 'Hari 2 - Jumat, 16 Januari 2026',
   pic: 'Kang Teguh & Agung'
 };

@@ -27,7 +27,7 @@ export const strukturKepanitiaan = {
   sie: [
     {
       posisi: 'Sie Acara',
-      nama: ['Agung', 'Ustad Satria', 'Doyok'],
+      nama: ['Nanda', 'Ustad Satria', 'Doyok'],
       catatan: 'Memimpin doa: Ustad Satria',
       color: '#8b5cf6', // Purple
       icon: 'calendar'
@@ -40,13 +40,13 @@ export const strukturKepanitiaan = {
     },
     {
       posisi: 'Sie Dokumentasi',
-      nama: ['Nanda', 'Doyok'],
+      nama: ['Umam', 'Bagas'],
       color: '#06b6d4', // Cyan
       icon: 'camera'
     },
     {
       posisi: 'Sie Peralatan',
-      nama: ['Faris Azam'],
+      nama: ['Faris Azam', 'Agung'],
       color: '#f97316', // Orange
       icon: 'tools'
     }

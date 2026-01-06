@@ -42,8 +42,8 @@ export const icons = {
 export const peralatan = [
   { id: 1, item: '1 Set Proyektor', icon: 'projector', provider: 'Bu Nany', price: null, editable: false },
   { id: 2, item: 'Playmate', icon: 'playmate', provider: 'Kalamaya', price: null, editable: false },
-  { id: 3, item: 'Notebook', icon: 'notebook', provider: null, price: 30000, editable: true },
-  { id: 4, item: 'Pulpen', icon: 'pen', provider: null, price: 30000, editable: true },
+  { id: 3, item: 'Notebook', icon: 'notebook', qty: 20, unit: 'pcs', pricePerUnit: 30000, provider: null, price: 600000, editable: true },
+  { id: 4, item: 'Pulpen', icon: 'pen', qty: 3, unit: 'pack', pricePerUnit: 30000, provider: null, price: 90000, editable: true },
   { id: 5, item: 'Sound System', icon: 'sound', provider: 'Bang Lutpi', price: null, editable: false },
   { id: 6, item: 'Kabel HDMI', icon: 'cable', provider: null, price: null, editable: false },
   { id: 7, item: 'Laser Pointer', icon: 'laser', provider: null, price: null, editable: false },

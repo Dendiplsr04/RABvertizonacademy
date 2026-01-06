@@ -1,6 +1,6 @@
 // Fun Games - Vertizon Academy
 import * as THREE from 'three';
-import { gamesData, scheduleRecommendation } from '../data/games-data.js';
+import { gamesData, scheduleRecommendation, gamesNote } from '../data/games-data.js';
 
 // ============================================
 // THREE.JS BACKGROUND
@@ -81,12 +81,26 @@ function getDifficultyClass(difficulty) {
 }
 
 function renderSchedule() {
+  // Render draft notice
+  const draftNotice = document.getElementById('draft-notice');
+  if (draftNotice && gamesNote) {
+    draftNotice.innerHTML = `
+      <span class="draft-badge">⚠️ ${gamesNote.status}</span>
+      <p class="draft-message">${gamesNote.message}</p>
+      <div class="draft-info">
+        <span>📅 ${gamesNote.day}</span>
+        <span>⏱️ ${gamesNote.totalDuration}</span>
+        <span>👤 PIC: ${gamesNote.pic}</span>
+      </div>
+    `;
+  }
+
   const grid = document.getElementById('schedule-grid');
   grid.innerHTML = scheduleRecommendation.map(item => `
     <div class="schedule-item">
       <div class="schedule-time">⏰ ${item.time}</div>
       <div class="schedule-game">${item.game}</div>
-      <div class="schedule-type">${item.type}</div>
+      <div class="schedule-type">${item.type} • ${item.duration}</div>
     </div>
   `).join('');
 }
