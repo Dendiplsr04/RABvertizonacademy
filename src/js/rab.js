@@ -1,6 +1,7 @@
 // RAB Vertizon Academy - Main JavaScript
 import * as THREE from 'three';
 import { eventInfo, peralatan, konsumsiNany, konsumsiKita, funGames, icons } from '../data/rab-data.js';
+import { rundownHari1, rundownHari2 } from '../data/event-data.js';
 
 // ============================================
 // THREE.JS BACKGROUND - Enhanced 3D Effect
@@ -310,6 +311,59 @@ function renderFunGames() {
       </div>
     `;
     grid.appendChild(card);
+  });
+}
+
+function renderRundown() {
+  const timeline1 = document.getElementById('timeline-hari1');
+  const timeline2 = document.getElementById('timeline-hari2');
+  
+  if (!timeline1 || !timeline2) return;
+
+  // Render Hari 1
+  timeline1.innerHTML = '';
+  rundownHari1.jadwal.forEach((item) => {
+    const timelineItem = document.createElement('div');
+    timelineItem.className = `timeline-item ${item.type}`;
+    timelineItem.innerHTML = `
+      <div class="timeline-header">
+        <span class="timeline-time">${item.jam}</span>
+        <span class="timeline-agenda">${item.agenda}</span>
+      </div>
+      <div class="timeline-detail">${item.detail}</div>
+      ${item.pic !== '-' ? `
+        <span class="timeline-pic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          ${item.pic}
+        </span>
+      ` : ''}
+    `;
+    timeline1.appendChild(timelineItem);
+  });
+
+  // Render Hari 2
+  timeline2.innerHTML = '';
+  rundownHari2.jadwal.forEach((item) => {
+    const timelineItem = document.createElement('div');
+    timelineItem.className = `timeline-item ${item.type}`;
+    timelineItem.innerHTML = `
+      <div class="timeline-header">
+        <span class="timeline-time">${item.jam}</span>
+        <span class="timeline-agenda">${item.agenda}</span>
+      </div>
+      <div class="timeline-detail">${item.detail}</div>
+      ${item.pic !== '-' ? `
+        <span class="timeline-pic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          ${item.pic}
+        </span>
+      ` : ''}
+    `;
+    timeline2.appendChild(timelineItem);
   });
 }
 
@@ -714,6 +768,7 @@ function exportToPDF() {
 function init() {
   initThreeBackground();
   renderEventInfo();
+  renderRundown();
   renderPeralatan();
   renderKonsumsiNany();
   renderKonsumsiKita();

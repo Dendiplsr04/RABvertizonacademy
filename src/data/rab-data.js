@@ -75,13 +75,14 @@ export const konsumsiKita = [
   { id: 5, item: 'Biaya Transportasi Belanja', icon: 'transport', note: '', price: 30000, editable: true }
 ];
 
-// Fun Games Budget
+// Fun Games Budget (Waktu: 08.30-10.30 = 2 jam, termasuk berenang)
+// NOTE: Games ini masih DRAFT dan dapat direvisi sesuai keputusan panitia
 export const funGames = [
   { 
     id: 1, 
     item: 'Speed Networking Challenge', 
     icon: 'game',
-    note: 'Kartu networking, lonceng, hadiah pemenang', 
+    note: 'Ice breaking 20 menit - Kartu networking, lonceng, hadiah', 
     price: 250000, 
     editable: true 
   },
@@ -89,32 +90,18 @@ export const funGames = [
     id: 2, 
     item: 'Tebak Harga Properti', 
     icon: 'game',
-    note: 'Kertas jawaban, hadiah pemenang', 
+    note: 'Quiz 30 menit - Kertas jawaban, hadiah pemenang', 
     price: 175000, 
     editable: true 
   },
   { 
     id: 3, 
-    item: 'Property Pitch Battle', 
-    icon: 'game',
-    note: 'Kartu properti, flipchart, spidol, hadiah tim', 
-    price: 630000, 
-    editable: true 
-  },
-  { 
-    id: 4, 
     item: 'Handle Objection Challenge', 
     icon: 'game',
-    note: 'Kartu skenario, scoring sheet, hadiah', 
+    note: 'Role play 40 menit - Kartu skenario, scoring sheet, hadiah', 
     price: 235000, 
-    editable: true 
-  },
-  { 
-    id: 5, 
-    item: 'Treasure Hunt: Sertifikat Emas', 
-    icon: 'game',
-    note: 'Sertifikat emas, clue cards, peta, hadiah tim', 
-    price: 550000, 
     editable: true 
   }
 ];
+
+export const funGamesNote = 'Fun Games masih berupa DRAFT/usulan dan dapat direvisi sesuai keputusan panitia. Total waktu: 2 jam (08.30-10.30) termasuk berenang.';

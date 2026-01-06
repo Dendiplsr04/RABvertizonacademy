@@ -371,7 +371,15 @@ export const gamesData = [
 ];
 
 export const scheduleRecommendation = [
-  { time: '08:00 - 08:20', game: 'Speed Networking Challenge', type: 'Ice Breaking' },
-  { time: '12:30 - 12:45', game: 'Tebak Harga Properti', type: 'Energizer' },
-  { time: '15:30 - 16:00', game: 'Property Pitch Battle', type: 'Main Event' }
+  { time: '08:30 - 08:50', game: 'Speed Networking Challenge', type: 'Ice Breaking', duration: '20 menit' },
+  { time: '08:50 - 09:20', game: 'Tebak Harga Properti', type: 'Quiz Seru', duration: '30 menit' },
+  { time: '09:20 - 10:00', game: 'Handle Objection Challenge', type: 'Role Play', duration: '40 menit' },
+  { time: '10:00 - 10:30', game: 'Berenang & Free Time', type: 'Refreshing', duration: '30 menit' }
 ];
+
+export const gamesNote = {
+  status: 'DRAFT',
+  message: 'Fun Games ini masih berupa usulan dan dapat direvisi sesuai keputusan panitia.',
+  totalDuration: '2 jam (08:30 - 10:30)',
+  pic: 'Kang Teguh & Agung'
+};
