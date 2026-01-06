@@ -181,15 +181,37 @@ function renderPeralatan() {
   grid.innerHTML = '';
 
   currentData.peralatan.forEach((item) => {
-    const qtyNote = item.qty ? ` (${item.qty} ${item.unit})` : '';
-    
+    let qtyHtml = '';
     let priceHtml;
-    if (item.price !== null && item.editable) {
-      priceHtml = `<input type="text" class="price-input" data-type="peralatan" data-id="${item.id}" value="${formatRupiah(item.price)}" />`;
-    } else if (item.price !== null) {
-      priceHtml = `<span class="price-display">${formatRupiah(item.price)}</span>`;
+
+    // Check if item has qty and pricePerUnit (editable qty)
+    if (item.qty && item.pricePerUnit && item.editable) {
+      qtyHtml = `
+        <div class="qty-calculator">
+          <input type="number" class="qty-input" data-type="peralatan" data-id="${item.id}" value="${item.qty}" min="1" />
+          <span class="qty-unit">${item.unit}</span>
+          <span class="qty-multiply">×</span>
+          <span class="qty-price">Rp ${item.pricePerUnit.toLocaleString('id-ID')}</span>
+        </div>
+      `;
+      priceHtml = `<span class="price-display price-calculated">${formatRupiah(item.price)}</span>`;
+    } else if (item.qty) {
+      qtyHtml = `<span class="qty-badge">${item.qty} ${item.unit}</span>`;
+      if (item.price !== null && item.editable) {
+        priceHtml = `<input type="text" class="price-input" data-type="peralatan" data-id="${item.id}" value="${formatRupiah(item.price)}" />`;
+      } else if (item.price !== null) {
+        priceHtml = `<span class="price-display">${formatRupiah(item.price)}</span>`;
+      } else {
+        priceHtml = `<span class="provided-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg> Tersedia</span>`;
+      }
     } else {
-      priceHtml = `<span class="provided-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg> Tersedia</span>`;
+      if (item.price !== null && item.editable) {
+        priceHtml = `<input type="text" class="price-input" data-type="peralatan" data-id="${item.id}" value="${formatRupiah(item.price)}" />`;
+      } else if (item.price !== null) {
+        priceHtml = `<span class="price-display">${formatRupiah(item.price)}</span>`;
+      } else {
+        priceHtml = `<span class="provided-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg> Tersedia</span>`;
+      }
     }
 
     let providerHtml = '';
@@ -203,7 +225,8 @@ function renderPeralatan() {
       <div class="item-header">
         <div class="item-icon">${getIcon(item.icon)}</div>
         <div class="item-info">
-          <div class="item-name">${item.item}${qtyNote}</div>
+          <div class="item-name">${item.item}</div>
+          ${qtyHtml}
         </div>
       </div>
       <div class="item-footer">
@@ -415,8 +438,33 @@ function handlePriceInput(e) {
   calculateTotals();
 }
 
+function handleQtyInput(e) {
+  if (!e.target.classList.contains('qty-input')) return;
+
+  const type = e.target.dataset.type;
+  const id = parseInt(e.target.dataset.id, 10);
+  const qty = parseInt(e.target.value, 10) || 1;
+
+  if (type === 'peralatan') {
+    const item = currentData.peralatan.find(p => p.id === id);
+    if (item && item.pricePerUnit) {
+      item.qty = qty;
+      item.price = qty * item.pricePerUnit;
+      // Update price display
+      const card = e.target.closest('.item-card');
+      const priceDisplay = card.querySelector('.price-calculated');
+      if (priceDisplay) {
+        priceDisplay.textContent = formatRupiah(item.price);
+      }
+    }
+  }
+
+  saveData(currentData);
+  calculateTotals();
+}
+
 function handlePriceFocus(e) {
-  if (!e.target.classList.contains('price-input')) return;
+  if (!e.target.classList.contains('price-input') && !e.target.classList.contains('qty-input')) return;
   e.target.select();
 }
 
@@ -776,6 +824,7 @@ function init() {
   calculateTotals();
 
   document.addEventListener('change', handlePriceInput);
+  document.addEventListener('input', handleQtyInput);
   document.addEventListener('focus', handlePriceFocus, true);
   
   // Export PDF button
