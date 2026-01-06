@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "E-Commerce Fashion Store",
+    "category": "Web Development",
+    "description": "Platform e-commerce lengkap dengan fitur keranjang belanja, payment gateway, dan manajemen inventory untuk brand fashion lokal.",
+    "technologies": ["Laravel", "Vue.js", "MySQL", "Midtrans"],
+    "image": "/portfolio/ecommerce.jpg",
+    "demoUrl": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Restaurant Mobile App",
+    "category": "Mobile App",
+    "description": "Aplikasi pemesanan makanan dengan fitur real-time tracking, loyalty points, dan integrasi pembayaran digital.",
+    "technologies": ["Flutter", "Firebase", "Node.js"],
+    "image": "/portfolio/restaurant-app.jpg",
+    "demoUrl": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": 3,
+    "title": "Corporate Website Redesign",
+    "category": "UI/UX Design",
+    "description": "Redesign website perusahaan konstruksi dengan fokus pada user experience dan modern aesthetic.",
+    "technologies": ["Figma", "React", "TailwindCSS"],
+    "image": "/portfolio/corporate.jpg",
+    "demoUrl": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": 4,
+    "title": "Clinic Management System",
+    "category": "Web Development",
+    "description": "Sistem manajemen klinik terintegrasi dengan fitur appointment, rekam medis elektronik, dan billing.",
+    "technologies": ["Next.js", "PostgreSQL", "Prisma"],
+    "image": "/portfolio/clinic.jpg",
+    "demoUrl": "https://example.com",
+    "featured": false
+  },
+  {
+    "id": 5,
+    "title": "Startup Brand Identity",
+    "category": "Branding",
+    "description": "Pembuatan identitas visual lengkap untuk startup fintech termasuk logo, color palette, dan brand guidelines.",
+    "technologies": ["Adobe Illustrator", "Photoshop"],
+    "image": "/portfolio/branding.jpg",
+    "demoUrl": null,
+    "featured": true
+  },
+  {
+    "id": 6,
+    "title": "Real Estate Platform",
+    "category": "Web Development",
+    "description": "Portal properti dengan fitur pencarian advanced, virtual tour 360°, dan sistem booking viewing.",
+    "technologies": ["React", "Node.js", "MongoDB", "Three.js"],
+    "image": "/portfolio/realestate.jpg",
+    "demoUrl": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": 7,
+    "title": "Fitness Tracking App",
+    "category": "Mobile App",
+    "description": "Aplikasi tracking workout dan nutrisi dengan AI-powered recommendations dan social features.",
+    "technologies": ["React Native", "Python", "TensorFlow"],
+    "image": "/portfolio/fitness.jpg",
+    "demoUrl": "https://example.com",
+    "featured": false
+  },
+  {
+    "id": 8,
+    "title": "Digital Marketing Campaign",
+    "category": "Digital Marketing",
+    "description": "Kampanye digital marketing terintegrasi yang meningkatkan traffic 300% dan konversi 150% dalam 3 bulan.",
+    "technologies": ["Google Ads", "Meta Ads", "SEO", "Analytics"],
+    "image": "/portfolio/marketing.jpg",
+    "demoUrl": null,
+    "featured": true
+  }
+]

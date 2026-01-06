@@ -14,6 +14,14 @@ export default {
     host: HOST,
     port: PORT
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        games: path.resolve(__dirname, 'games.html')
+      }
+    }
+  },
   plugins: [
     legacy(),
     glsl(),
