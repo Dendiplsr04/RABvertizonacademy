@@ -2,6 +2,9 @@
 import * as THREE from 'three';
 import { eventInfo, peralatan, konsumsiNany, konsumsiKita, funGames, icons } from '../data/rab-data.js';
 import { rundownHari1, rundownHari2 } from '../data/event-data.js';
+import { initMiniGame } from './mini-game.js';
+import '../css/animations.css';
+import '../css/mini-game.css';
 
 // ============================================
 // THREE.JS BACKGROUND - Enhanced 3D Effect
@@ -811,6 +814,143 @@ function exportToPDF() {
 }
 
 // ============================================
+// ANIMATIONS & EFFECTS
+// ============================================
+function initAnimations() {
+  // Scroll Reveal for timeline items
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('revealed');
+        }, index * 100);
+      }
+    });
+  }, observerOptions);
+
+  // Observe timeline items
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    item.classList.add('scroll-reveal');
+    scrollObserver.observe(item);
+  });
+
+  // Observe item cards with stagger
+  document.querySelectorAll('.item-card').forEach((card, index) => {
+    card.classList.add('stagger-item');
+    setTimeout(() => {
+      card.classList.add('visible');
+    }, 100 + index * 50);
+  });
+
+  // 3D Tilt effect for org cards
+  document.querySelectorAll('.org-card').forEach(card => {
+    card.classList.add('tilt-card', 'icon-pulse');
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / 10;
+      const rotateY = (centerX - x) / 10;
+      
+      card.style.setProperty('--rotateX', `${rotateX}deg`);
+      card.style.setProperty('--rotateY', `${rotateY}deg`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.setProperty('--rotateX', '0deg');
+      card.style.setProperty('--rotateY', '0deg');
+    });
+  });
+
+  // Add shine effect to RAB divider
+  const dividerText = document.querySelector('.divider-text');
+  if (dividerText) {
+    dividerText.classList.add('shine-effect');
+  }
+
+  // Add glow pulse to header
+  const header = document.querySelector('.header');
+  if (header) {
+    header.classList.add('glow-pulse');
+  }
+
+  // Float animation for event info items
+  document.querySelectorAll('.event-info-item').forEach(item => {
+    item.classList.add('float-animation');
+  });
+
+  // Animate total on scroll into view
+  const totalSection = document.querySelector('.total-section');
+  if (totalSection) {
+    totalSection.classList.add('gradient-animate');
+    
+    const totalObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter();
+          totalObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    totalObserver.observe(totalSection);
+  }
+}
+
+function animateCounter() {
+  const totalEl = document.getElementById('total-amount');
+  if (!totalEl) return;
+
+  const targetText = totalEl.textContent;
+  const targetNum = parseInt(targetText.replace(/[^\d]/g, ''), 10);
+  
+  if (isNaN(targetNum) || targetNum === 0) return;
+
+  let current = 0;
+  const increment = Math.ceil(targetNum / 50);
+  const duration = 1500;
+  const stepTime = duration / (targetNum / increment);
+
+  totalEl.textContent = 'Rp 0';
+
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= targetNum) {
+      current = targetNum;
+      clearInterval(timer);
+      // Trigger sparkle effect
+      createSparkles(totalEl);
+    }
+    totalEl.textContent = 'Rp ' + current.toLocaleString('id-ID');
+  }, stepTime);
+}
+
+function createSparkles(element) {
+  const rect = element.getBoundingClientRect();
+  const colors = ['#10b981', '#34d399', '#fbbf24', '#ffffff'];
+  
+  for (let i = 0; i < 8; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = rect.left + Math.random() * rect.width + 'px';
+    sparkle.style.top = rect.top + Math.random() * rect.height + 'px';
+    sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(sparkle);
+    
+    setTimeout(() => sparkle.remove(), 2000);
+  }
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 function init() {
@@ -822,6 +962,12 @@ function init() {
   renderKonsumsiKita();
   renderFunGames();
   calculateTotals();
+
+  // Initialize animations after render
+  setTimeout(() => {
+    initAnimations();
+    initMiniGame();
+  }, 100);
 
   document.addEventListener('change', handlePriceInput);
   document.addEventListener('input', handleQtyInput);
