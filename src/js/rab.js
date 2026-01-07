@@ -1,6 +1,6 @@
 // RAB Vertizon Academy - Main JavaScript
 import * as THREE from 'three';
-import { eventInfo, peralatan, konsumsiNany, konsumsiKita, funGames, icons } from '../data/rab-data.js';
+import { eventInfo, peralatan, konsumsiNany, konsumsiKita, operasionalKendaraan, funGames, icons } from '../data/rab-data.js';
 import { rundownHari1, rundownHari2 } from '../data/event-data.js';
 import { initMiniGame } from './mini-game.js';
 import '../css/animations.css';
@@ -131,7 +131,7 @@ function initThreeBackground() {
 // ============================================
 // DATA MANAGEMENT
 // ============================================
-const STORAGE_KEY = 'rab_vertizon_2026';
+const STORAGE_KEY = 'rab_vertizon_2026_v2';
 
 function loadData() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -141,6 +141,7 @@ function loadData() {
   return {
     peralatan: peralatan.map(item => ({ ...item })),
     konsumsiKita: konsumsiKita.map(item => ({ ...item })),
+    operasionalKendaraan: operasionalKendaraan.map(item => ({ ...item })),
     funGames: funGames.map(item => ({ ...item }))
   };
 }
@@ -304,6 +305,52 @@ function renderKonsumsiKita() {
   });
 }
 
+function renderOperasionalKendaraan() {
+  const grid = document.getElementById('grid-operasional');
+  if (!grid) return;
+  
+  grid.innerHTML = '';
+
+  currentData.operasionalKendaraan.forEach((item) => {
+    let qtyHtml = '';
+    let priceHtml;
+
+    if (item.qty && item.pricePerUnit && item.editable) {
+      qtyHtml = `
+        <div class="qty-calculator">
+          <input type="number" class="qty-input" data-type="operasional" data-id="${item.id}" value="${item.qty}" min="1" />
+          <span class="qty-unit">${item.unit}</span>
+          <span class="qty-multiply">×</span>
+          <span class="qty-price">Rp ${item.pricePerUnit.toLocaleString('id-ID')}</span>
+        </div>
+      `;
+      priceHtml = `<span class="price-display price-calculated" style="color: #f97316;">${formatRupiah(item.price)}</span>`;
+    } else if (item.editable) {
+      priceHtml = `<input type="text" class="price-input" data-type="operasional" data-id="${item.id}" value="${formatRupiah(item.price)}" style="color: #f97316;" />`;
+    } else {
+      priceHtml = `<span class="price-display" style="color: #f97316;">${formatRupiah(item.price)}</span>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.innerHTML = `
+      <div class="item-header">
+        <div class="item-icon" style="background: rgba(249, 115, 22, 0.15); color: #f97316;">${getIcon(item.icon)}</div>
+        <div class="item-info">
+          <div class="item-name">${item.item}</div>
+          ${qtyHtml}
+          ${item.note && !item.qty ? `<div class="item-note">${item.note}</div>` : ''}
+        </div>
+      </div>
+      <div class="item-footer">
+        <span></span>
+        ${priceHtml}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
 function renderFunGames() {
   const grid = document.getElementById('grid-fun-games');
   if (!grid) return;
@@ -405,13 +452,19 @@ function calculateTotals() {
   
   document.getElementById('subtotal-konsumsi').textContent = formatRupiah(subtotalKonsumsi);
 
+  const subtotalOperasional = currentData.operasionalKendaraan
+    .reduce((sum, item) => sum + (item.price || 0), 0);
+  
+  const operasionalEl = document.getElementById('subtotal-operasional');
+  if (operasionalEl) operasionalEl.textContent = formatRupiah(subtotalOperasional);
+
   const subtotalGames = currentData.funGames
     .reduce((sum, item) => sum + (item.price || 0), 0);
   
   const gamesEl = document.getElementById('subtotal-games');
   if (gamesEl) gamesEl.textContent = formatRupiah(subtotalGames);
 
-  const total = subtotalPeralatan + subtotalKonsumsi + subtotalGames;
+  const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
   document.getElementById('total-amount').textContent = formatRupiah(total);
 }
 
@@ -430,6 +483,9 @@ function handlePriceInput(e) {
     if (item) item.price = value;
   } else if (type === 'konsumsi') {
     const item = currentData.konsumsiKita.find(k => k.id === id);
+    if (item) item.price = value;
+  } else if (type === 'operasional') {
+    const item = currentData.operasionalKendaraan.find(o => o.id === id);
     if (item) item.price = value;
   } else if (type === 'games') {
     const item = currentData.funGames.find(g => g.id === id);
@@ -453,7 +509,17 @@ function handleQtyInput(e) {
     if (item && item.pricePerUnit) {
       item.qty = qty;
       item.price = qty * item.pricePerUnit;
-      // Update price display
+      const card = e.target.closest('.item-card');
+      const priceDisplay = card.querySelector('.price-calculated');
+      if (priceDisplay) {
+        priceDisplay.textContent = formatRupiah(item.price);
+      }
+    }
+  } else if (type === 'operasional') {
+    const item = currentData.operasionalKendaraan.find(o => o.id === id);
+    if (item && item.pricePerUnit) {
+      item.qty = qty;
+      item.price = qty * item.pricePerUnit;
       const card = e.target.closest('.item-card');
       const priceDisplay = card.querySelector('.price-calculated');
       if (priceDisplay) {
@@ -960,6 +1026,7 @@ function init() {
   renderPeralatan();
   renderKonsumsiNany();
   renderKonsumsiKita();
+  renderOperasionalKendaraan();
   renderFunGames();
   calculateTotals();
 

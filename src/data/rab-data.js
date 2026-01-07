@@ -36,6 +36,8 @@ export const icons = {
   tissue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M12 6c0-2 2-4 4-4"/><path d="M8 10h8"/><path d="M8 14h8"/></svg>`,
   cup: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3h14l-2 18H7L5 3z"/><path d="M8 3c0-1 2-2 4-2s4 1 4 2"/><path d="M9 8h6"/></svg>`,
   transport: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="16" height="10" rx="2"/><circle cx="6" cy="18" r="2"/><circle cx="14" cy="18" r="2"/><path d="M18 10h2l2 4v4h-4"/><circle cx="20" cy="18" r="2"/></svg>`,
+  car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M5 12h14"/><path d="M7 8l1-3h8l1 3"/></svg>`,
+  fuel: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 22V6a2 2 0 012-2h8a2 2 0 012 2v16"/><path d="M3 10h12"/><path d="M15 12h2a2 2 0 012 2v3a2 2 0 002 2h0a2 2 0 002-2V9l-3-3"/><circle cx="18" cy="6" r="1"/></svg>`,
   game: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12.01"/><line x1="18" y1="12" x2="18" y2="12.01"/><path d="M12 6v4"/><path d="M10 10h4"/></svg>`
 };
 
@@ -73,6 +75,37 @@ export const konsumsiKita = [
   { id: 3, item: 'Tisu & Perlengkapan', icon: 'tissue', note: 'Tisu Meja, Toilet, Tisu Basah, Keresek Sampah', price: 150000, editable: true },
   { id: 4, item: 'Hot Paper Cup', icon: 'cup', qty: 2, unit: 'pak', price: 20000, editable: true },
   { id: 5, item: 'Biaya Transportasi Belanja', icon: 'transport', note: '', price: 30000, editable: true }
+];
+
+// Operasional Kendaraan
+export const operasionalKendaraan = [
+  { 
+    id: 1, 
+    item: 'Sewa Mobil Pribadi', 
+    icon: 'car',
+    qty: 2, 
+    unit: 'unit',
+    pricePerUnit: 1500000,
+    note: 'Rp 1.500.000/hari per unit', 
+    price: 3000000, 
+    editable: true 
+  },
+  { 
+    id: 2, 
+    item: 'Bensin Mobil Pribadi', 
+    icon: 'fuel',
+    note: 'Untuk 2 mobil', 
+    price: 500000, 
+    editable: true 
+  },
+  { 
+    id: 3, 
+    item: 'Operasional Bpk. Dony Firmansyah', 
+    icon: 'car',
+    note: '1 Unit Mobil + E-tol + Bensin', 
+    price: 350000, 
+    editable: true 
+  }
 ];
 
 // Fun Games Budget (Waktu: 08.30-10.30 = 2 jam, termasuk berenang)
