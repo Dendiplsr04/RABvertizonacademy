@@ -632,16 +632,23 @@ function exportToPDF() {
     
     .info-acara table {
       border: none;
+      width: 100%;
     }
     
     .info-acara td {
       padding: 3px 10px 3px 0;
       border: none;
       vertical-align: top;
+      font-size: 11pt;
     }
     
     .info-acara td:first-child {
-      width: 120px;
+      width: 100px;
+      white-space: nowrap;
+    }
+    
+    .info-acara td:nth-child(2) {
+      width: auto;
     }
     
     .section {
@@ -754,6 +761,7 @@ function exportToPDF() {
     .ttd-container {
       display: table;
       width: 100%;
+      table-layout: fixed;
     }
     
     .ttd-box {
@@ -761,18 +769,22 @@ function exportToPDF() {
       width: 50%;
       text-align: center;
       vertical-align: top;
-      padding: 0 20px;
+      padding: 0 10px;
     }
     
     .ttd-box .tempat-tanggal {
-      margin-bottom: 10px;
       font-size: 11pt;
-      height: 20px;
+      height: 18px;
+      margin-bottom: 5px;
     }
     
     .ttd-box .jabatan {
       font-weight: bold;
-      margin-bottom: 60px;
+      height: 40px;
+    }
+    
+    .ttd-box .space-ttd {
+      height: 50px;
     }
     
     .ttd-box .nama {
@@ -780,7 +792,7 @@ function exportToPDF() {
       border-top: 1px solid #000;
       padding-top: 5px;
       display: inline-block;
-      min-width: 150px;
+      min-width: 120px;
     }
     
     .footer-doc {
@@ -985,11 +997,13 @@ function exportToPDF() {
       <div class="ttd-box">
         <p class="tempat-tanggal">&nbsp;</p>
         <p class="jabatan">Mengetahui,<br>Ketua Panitia</p>
+        <div class="space-ttd"></div>
         <p class="nama">Ferdian</p>
       </div>
       <div class="ttd-box">
         <p class="tempat-tanggal">Bogor, ${tanggalCetak}</p>
         <p class="jabatan">Bendahara</p>
+        <div class="space-ttd"></div>
         <p class="nama">Atikah</p>
       </div>
     </div>
