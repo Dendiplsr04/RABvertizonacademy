@@ -693,11 +693,15 @@ function exportToPDF() {
     }
     
     table.data-table tr.subtotal {
-      background: #f5f5f5;
+      background: #fff3cd;
       font-weight: bold;
     }
     
     table.data-table tr.subtotal td {
+      text-align: left;
+    }
+    
+    table.data-table tr.subtotal td.harga {
       text-align: right;
     }
     
@@ -743,30 +747,40 @@ function exportToPDF() {
     }
     
     .ttd-section {
-      margin-top: 40px;
-      display: flex;
-      justify-content: space-between;
+      margin-top: 50px;
+      width: 100%;
+    }
+    
+    .ttd-container {
+      display: table;
+      width: 100%;
     }
     
     .ttd-box {
-      width: 200px;
+      display: table-cell;
+      width: 50%;
       text-align: center;
+      vertical-align: top;
+      padding: 0 20px;
     }
     
     .ttd-box .tempat-tanggal {
-      margin-bottom: 60px;
+      margin-bottom: 10px;
       font-size: 11pt;
+      height: 20px;
     }
     
     .ttd-box .jabatan {
       font-weight: bold;
-      margin-bottom: 70px;
+      margin-bottom: 60px;
     }
     
     .ttd-box .nama {
       font-weight: bold;
       border-top: 1px solid #000;
       padding-top: 5px;
+      display: inline-block;
+      min-width: 150px;
     }
     
     .footer-doc {
@@ -843,7 +857,8 @@ function exportToPDF() {
           </tr>
         `).join('')}
         <tr class="subtotal">
-          <td colspan="3">Subtotal Peralatan</td>
+          <td class="no"></td>
+          <td colspan="2">Subtotal Peralatan</td>
           <td class="harga">${formatRupiah(subtotalPeralatan)}</td>
         </tr>
       </tbody>
@@ -892,7 +907,8 @@ function exportToPDF() {
           </tr>
         `).join('')}
         <tr class="subtotal">
-          <td colspan="2">Subtotal Konsumsi Tim</td>
+          <td class="no"></td>
+          <td>Subtotal Konsumsi Tim</td>
           <td class="harga">${formatRupiah(subtotalKonsumsi)}</td>
         </tr>
       </tbody>
@@ -918,7 +934,8 @@ function exportToPDF() {
           </tr>
         `).join('')}
         <tr class="subtotal">
-          <td colspan="2">Subtotal Operasional Kendaraan</td>
+          <td class="no"></td>
+          <td>Subtotal Operasional Kendaraan</td>
           <td class="harga">${formatRupiah(subtotalOperasional)}</td>
         </tr>
       </tbody>
@@ -944,7 +961,8 @@ function exportToPDF() {
           </tr>
         `).join('')}
         <tr class="subtotal">
-          <td colspan="2">Subtotal Fun Games</td>
+          <td class="no"></td>
+          <td>Subtotal Fun Games</td>
           <td class="harga">${formatRupiah(subtotalGames)}</td>
         </tr>
       </tbody>
@@ -963,14 +981,17 @@ function exportToPDF() {
   </div>
 
   <div class="ttd-section">
-    <div class="ttd-box">
-      <p class="jabatan">Mengetahui,<br>Ketua Panitia</p>
-      <p class="nama">Ferdian</p>
-    </div>
-    <div class="ttd-box">
-      <p class="tempat-tanggal">Bogor, ${tanggalCetak}</p>
-      <p class="jabatan">Bendahara</p>
-      <p class="nama">Atikah</p>
+    <div class="ttd-container">
+      <div class="ttd-box">
+        <p class="tempat-tanggal">&nbsp;</p>
+        <p class="jabatan">Mengetahui,<br>Ketua Panitia</p>
+        <p class="nama">Ferdian</p>
+      </div>
+      <div class="ttd-box">
+        <p class="tempat-tanggal">Bogor, ${tanggalCetak}</p>
+        <p class="jabatan">Bendahara</p>
+        <p class="nama">Atikah</p>
+      </div>
     </div>
   </div>
 
