@@ -543,7 +543,7 @@ function handlePriceFocus(e) {
 }
 
 // ============================================
-// PDF EXPORT
+// PDF EXPORT - Format Resmi/Akademik
 // ============================================
 function exportToPDF() {
   const subtotalPeralatan = currentData.peralatan
@@ -560,6 +560,9 @@ function exportToPDF() {
     .reduce((sum, item) => sum + (item.price || 0), 0);
   
   const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
+  
+  const today = new Date();
+  const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const pdfContent = `
 <!DOCTYPE html>
@@ -568,351 +571,451 @@ function exportToPDF() {
   <meta charset="utf-8">
   <title>RAB - ${eventInfo.name}</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      font-family: 'Inter', Arial, sans-serif;
+      font-family: 'Times New Roman', Times, serif;
       background: #ffffff;
-      color: #1e293b;
-      padding: 40px;
-      line-height: 1.6;
+      color: #000000;
+      padding: 20mm 25mm;
+      line-height: 1.5;
+      font-size: 12pt;
     }
     
-    .header {
+    .kop-surat {
       text-align: center;
-      padding-bottom: 30px;
-      border-bottom: 3px solid #10b981;
-      margin-bottom: 30px;
-    }
-    
-    .header h1 {
-      font-size: 28px;
-      color: #10b981;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    
-    .header .event-name {
-      font-size: 20px;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 6px;
-    }
-    
-    .header .theme {
-      font-size: 14px;
-      color: #64748b;
-      font-style: italic;
+      border-bottom: 3px double #000;
+      padding-bottom: 15px;
       margin-bottom: 20px;
     }
     
-    .event-info {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      font-size: 13px;
-      color: #475569;
-    }
-    
-    .event-info span {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .section {
-      margin-bottom: 30px;
-    }
-    
-    .section-header {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px 8px 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    
-    .section-subtotal {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #f8fafc;
-      border-radius: 0 0 8px 8px;
-      overflow: hidden;
-    }
-    
-    th {
-      background: #e2e8f0;
-      padding: 12px 16px;
-      text-align: left;
-      font-size: 12px;
-      font-weight: 600;
-      color: #475569;
-      text-transform: uppercase;
-    }
-    
-    td {
-      padding: 12px 16px;
-      border-bottom: 1px solid #e2e8f0;
-      font-size: 13px;
-    }
-    
-    tr:last-child td {
-      border-bottom: none;
-    }
-    
-    .item-name {
-      font-weight: 500;
-      color: #0f172a;
-    }
-    
-    .item-note {
-      font-size: 11px;
-      color: #64748b;
-      margin-top: 2px;
-    }
-    
-    .provider {
-      color: #10b981;
-      font-weight: 500;
-    }
-    
-    .price {
-      font-weight: 600;
-      color: #0f172a;
-      text-align: right;
-    }
-    
-    .provided {
-      color: #10b981;
-      font-weight: 500;
-    }
-    
-    .total-section {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 30px;
-    }
-    
-    .total-label {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 8px;
+    .kop-surat h1 {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 2px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
     
-    .total-amount {
-      font-size: 36px;
-      font-weight: 800;
+    .kop-surat h2 {
+      font-size: 14pt;
+      font-weight: bold;
+      margin-bottom: 5px;
     }
     
-    .footer {
+    .kop-surat p {
+      font-size: 10pt;
+      margin: 2px 0;
+    }
+    
+    .judul-dokumen {
       text-align: center;
+      margin: 25px 0;
+    }
+    
+    .judul-dokumen h3 {
+      font-size: 14pt;
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 5px;
+    }
+    
+    .judul-dokumen p {
+      font-size: 11pt;
+    }
+    
+    .info-acara {
+      margin-bottom: 20px;
+    }
+    
+    .info-acara table {
+      border: none;
+    }
+    
+    .info-acara td {
+      padding: 3px 10px 3px 0;
+      border: none;
+      vertical-align: top;
+    }
+    
+    .info-acara td:first-child {
+      width: 120px;
+    }
+    
+    .section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-size: 12pt;
+      font-weight: bold;
+      margin-bottom: 10px;
+      background: #f0f0f0;
+      padding: 8px 10px;
+      border-left: 4px solid #333;
+    }
+    
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+    
+    table.data-table th,
+    table.data-table td {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 11pt;
+    }
+    
+    table.data-table th {
+      background: #e0e0e0;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    table.data-table td.no {
+      text-align: center;
+      width: 40px;
+    }
+    
+    table.data-table td.harga {
+      text-align: right;
+      width: 150px;
+    }
+    
+    table.data-table td.penyedia {
+      width: 120px;
+      text-align: center;
+    }
+    
+    table.data-table tr.subtotal {
+      background: #f5f5f5;
+      font-weight: bold;
+    }
+    
+    table.data-table tr.subtotal td {
+      text-align: right;
+    }
+    
+    .keterangan {
+      font-size: 10pt;
+      font-style: italic;
+      color: #555;
+      margin-left: 10px;
+    }
+    
+    .total-section {
+      margin-top: 25px;
+      border: 2px solid #000;
+      padding: 15px;
+      background: #f9f9f9;
+    }
+    
+    .total-section table {
+      width: 100%;
+      border: none;
+    }
+    
+    .total-section td {
+      border: none;
+      padding: 5px;
+    }
+    
+    .total-section .label {
+      font-weight: bold;
+      font-size: 12pt;
+    }
+    
+    .total-section .amount {
+      text-align: right;
+      font-weight: bold;
+      font-size: 14pt;
+    }
+    
+    .terbilang {
+      font-style: italic;
+      font-size: 11pt;
+      margin-top: 5px;
+    }
+    
+    .ttd-section {
       margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #e2e8f0;
-      color: #94a3b8;
-      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .ttd-box {
+      width: 200px;
+      text-align: center;
+    }
+    
+    .ttd-box .tempat-tanggal {
+      margin-bottom: 60px;
+      font-size: 11pt;
+    }
+    
+    .ttd-box .jabatan {
+      font-weight: bold;
+      margin-bottom: 70px;
+    }
+    
+    .ttd-box .nama {
+      font-weight: bold;
+      border-top: 1px solid #000;
+      padding-top: 5px;
+    }
+    
+    .footer-doc {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 9pt;
+      color: #666;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
     }
     
     @media print {
-      body { padding: 20px; }
+      body { padding: 15mm 20mm; }
       .section { page-break-inside: avoid; }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Rencana Anggaran Biaya</h1>
-    <p class="event-name">${eventInfo.name}</p>
-    <p class="theme">"${eventInfo.theme}"</p>
-    <div class="event-info">
-      <span>📅 ${eventInfo.day}, ${eventInfo.date}</span>
-      <span>📍 ${eventInfo.location}</span>
-      <span>👥 ${eventInfo.participants}</span>
-    </div>
+  <div class="kop-surat">
+    <h1>VERTIZON ACADEMY</h1>
+    <h2>Super Boot Camp 2026</h2>
+    <p>Marketing Properti Professional Development Program</p>
+    <p>Cisarua, Bogor - Jawa Barat</p>
+  </div>
+
+  <div class="judul-dokumen">
+    <h3>RENCANA ANGGARAN BIAYA (RAB)</h3>
+    <p>Nomor: RAB/VA-SBC/I/2026</p>
+  </div>
+
+  <div class="info-acara">
+    <table>
+      <tr>
+        <td>Nama Kegiatan</td>
+        <td>: ${eventInfo.name}</td>
+      </tr>
+      <tr>
+        <td>Tema</td>
+        <td>: "${eventInfo.theme}"</td>
+      </tr>
+      <tr>
+        <td>Hari/Tanggal</td>
+        <td>: ${eventInfo.day}, ${eventInfo.date}</td>
+      </tr>
+      <tr>
+        <td>Tempat</td>
+        <td>: ${eventInfo.location}</td>
+      </tr>
+      <tr>
+        <td>Peserta</td>
+        <td>: ${eventInfo.participants}</td>
+      </tr>
+    </table>
   </div>
 
   <div class="section">
-    <div class="section-header">
-      <span class="section-title">📦 Peralatan</span>
-      <span class="section-subtotal">${formatRupiah(subtotalPeralatan)}</span>
-    </div>
-    <table>
+    <div class="section-title">A. PERALATAN</div>
+    <table class="data-table">
       <thead>
         <tr>
-          <th style="width:40px">No</th>
-          <th>Item</th>
-          <th style="width:120px">Penyedia</th>
-          <th style="width:130px;text-align:right">Biaya</th>
+          <th>No</th>
+          <th>Uraian</th>
+          <th>Penyedia</th>
+          <th>Jumlah (Rp)</th>
         </tr>
       </thead>
       <tbody>
         ${currentData.peralatan.map((item, i) => `
           <tr>
-            <td>${i + 1}</td>
-            <td>
-              <div class="item-name">${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</div>
-            </td>
-            <td class="provider">${item.provider || '-'}</td>
-            <td class="price">${item.price !== null ? formatRupiah(item.price) : '<span class="provided">Disediakan</span>'}</td>
+            <td class="no">${i + 1}</td>
+            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</td>
+            <td class="penyedia">${item.provider || '-'}</td>
+            <td class="harga">${item.price !== null ? formatRupiah(item.price) : 'Disediakan'}</td>
           </tr>
         `).join('')}
+        <tr class="subtotal">
+          <td colspan="3">Subtotal Peralatan</td>
+          <td class="harga">${formatRupiah(subtotalPeralatan)}</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="section">
-    <div class="section-header">
-      <span class="section-title">🍽️ Konsumsi (Bu Nany)</span>
-      <span class="section-subtotal">Disediakan</span>
-    </div>
-    <table>
+    <div class="section-title">B. KONSUMSI (Disediakan Bu Nany)</div>
+    <table class="data-table">
       <thead>
         <tr>
-          <th style="width:40px">No</th>
-          <th>Item</th>
+          <th>No</th>
+          <th>Uraian</th>
           <th>Keterangan</th>
         </tr>
       </thead>
       <tbody>
         ${konsumsiNany.map((item, i) => `
           <tr>
-            <td>${i + 1}</td>
-            <td><div class="item-name">${item.item}</div></td>
-            <td><div class="item-note">${item.note || '-'}</div></td>
+            <td class="no">${i + 1}</td>
+            <td>${item.item}</td>
+            <td>${item.note || '-'}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>
+    <p class="keterangan">* Seluruh item konsumsi di atas disediakan oleh Bu Nany</p>
   </div>
 
   <div class="section">
-    <div class="section-header">
-      <span class="section-title">🛒 Konsumsi (Tim Kita)</span>
-      <span class="section-subtotal">${formatRupiah(subtotalKonsumsi)}</span>
-    </div>
-    <table>
+    <div class="section-title">C. KONSUMSI (Tim Panitia)</div>
+    <table class="data-table">
       <thead>
         <tr>
-          <th style="width:40px">No</th>
-          <th>Item</th>
-          <th style="width:150px;text-align:right">Biaya</th>
+          <th>No</th>
+          <th>Uraian</th>
+          <th>Jumlah (Rp)</th>
         </tr>
       </thead>
       <tbody>
         ${currentData.konsumsiKita.map((item, i) => `
           <tr>
-            <td>${i + 1}</td>
-            <td>
-              <div class="item-name">${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</div>
-              ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
-            </td>
-            <td class="price">${formatRupiah(item.price)}</td>
+            <td class="no">${i + 1}</td>
+            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
+            <td class="harga">${formatRupiah(item.price)}</td>
           </tr>
         `).join('')}
+        <tr class="subtotal">
+          <td colspan="2">Subtotal Konsumsi Tim</td>
+          <td class="harga">${formatRupiah(subtotalKonsumsi)}</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="section">
-    <div class="section-header" style="background: linear-gradient(135deg, #ea580c, #f97316);">
-      <span class="section-title">🚗 Operasional Kendaraan</span>
-      <span class="section-subtotal">${formatRupiah(subtotalOperasional)}</span>
-    </div>
-    <table>
+    <div class="section-title">D. OPERASIONAL KENDARAAN</div>
+    <table class="data-table">
       <thead>
         <tr>
-          <th style="width:40px">No</th>
-          <th>Item</th>
-          <th style="width:150px;text-align:right">Biaya</th>
+          <th>No</th>
+          <th>Uraian</th>
+          <th>Jumlah (Rp)</th>
         </tr>
       </thead>
       <tbody>
         ${currentData.operasionalKendaraan.map((item, i) => `
           <tr>
-            <td>${i + 1}</td>
-            <td>
-              <div class="item-name">${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</div>
-              ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
-            </td>
-            <td class="price">${formatRupiah(item.price)}</td>
+            <td class="no">${i + 1}</td>
+            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
+            <td class="harga">${formatRupiah(item.price)}</td>
           </tr>
         `).join('')}
+        <tr class="subtotal">
+          <td colspan="2">Subtotal Operasional Kendaraan</td>
+          <td class="harga">${formatRupiah(subtotalOperasional)}</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="section">
-    <div class="section-header" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
-      <span class="section-title">🎮 Fun Games</span>
-      <span class="section-subtotal">${formatRupiah(subtotalGames)}</span>
-    </div>
-    <table>
+    <div class="section-title">E. FUN GAMES</div>
+    <table class="data-table">
       <thead>
         <tr>
-          <th style="width:40px">No</th>
-          <th>Game</th>
-          <th style="width:150px;text-align:right">Biaya</th>
+          <th>No</th>
+          <th>Uraian</th>
+          <th>Jumlah (Rp)</th>
         </tr>
       </thead>
       <tbody>
         ${currentData.funGames.map((item, i) => `
           <tr>
-            <td>${i + 1}</td>
-            <td>
-              <div class="item-name">${item.item}</div>
-              ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
-            </td>
-            <td class="price">${formatRupiah(item.price)}</td>
+            <td class="no">${i + 1}</td>
+            <td>${item.item}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
+            <td class="harga">${formatRupiah(item.price)}</td>
           </tr>
         `).join('')}
+        <tr class="subtotal">
+          <td colspan="2">Subtotal Fun Games</td>
+          <td class="harga">${formatRupiah(subtotalGames)}</td>
+        </tr>
       </tbody>
     </table>
+    <p class="keterangan">* Fun Games masih berupa draft dan dapat direvisi sesuai keputusan panitia</p>
   </div>
 
   <div class="total-section">
-    <div class="total-label">Total Biaya Keseluruhan</div>
-    <div class="total-amount">${formatRupiah(total)}</div>
+    <table>
+      <tr>
+        <td class="label">TOTAL ANGGARAN BIAYA</td>
+        <td class="amount">${formatRupiah(total)}</td>
+      </tr>
+    </table>
+    <p class="terbilang">Terbilang: ${terbilang(total)} Rupiah</p>
   </div>
 
-  <div class="footer">
-    <p>RAB ${eventInfo.name} | ${eventInfo.location}</p>
-    <p>Dokumen ini dibuat secara otomatis</p>
+  <div class="ttd-section">
+    <div class="ttd-box">
+      <p class="jabatan">Mengetahui,<br>Ketua Panitia</p>
+      <p class="nama">Ferdian</p>
+    </div>
+    <div class="ttd-box">
+      <p class="tempat-tanggal">Bogor, ${tanggalCetak}</p>
+      <p class="jabatan">Bendahara</p>
+      <p class="nama">Atikah</p>
+    </div>
+  </div>
+
+  <div class="footer-doc">
+    <p>Dokumen RAB ${eventInfo.name}</p>
+    <p>Dicetak pada: ${tanggalCetak}</p>
   </div>
 </body>
 </html>
   `;
 
-  // Open in new window for printing
   const printWindow = window.open('', '_blank');
   printWindow.document.write(pdfContent);
   printWindow.document.close();
   
-  // Wait for content to load then print
   printWindow.onload = function() {
     setTimeout(() => {
       printWindow.print();
     }, 500);
   };
+}
+
+// Fungsi konversi angka ke terbilang
+function terbilang(angka) {
+  const bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+  
+  if (angka < 12) {
+    return bilangan[angka];
+  } else if (angka < 20) {
+    return terbilang(angka - 10) + ' Belas';
+  } else if (angka < 100) {
+    return terbilang(Math.floor(angka / 10)) + ' Puluh ' + terbilang(angka % 10);
+  } else if (angka < 200) {
+    return 'Seratus ' + terbilang(angka - 100);
+  } else if (angka < 1000) {
+    return terbilang(Math.floor(angka / 100)) + ' Ratus ' + terbilang(angka % 100);
+  } else if (angka < 2000) {
+    return 'Seribu ' + terbilang(angka - 1000);
+  } else if (angka < 1000000) {
+    return terbilang(Math.floor(angka / 1000)) + ' Ribu ' + terbilang(angka % 1000);
+  } else if (angka < 1000000000) {
+    return terbilang(Math.floor(angka / 1000000)) + ' Juta ' + terbilang(angka % 1000000);
+  } else {
+    return terbilang(Math.floor(angka / 1000000000)) + ' Miliar ' + terbilang(angka % 1000000000);
+  }
 }
 
 // ============================================
