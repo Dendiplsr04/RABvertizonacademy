@@ -86,7 +86,7 @@ export const operasionalKendaraan = [
     qty: 2, 
     unit: 'unit',
     pricePerUnit: 1500000,
-    note: 'Rp 1.500.000/hari per unit', 
+    note: 'Kapasitas 6 orang/mobil | Rp 1.500.000/hari per unit', 
     price: 3000000, 
     editable: true 
   },

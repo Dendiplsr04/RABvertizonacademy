@@ -136,7 +136,12 @@ const STORAGE_KEY = 'rab_vertizon_2026_v2';
 function loadData() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
-    return JSON.parse(saved);
+    const data = JSON.parse(saved);
+    // Ensure operasionalKendaraan exists (for users with old localStorage data)
+    if (!data.operasionalKendaraan || data.operasionalKendaraan.length === 0) {
+      data.operasionalKendaraan = operasionalKendaraan.map(item => ({ ...item }));
+    }
+    return data;
   }
   return {
     peralatan: peralatan.map(item => ({ ...item })),
@@ -339,7 +344,7 @@ function renderOperasionalKendaraan() {
         <div class="item-info">
           <div class="item-name">${item.item}</div>
           ${qtyHtml}
-          ${item.note && !item.qty ? `<div class="item-note">${item.note}</div>` : ''}
+          ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
         </div>
       </div>
       <div class="item-footer">
@@ -548,10 +553,13 @@ function exportToPDF() {
   const subtotalKonsumsi = currentData.konsumsiKita
     .reduce((sum, item) => sum + (item.price || 0), 0);
 
+  const subtotalOperasional = currentData.operasionalKendaraan
+    .reduce((sum, item) => sum + (item.price || 0), 0);
+
   const subtotalGames = currentData.funGames
     .reduce((sum, item) => sum + (item.price || 0), 0);
   
-  const total = subtotalPeralatan + subtotalKonsumsi + subtotalGames;
+  const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
 
   const pdfContent = `
 <!DOCTYPE html>
@@ -812,6 +820,34 @@ function exportToPDF() {
       </thead>
       <tbody>
         ${currentData.konsumsiKita.map((item, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>
+              <div class="item-name">${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</div>
+              ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+            </td>
+            <td class="price">${formatRupiah(item.price)}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-header" style="background: linear-gradient(135deg, #ea580c, #f97316);">
+      <span class="section-title">🚗 Operasional Kendaraan</span>
+      <span class="section-subtotal">${formatRupiah(subtotalOperasional)}</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">No</th>
+          <th>Item</th>
+          <th style="width:150px;text-align:right">Biaya</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${currentData.operasionalKendaraan.map((item, i) => `
           <tr>
             <td>${i + 1}</td>
             <td>
