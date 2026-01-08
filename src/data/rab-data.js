@@ -45,7 +45,7 @@ export const peralatan = [
   { id: 1, item: '1 Set Proyektor', icon: 'projector', provider: 'Bu Nany', price: null, editable: false },
   { id: 2, item: 'Playmate', icon: 'playmate', provider: 'Kalamaya', price: null, editable: false },
   { id: 3, item: 'Notebook', icon: 'notebook', qty: 20, unit: 'pcs', pricePerUnit: 30000, provider: null, price: 600000, editable: true },
-  { id: 4, item: 'Pulpen', icon: 'pen', qty: 3, unit: 'pack', pricePerUnit: 30000, provider: null, price: 90000, editable: true },
+  { id: 4, item: 'Pulpen', icon: 'pen', qty: 3, unit: 'pak', pricePerUnit: 30000, provider: null, price: 90000, editable: true },
   { id: 5, item: 'Sound System', icon: 'sound', provider: 'Bang Lutpi', price: null, editable: false },
   { id: 6, item: 'Kabel HDMI', icon: 'cable', provider: null, price: null, editable: false },
   { id: 7, item: 'Laser Pointer', icon: 'laser', provider: null, price: null, editable: false },
@@ -70,11 +70,11 @@ export const konsumsiNany = [
 ];
 
 export const konsumsiKita = [
-  { id: 1, item: 'Kambing Guling (Paket)', icon: 'goat', note: 'Nasi Kebuli, Gulai Jeroan, 150 Tusuk Sate Sapi Maranggi | DP H-2 (50%): Rp 1.750.000, Sisa Hari H: Rp 1.750.000', price: 3500000, editable: true },
+  { id: 1, item: 'Kambing Guling (Paket)', icon: 'goat', qty: 1, unit: 'paket', note: 'Nasi Kebuli, Gulai Jeroan, 150 Tusuk Sate Sapi Maranggi | DP H-2 (50%): Rp 1.750.000, Sisa Hari H: Rp 1.750.000', price: 3500000, editable: true },
   { id: 2, item: 'Air Mineral', icon: 'water', qty: 4, unit: 'dus', pricePerUnit: 34000, price: 136000, editable: true },
-  { id: 3, item: 'Tisu & Perlengkapan', icon: 'tissue', note: 'Tisu Meja, Toilet, Tisu Basah, Keresek Sampah', price: 150000, editable: true },
+  { id: 3, item: 'Tisu & Perlengkapan', icon: 'tissue', qty: 1, unit: 'paket', note: 'Tisu Meja, Toilet, Tisu Basah, Keresek Sampah', price: 150000, editable: true },
   { id: 4, item: 'Hot Paper Cup', icon: 'cup', qty: 2, unit: 'pak', price: 20000, editable: true },
-  { id: 5, item: 'Biaya Transportasi Belanja', icon: 'transport', note: '', price: 30000, editable: true }
+  { id: 5, item: 'Biaya Transportasi Belanja', icon: 'transport', qty: 1, unit: 'paket', note: '', price: 30000, editable: true }
 ];
 
 // Operasional Kendaraan
@@ -84,7 +84,7 @@ export const operasionalKendaraan = [
     item: 'Sewa 2 Mobil (Rawa Gede - Villa)', 
     icon: 'car',
     qty: 2, 
-    unit: 'mobil',
+    unit: 'unit',
     note: 'Rp 350.000/mobil × 3 hari × 2 mobil', 
     price: 2100000, 
     editable: true 
@@ -93,6 +93,8 @@ export const operasionalKendaraan = [
     id: 2, 
     item: 'Bensin & E-toll', 
     icon: 'fuel',
+    qty: 1,
+    unit: 'paket',
     note: 'Untuk 2 mobil selama 3 hari', 
     price: 900000, 
     editable: true 
@@ -101,6 +103,8 @@ export const operasionalKendaraan = [
     id: 3, 
     item: 'Operasional Bpk. Dony Firmansyah', 
     icon: 'car',
+    qty: 1,
+    unit: 'paket',
     note: '1 Unit Mobil + E-tol + Bensin', 
     price: 350000, 
     editable: true 
@@ -154,6 +158,8 @@ export const funGames = [
     id: 6, 
     item: 'Koin (500/1000 rupiah)', 
     icon: 'game',
+    qty: 1,
+    unit: 'paket',
     note: 'Untuk game Ngumpulin Koin di Kolam', 
     price: 300000, 
     editable: true 
@@ -162,6 +168,8 @@ export const funGames = [
     id: 7, 
     item: 'Bola Pingpong & Bedak Bayi', 
     icon: 'game',
+    qty: 1,
+    unit: 'paket',
     note: 'Peralatan fun games', 
     price: 50000, 
     editable: true 

@@ -651,7 +651,7 @@ function exportToPDF() {
       ` : ''}
       ${gamesDenganHarga.length > 0 ? `
       <tr class="section-header"><td colspan="5">D. FUN GAMES</td></tr>
-      ${gamesDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">-</td><td class="satuan">-</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      ${gamesDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
       <tr class="subtotal"><td></td><td>Subtotal Fun Games</td><td></td><td></td><td class="harga">${formatRupiah(subtotalGames)}</td></tr>
       ` : ''}
       <tr class="total"><td></td><td>TOTAL ANGGARAN</td><td></td><td></td><td class="harga">${formatRupiah(total)}</td></tr>
