@@ -70,7 +70,7 @@ export const konsumsiNany = [
 ];
 
 export const konsumsiKita = [
-  { id: 1, item: 'Kambing Guling (Paket)', icon: 'goat', note: 'Nasi Kebuli, Gulai Jeroan, 150 Tusuk Sate Sapi Maranggi', price: 3500000, editable: true },
+  { id: 1, item: 'Kambing Guling (Paket)', icon: 'goat', note: 'Nasi Kebuli, Gulai Jeroan, 150 Tusuk Sate Sapi Maranggi | DP H-2 (50%): Rp 1.750.000, Sisa Hari H: Rp 1.750.000', price: 3500000, editable: true },
   { id: 2, item: 'Air Mineral', icon: 'water', qty: 4, unit: 'dus', pricePerUnit: 34000, price: 136000, editable: true },
   { id: 3, item: 'Tisu & Perlengkapan', icon: 'tissue', note: 'Tisu Meja, Toilet, Tisu Basah, Keresek Sampah', price: 150000, editable: true },
   { id: 4, item: 'Hot Paper Cup', icon: 'cup', qty: 2, unit: 'pak', price: 20000, editable: true },
@@ -81,21 +81,20 @@ export const konsumsiKita = [
 export const operasionalKendaraan = [
   { 
     id: 1, 
-    item: 'Sewa Mobil Pribadi', 
+    item: 'Sewa 2 Mobil (Rawa Gede - Villa)', 
     icon: 'car',
     qty: 2, 
-    unit: 'unit',
-    pricePerUnit: 1500000,
-    note: 'Kapasitas 6 orang/mobil | Rp 1.500.000/hari per unit', 
-    price: 3000000, 
+    unit: 'mobil',
+    note: 'Rp 350.000/mobil × 3 hari × 2 mobil', 
+    price: 2100000, 
     editable: true 
   },
   { 
     id: 2, 
-    item: 'Bensin Mobil Pribadi', 
+    item: 'Bensin & E-toll', 
     icon: 'fuel',
-    note: 'Untuk 2 mobil', 
-    price: 500000, 
+    note: 'Untuk 2 mobil selama 3 hari', 
+    price: 900000, 
     editable: true 
   },
   { 
@@ -108,33 +107,65 @@ export const operasionalKendaraan = [
   }
 ];
 
-// Fun Games Budget (Waktu: 08.30-10.30 = 2 jam, termasuk berenang)
-// NOTE: Games ini masih DRAFT dan dapat direvisi sesuai keputusan panitia
+// Fun Games Budget
+// Jadwal: Tgl 15 malam jam 21.00 (Karaoke, Billiard, Tennis Meja) + Tgl 16 (Ngumpulin Koin, Grand Final Karaoke, UNO)
 export const funGames = [
   { 
     id: 1, 
-    item: 'Speed Networking Challenge', 
+    item: 'Karaoke', 
     icon: 'game',
-    note: 'Ice breaking 20 menit - Kartu networking, lonceng, hadiah', 
-    price: 250000, 
+    note: 'Solo & Duet | Juri: Sie Acara | Grand Final tgl 16 (30 menit)', 
+    price: 0, 
     editable: true 
   },
   { 
     id: 2, 
-    item: 'Tebak Harga Properti', 
+    item: 'Billiard', 
     icon: 'game',
-    note: 'Quiz 30 menit - Kertas jawaban, hadiah pemenang', 
-    price: 175000, 
+    note: 'Sistem gugur | Tgl 15 malam jam 21.00', 
+    price: 0, 
     editable: true 
   },
   { 
     id: 3, 
-    item: 'Handle Objection Challenge', 
+    item: 'Tennis Meja', 
     icon: 'game',
-    note: 'Role play 40 menit - Kartu skenario, scoring sheet, hadiah', 
-    price: 235000, 
+    note: 'Sistem gugur | Tgl 15 malam jam 21.00', 
+    price: 0, 
+    editable: true 
+  },
+  { 
+    id: 4, 
+    item: 'Ngumpulin Koin di Kolam', 
+    icon: 'game',
+    note: 'Tgl 16 setelah senam pagi', 
+    price: 0, 
+    editable: true 
+  },
+  { 
+    id: 5, 
+    item: 'UNO', 
+    icon: 'game',
+    note: 'Khusus perempuan | Tgl 16', 
+    price: 0, 
+    editable: true 
+  },
+  { 
+    id: 6, 
+    item: 'Koin (500/1000 rupiah)', 
+    icon: 'game',
+    note: 'Untuk game Ngumpulin Koin di Kolam', 
+    price: 300000, 
+    editable: true 
+  },
+  { 
+    id: 7, 
+    item: 'Bola Pingpong & Bedak Bayi', 
+    icon: 'game',
+    note: 'Peralatan fun games', 
+    price: 50000, 
     editable: true 
   }
 ];
 
-export const funGamesNote = 'Fun Games masih berupa DRAFT/usulan dan dapat direvisi sesuai keputusan panitia. Total waktu: 2 jam (08.30-10.30) termasuk berenang.';
+export const funGamesNote = 'Jadwal Fun Games: Tgl 15 jam 21.00 (Karaoke, Billiard, Tennis Meja) | Tgl 16 (Senam Pagi → Ngumpulin Koin → Grand Final Karaoke → UNO) | Close jam 11.30';

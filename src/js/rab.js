@@ -543,271 +543,79 @@ function handlePriceFocus(e) {
 }
 
 // ============================================
-// PDF EXPORT - Format Resmi/Akademik
+// PDF EXPORT - Format Invoice (Hanya Item dengan Harga)
 // ============================================
 function exportToPDF() {
-  const subtotalPeralatan = currentData.peralatan
-    .filter(item => item.price !== null)
-    .reduce((sum, item) => sum + item.price, 0);
-  
-  const subtotalKonsumsi = currentData.konsumsiKita
-    .reduce((sum, item) => sum + (item.price || 0), 0);
+  // Filter hanya item yang ada harganya (price > 0)
+  const peralatanDenganHarga = currentData.peralatan.filter(item => item.price !== null && item.price > 0);
+  const konsumsiDenganHarga = currentData.konsumsiKita.filter(item => item.price > 0);
+  const operasionalDenganHarga = currentData.operasionalKendaraan.filter(item => item.price > 0);
+  const gamesDenganHarga = currentData.funGames.filter(item => item.price > 0);
 
-  const subtotalOperasional = currentData.operasionalKendaraan
-    .reduce((sum, item) => sum + (item.price || 0), 0);
-
-  const subtotalGames = currentData.funGames
-    .reduce((sum, item) => sum + (item.price || 0), 0);
+  const subtotalPeralatan = peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalKonsumsi = konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalOperasional = operasionalDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalGames = gamesDenganHarga.reduce((sum, item) => sum + item.price, 0);
   
   const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
   
   const today = new Date();
   const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
+  let nomorUrut = 0;
+  
   const pdfContent = `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>RAB - ${eventInfo.name}</title>
+  <title>Invoice RAB - ${eventInfo.name}</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
-    
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body {
       font-family: 'Times New Roman', Times, serif;
-      background: #ffffff;
-      color: #000000;
-      padding: 20mm 25mm;
-      line-height: 1.5;
-      font-size: 12pt;
+      background: #fff;
+      color: #000;
+      padding: 15mm 20mm;
+      line-height: 1.4;
+      font-size: 11pt;
     }
-    
     .kop-surat {
       text-align: center;
       border-bottom: 3px double #000;
-      padding-bottom: 15px;
-      margin-bottom: 20px;
+      padding-bottom: 12px;
+      margin-bottom: 15px;
     }
-    
-    .kop-surat h1 {
-      font-size: 16pt;
-      font-weight: bold;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .kop-surat h2 {
-      font-size: 14pt;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-    .kop-surat p {
-      font-size: 10pt;
-      margin: 2px 0;
-    }
-    
-    .judul-dokumen {
-      text-align: center;
-      margin: 25px 0;
-    }
-    
-    .judul-dokumen h3 {
-      font-size: 14pt;
-      font-weight: bold;
-      text-decoration: underline;
-      margin-bottom: 5px;
-    }
-    
-    .judul-dokumen p {
-      font-size: 11pt;
-    }
-    
-    .info-acara {
-      margin-bottom: 20px;
-    }
-    
-    .info-acara table {
-      border: none;
-      width: 100%;
-    }
-    
-    .info-acara td {
-      padding: 3px 10px 3px 0;
-      border: none;
-      vertical-align: top;
-      font-size: 11pt;
-    }
-    
-    .info-acara td:first-child {
-      width: 100px;
-      white-space: nowrap;
-    }
-    
-    .info-acara td:nth-child(2) {
-      width: auto;
-    }
-    
-    .section {
-      margin-bottom: 20px;
-    }
-    
-    .section-title {
-      font-size: 12pt;
-      font-weight: bold;
-      margin-bottom: 10px;
-      background: #f0f0f0;
-      padding: 8px 10px;
-      border-left: 4px solid #333;
-    }
-    
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 10px;
-    }
-    
-    table.data-table th,
-    table.data-table td {
-      border: 1px solid #000;
-      padding: 8px 10px;
-      text-align: left;
-      font-size: 11pt;
-    }
-    
-    table.data-table th {
-      background: #e0e0e0;
-      font-weight: bold;
-      text-align: center;
-    }
-    
-    table.data-table td.no {
-      text-align: center;
-      width: 40px;
-    }
-    
-    table.data-table td.harga {
-      text-align: right;
-      width: 150px;
-    }
-    
-    table.data-table td.penyedia {
-      width: 120px;
-      text-align: center;
-    }
-    
-    table.data-table tr.subtotal {
-      background: #fff3cd;
-      font-weight: bold;
-    }
-    
-    table.data-table tr.subtotal td {
-      text-align: left;
-    }
-    
-    table.data-table tr.subtotal td.harga {
-      text-align: right;
-    }
-    
-    .keterangan {
-      font-size: 10pt;
-      font-style: italic;
-      color: #555;
-      margin-left: 10px;
-    }
-    
-    .total-section {
-      margin-top: 25px;
-      border: 2px solid #000;
-      padding: 15px;
-      background: #f9f9f9;
-    }
-    
-    .total-section table {
-      width: 100%;
-      border: none;
-    }
-    
-    .total-section td {
-      border: none;
-      padding: 5px;
-    }
-    
-    .total-section .label {
-      font-weight: bold;
-      font-size: 12pt;
-    }
-    
-    .total-section .amount {
-      text-align: right;
-      font-weight: bold;
-      font-size: 14pt;
-    }
-    
-    .terbilang {
-      font-style: italic;
-      font-size: 11pt;
-      margin-top: 5px;
-    }
-    
-    .ttd-section {
-      margin-top: 50px;
-      width: 100%;
-    }
-    
-    .ttd-container {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-    }
-    
-    .ttd-box {
-      display: table-cell;
-      width: 50%;
-      text-align: center;
-      vertical-align: top;
-      padding: 0 10px;
-    }
-    
-    .ttd-box .tempat-tanggal {
-      font-size: 11pt;
-      height: 18px;
-      margin-bottom: 5px;
-    }
-    
-    .ttd-box .jabatan {
-      font-weight: bold;
-      height: 40px;
-    }
-    
-    .ttd-box .space-ttd {
-      height: 50px;
-    }
-    
-    .ttd-box .nama {
-      font-weight: bold;
-      border-top: 1px solid #000;
-      padding-top: 5px;
-      display: inline-block;
-      min-width: 120px;
-    }
-    
-    .footer-doc {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 9pt;
-      color: #666;
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
-    }
-    
-    @media print {
-      body { padding: 15mm 20mm; }
-      .section { page-break-inside: avoid; }
-    }
+    .kop-surat h1 { font-size: 14pt; font-weight: bold; text-transform: uppercase; }
+    .kop-surat h2 { font-size: 12pt; font-weight: bold; margin-bottom: 3px; }
+    .kop-surat p { font-size: 9pt; margin: 1px 0; }
+    .judul-dokumen { text-align: center; margin: 15px 0; }
+    .judul-dokumen h3 { font-size: 12pt; font-weight: bold; text-decoration: underline; margin-bottom: 3px; }
+    .judul-dokumen p { font-size: 10pt; }
+    .info-acara { margin-bottom: 15px; font-size: 10pt; }
+    .info-acara table { border: none; width: 100%; }
+    .info-acara td { padding: 2px 5px 2px 0; border: none; vertical-align: top; }
+    .info-acara td:first-child { width: 90px; }
+    table.invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+    table.invoice-table th, table.invoice-table td { border: 1px solid #000; padding: 6px 8px; font-size: 10pt; }
+    table.invoice-table th { background: #d0d0d0; font-weight: bold; text-align: center; }
+    table.invoice-table td.no { text-align: center; width: 30px; }
+    table.invoice-table td.qty { text-align: center; width: 60px; }
+    table.invoice-table td.harga { text-align: right; width: 120px; }
+    table.invoice-table tr.section-header td { background: #f0f0f0; font-weight: bold; }
+    table.invoice-table tr.subtotal td { background: #fff3cd; font-weight: bold; }
+    table.invoice-table tr.total td { background: #d4edda; font-weight: bold; font-size: 11pt; }
+    .total-section { margin-top: 10px; border: 2px solid #000; padding: 10px; background: #f9f9f9; }
+    .terbilang { font-style: italic; font-size: 10pt; }
+    .ttd-section { margin-top: 30px; width: 100%; }
+    .ttd-container { display: table; width: 100%; table-layout: fixed; }
+    .ttd-box { display: table-cell; width: 50%; text-align: center; vertical-align: top; padding: 0 10px; }
+    .ttd-box .tempat-tanggal { font-size: 10pt; height: 15px; margin-bottom: 3px; }
+    .ttd-box .jabatan { font-weight: bold; font-size: 10pt; }
+    .ttd-box .space-ttd { height: 45px; }
+    .ttd-box .nama { font-weight: bold; border-top: 1px solid #000; padding-top: 3px; display: inline-block; min-width: 100px; font-size: 10pt; }
+    .footer-doc { margin-top: 20px; text-align: center; font-size: 8pt; color: #666; border-top: 1px solid #ccc; padding-top: 8px; }
+    @media print { body { padding: 10mm 15mm; } }
   </style>
 </head>
 <body>
@@ -817,181 +625,49 @@ function exportToPDF() {
     <p>Marketing Properti Professional Development Program</p>
     <p>Cisarua, Bogor - Jawa Barat</p>
   </div>
-
   <div class="judul-dokumen">
-    <h3>RENCANA ANGGARAN BIAYA (RAB)</h3>
-    <p>Nomor: RAB/VA-SBC/I/2026</p>
+    <h3>INVOICE RENCANA ANGGARAN BIAYA</h3>
+    <p>No: INV/RAB/VA-SBC/I/2026</p>
   </div>
-
   <div class="info-acara">
     <table>
-      <tr>
-        <td>Nama Kegiatan</td>
-        <td>: ${eventInfo.name}</td>
-      </tr>
-      <tr>
-        <td>Tema</td>
-        <td>: "${eventInfo.theme}"</td>
-      </tr>
-      <tr>
-        <td>Hari/Tanggal</td>
-        <td>: ${eventInfo.day}, ${eventInfo.date}</td>
-      </tr>
-      <tr>
-        <td>Tempat</td>
-        <td>: ${eventInfo.location}</td>
-      </tr>
-      <tr>
-        <td>Peserta</td>
-        <td>: ${eventInfo.participants}</td>
-      </tr>
+      <tr><td>Kegiatan</td><td>: ${eventInfo.name}</td></tr>
+      <tr><td>Tanggal</td><td>: ${eventInfo.day}, ${eventInfo.date}</td></tr>
+      <tr><td>Tempat</td><td>: ${eventInfo.location}</td></tr>
+      <tr><td>Peserta</td><td>: ${eventInfo.participants}</td></tr>
     </table>
   </div>
-
-  <div class="section">
-    <div class="section-title">A. PERALATAN</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Uraian</th>
-          <th>Penyedia</th>
-          <th>Jumlah (Rp)</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${currentData.peralatan.map((item, i) => `
-          <tr>
-            <td class="no">${i + 1}</td>
-            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}</td>
-            <td class="penyedia">${item.provider || '-'}</td>
-            <td class="harga">${item.price !== null ? formatRupiah(item.price) : 'Disediakan'}</td>
-          </tr>
-        `).join('')}
-        <tr class="subtotal">
-          <td class="no"></td>
-          <td colspan="2">Subtotal Peralatan</td>
-          <td class="harga">${formatRupiah(subtotalPeralatan)}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-title">B. KONSUMSI (Disediakan Bu Nany)</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Uraian</th>
-          <th>Keterangan</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${konsumsiNany.map((item, i) => `
-          <tr>
-            <td class="no">${i + 1}</td>
-            <td>${item.item}</td>
-            <td>${item.note || '-'}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-    <p class="keterangan">* Seluruh item konsumsi di atas disediakan oleh Bu Nany</p>
-  </div>
-
-  <div class="section">
-    <div class="section-title">C. KONSUMSI (Tim Panitia)</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Uraian</th>
-          <th>Jumlah (Rp)</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${currentData.konsumsiKita.map((item, i) => `
-          <tr>
-            <td class="no">${i + 1}</td>
-            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
-            <td class="harga">${formatRupiah(item.price)}</td>
-          </tr>
-        `).join('')}
-        <tr class="subtotal">
-          <td class="no"></td>
-          <td>Subtotal Konsumsi Tim</td>
-          <td class="harga">${formatRupiah(subtotalKonsumsi)}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-title">D. OPERASIONAL KENDARAAN</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Uraian</th>
-          <th>Jumlah (Rp)</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${currentData.operasionalKendaraan.map((item, i) => `
-          <tr>
-            <td class="no">${i + 1}</td>
-            <td>${item.item}${item.qty ? ` (${item.qty} ${item.unit})` : ''}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
-            <td class="harga">${formatRupiah(item.price)}</td>
-          </tr>
-        `).join('')}
-        <tr class="subtotal">
-          <td class="no"></td>
-          <td>Subtotal Operasional Kendaraan</td>
-          <td class="harga">${formatRupiah(subtotalOperasional)}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-title">E. FUN GAMES</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Uraian</th>
-          <th>Jumlah (Rp)</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${currentData.funGames.map((item, i) => `
-          <tr>
-            <td class="no">${i + 1}</td>
-            <td>${item.item}${item.note ? `<br><span class="keterangan">${item.note}</span>` : ''}</td>
-            <td class="harga">${formatRupiah(item.price)}</td>
-          </tr>
-        `).join('')}
-        <tr class="subtotal">
-          <td class="no"></td>
-          <td>Subtotal Fun Games</td>
-          <td class="harga">${formatRupiah(subtotalGames)}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="keterangan">* Fun Games masih berupa draft dan dapat direvisi sesuai keputusan panitia</p>
-  </div>
-
+  <table class="invoice-table">
+    <thead>
+      <tr><th>No</th><th>Item / Barang</th><th>Qty</th><th>Harga (Rp)</th></tr>
+    </thead>
+    <tbody>
+      ${peralatanDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="4">A. PERALATAN</td></tr>
+      ${peralatanDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Peralatan</td><td class="harga">${formatRupiah(subtotalPeralatan)}</td></tr>
+      ` : ''}
+      ${konsumsiDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="4">B. KONSUMSI</td></tr>
+      ${konsumsiDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Konsumsi</td><td class="harga">${formatRupiah(subtotalKonsumsi)}</td></tr>
+      ` : ''}
+      ${operasionalDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="4">C. OPERASIONAL KENDARAAN</td></tr>
+      ${operasionalDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Operasional</td><td class="harga">${formatRupiah(subtotalOperasional)}</td></tr>
+      ` : ''}
+      ${gamesDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="4">D. FUN GAMES</td></tr>
+      ${gamesDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">-</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Fun Games</td><td class="harga">${formatRupiah(subtotalGames)}</td></tr>
+      ` : ''}
+      <tr class="total"><td colspan="3" style="text-align:right;">TOTAL ANGGARAN</td><td class="harga">${formatRupiah(total)}</td></tr>
+    </tbody>
+  </table>
   <div class="total-section">
-    <table>
-      <tr>
-        <td class="label">TOTAL ANGGARAN BIAYA</td>
-        <td class="amount">${formatRupiah(total)}</td>
-      </tr>
-    </table>
-    <p class="terbilang">Terbilang: ${terbilang(total)} Rupiah</p>
+    <p class="terbilang"><strong>Terbilang:</strong> ${terbilang(total)} Rupiah</p>
   </div>
-
   <div class="ttd-section">
     <div class="ttd-container">
       <div class="ttd-box">
@@ -1008,10 +684,8 @@ function exportToPDF() {
       </div>
     </div>
   </div>
-
   <div class="footer-doc">
-    <p>Dokumen RAB ${eventInfo.name}</p>
-    <p>Dicetak pada: ${tanggalCetak}</p>
+    <p>Invoice RAB ${eventInfo.name} | Dicetak: ${tanggalCetak}</p>
   </div>
 </body>
 </html>
@@ -1020,11 +694,8 @@ function exportToPDF() {
   const printWindow = window.open('', '_blank');
   printWindow.document.write(pdfContent);
   printWindow.document.close();
-  
   printWindow.onload = function() {
-    setTimeout(() => {
-      printWindow.print();
-    }, 500);
+    setTimeout(() => { printWindow.print(); }, 500);
   };
 }
 

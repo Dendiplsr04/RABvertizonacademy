@@ -69,8 +69,8 @@ export const rundownHari1 = {
     { jam: '16.25 - 17.05', agenda: 'Materi 5', detail: 'Strategi Follow Up yang Efektif', pic: 'Ibu Nany Pujiani', type: 'materi' },
     { jam: '17.10 - 17.50', agenda: 'Materi 6', detail: 'Teknik Membuat Konten Pemasaran (Reels, Story & Feed)', pic: 'Muhammad Agung', type: 'materi' },
     { jam: '17.50 - 19.30', agenda: 'Free Time', detail: 'Bersih diri & Shalat Maghrib.', pic: '-', type: 'break' },
-    { jam: '19.40 - 22.00', agenda: 'RAKER INTI', detail: 'Pembentukan Leader & Target 2026', pic: 'Ferdian & Anim', type: 'meeting' },
-    { jam: '22.00 - selesai', agenda: 'Dinner BBQ', detail: 'Bakar Kambing Guling & Keakraban.', pic: 'Kang Teguh & All Team', type: 'dinner' }
+    { jam: '19.30 - 21.00', agenda: 'Dinner BBQ', detail: 'Bakar Kambing Guling & Keakraban.', pic: 'Kang Teguh & All Team', type: 'dinner' },
+    { jam: '21.00 - selesai', agenda: 'Fun Games Malam', detail: 'Karaoke (penyisihan Solo & Duet), Billiard & Tennis Meja (sistem gugur)', pic: 'Sie Acara', type: 'games' }
   ]
 };
 
@@ -79,10 +79,11 @@ export const rundownHari2 = {
   tanggal: '16 Januari 2026',
   jadwal: [
     { jam: '04.30 - 05.30', agenda: 'Religi Pagi', detail: 'Shalat Shubuh Berjamaah & Kultum Singkat', pic: 'Ustad Satria', type: 'religious' },
-    { jam: '05.30 - 07.00', agenda: 'Coffee Morning', detail: 'Teh/Kopi hangat sambil menikmati udara Puncak.', pic: 'Sarah', type: 'break' },
+    { jam: '05.35 - 05.40', agenda: 'Senam Pagi', detail: '5 menit setelah kultum', pic: 'Sie Acara', type: 'games' },
+    { jam: '05.40 - 07.00', agenda: 'Coffee Morning', detail: 'Teh/Kopi hangat sambil menikmati udara Puncak.', pic: 'Sarah', type: 'break' },
     { jam: '07.00 - 08.30', agenda: 'Sarapan Pagi', detail: 'Makan pagi bersama di Villa.', pic: 'Nabila', type: 'break' },
-    { jam: '08.30 - 10.30', agenda: 'Team Building', detail: 'Fun Games, Ice Breaking & Berenang', pic: 'Kang Teguh & Agung', type: 'games' },
-    { jam: '10.30 - 11.30', agenda: 'Closing', detail: 'Testimoni Marketing Baru & Foto Bersama.', pic: 'Kang Teguh & Nanda', type: 'ceremony' },
-    { jam: '12.00', agenda: 'Check-out', detail: 'Perjalanan pulang ke titik asal.', pic: 'Faris Azam', type: 'checkout' }
+    { jam: '08.30 - 11.00', agenda: 'Fun Games', detail: 'Ngumpulin Koin di Kolam, Grand Final Karaoke (30 menit), UNO (khusus perempuan)', pic: 'Sie Acara', type: 'games' },
+    { jam: '11.00 - 11.30', agenda: 'Closing', detail: 'Testimoni Marketing Baru & Foto Bersama.', pic: 'Kang Teguh & Nanda', type: 'ceremony' },
+    { jam: '11.30', agenda: 'Check-out', detail: 'Perjalanan pulang (sebelum Jumatan).', pic: 'Faris Azam', type: 'checkout' }
   ]
 };
