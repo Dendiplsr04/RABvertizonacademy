@@ -561,8 +561,6 @@ function exportToPDF() {
   
   const today = new Date();
   const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-
-  let nomorUrut = 0;
   
   const pdfContent = `
 <!DOCTYPE html>
@@ -600,20 +598,14 @@ function exportToPDF() {
     table.invoice-table th, table.invoice-table td { border: 1px solid #000; padding: 6px 8px; font-size: 10pt; }
     table.invoice-table th { background: #d0d0d0; font-weight: bold; text-align: center; }
     table.invoice-table td.no { text-align: center; width: 30px; }
-    table.invoice-table td.qty { text-align: center; width: 60px; }
-    table.invoice-table td.harga { text-align: right; width: 120px; }
+    table.invoice-table td.qty { text-align: center; width: 50px; }
+    table.invoice-table td.satuan { text-align: center; width: 60px; }
+    table.invoice-table td.harga { text-align: right; width: 110px; }
     table.invoice-table tr.section-header td { background: #f0f0f0; font-weight: bold; }
     table.invoice-table tr.subtotal td { background: #fff3cd; font-weight: bold; }
     table.invoice-table tr.total td { background: #d4edda; font-weight: bold; font-size: 11pt; }
     .total-section { margin-top: 10px; border: 2px solid #000; padding: 10px; background: #f9f9f9; }
     .terbilang { font-style: italic; font-size: 10pt; }
-    .ttd-section { margin-top: 30px; width: 100%; }
-    .ttd-container { display: table; width: 100%; table-layout: fixed; }
-    .ttd-box { display: table-cell; width: 50%; text-align: center; vertical-align: top; padding: 0 10px; }
-    .ttd-box .tempat-tanggal { font-size: 10pt; height: 15px; margin-bottom: 3px; }
-    .ttd-box .jabatan { font-weight: bold; font-size: 10pt; }
-    .ttd-box .space-ttd { height: 45px; }
-    .ttd-box .nama { font-weight: bold; border-top: 1px solid #000; padding-top: 3px; display: inline-block; min-width: 100px; font-size: 10pt; }
     .footer-doc { margin-top: 20px; text-align: center; font-size: 8pt; color: #666; border-top: 1px solid #ccc; padding-top: 8px; }
     @media print { body { padding: 10mm 15mm; } }
   </style>
@@ -639,50 +631,34 @@ function exportToPDF() {
   </div>
   <table class="invoice-table">
     <thead>
-      <tr><th>No</th><th>Item / Barang</th><th>Qty</th><th>Harga (Rp)</th></tr>
+      <tr><th>No</th><th>Item / Barang</th><th>Qty</th><th>Satuan</th><th>Harga (Rp)</th></tr>
     </thead>
     <tbody>
       ${peralatanDenganHarga.length > 0 ? `
-      <tr class="section-header"><td colspan="4">A. PERALATAN</td></tr>
-      ${peralatanDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
-      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Peralatan</td><td class="harga">${formatRupiah(subtotalPeralatan)}</td></tr>
+      <tr class="section-header"><td colspan="5">A. PERALATAN</td></tr>
+      ${peralatanDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Peralatan</td><td></td><td></td><td class="harga">${formatRupiah(subtotalPeralatan)}</td></tr>
       ` : ''}
       ${konsumsiDenganHarga.length > 0 ? `
-      <tr class="section-header"><td colspan="4">B. KONSUMSI</td></tr>
-      ${konsumsiDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
-      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Konsumsi</td><td class="harga">${formatRupiah(subtotalKonsumsi)}</td></tr>
+      <tr class="section-header"><td colspan="5">B. KONSUMSI</td></tr>
+      ${konsumsiDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Konsumsi</td><td></td><td></td><td class="harga">${formatRupiah(subtotalKonsumsi)}</td></tr>
       ` : ''}
       ${operasionalDenganHarga.length > 0 ? `
-      <tr class="section-header"><td colspan="4">C. OPERASIONAL KENDARAAN</td></tr>
-      ${operasionalDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">${item.qty ? item.qty + ' ' + item.unit : '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
-      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Operasional</td><td class="harga">${formatRupiah(subtotalOperasional)}</td></tr>
+      <tr class="section-header"><td colspan="5">C. OPERASIONAL KENDARAAN</td></tr>
+      ${operasionalDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Operasional</td><td></td><td></td><td class="harga">${formatRupiah(subtotalOperasional)}</td></tr>
       ` : ''}
       ${gamesDenganHarga.length > 0 ? `
-      <tr class="section-header"><td colspan="4">D. FUN GAMES</td></tr>
-      ${gamesDenganHarga.map((item) => `<tr><td class="no">${++nomorUrut}</td><td>${item.item}</td><td class="qty">-</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
-      <tr class="subtotal"><td colspan="3" style="text-align:right;">Subtotal Fun Games</td><td class="harga">${formatRupiah(subtotalGames)}</td></tr>
+      <tr class="section-header"><td colspan="5">D. FUN GAMES</td></tr>
+      ${gamesDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">-</td><td class="satuan">-</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Fun Games</td><td></td><td></td><td class="harga">${formatRupiah(subtotalGames)}</td></tr>
       ` : ''}
-      <tr class="total"><td colspan="3" style="text-align:right;">TOTAL ANGGARAN</td><td class="harga">${formatRupiah(total)}</td></tr>
+      <tr class="total"><td></td><td>TOTAL ANGGARAN</td><td></td><td></td><td class="harga">${formatRupiah(total)}</td></tr>
     </tbody>
   </table>
   <div class="total-section">
     <p class="terbilang"><strong>Terbilang:</strong> ${terbilang(total)} Rupiah</p>
-  </div>
-  <div class="ttd-section">
-    <div class="ttd-container">
-      <div class="ttd-box">
-        <p class="tempat-tanggal">&nbsp;</p>
-        <p class="jabatan">Mengetahui,<br>Ketua Panitia</p>
-        <div class="space-ttd"></div>
-        <p class="nama">Ferdian</p>
-      </div>
-      <div class="ttd-box">
-        <p class="tempat-tanggal">Bogor, ${tanggalCetak}</p>
-        <p class="jabatan">Bendahara</p>
-        <div class="space-ttd"></div>
-        <p class="nama">Atikah</p>
-      </div>
-    </div>
   </div>
   <div class="footer-doc">
     <p>Invoice RAB ${eventInfo.name} | Dicetak: ${tanggalCetak}</p>
