@@ -108,6 +108,26 @@ export const operasionalKendaraan = [
     note: '1 Unit Mobil + E-tol + Bensin', 
     price: 350000, 
     editable: true 
+  },
+  { 
+    id: 4, 
+    item: 'Operasional Sarah & Nabila', 
+    icon: 'car',
+    qty: 1,
+    unit: 'unit',
+    note: '1 Unit Motor', 
+    price: 50000, 
+    editable: true 
+  },
+  { 
+    id: 5, 
+    item: 'Operasional Doyok', 
+    icon: 'car',
+    qty: 1,
+    unit: 'unit',
+    note: '1 Unit Motor', 
+    price: 100000, 
+    editable: true 
   }
 ];
 
