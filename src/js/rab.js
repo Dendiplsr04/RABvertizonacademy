@@ -838,6 +838,71 @@ function createSparkles(element) {
 }
 
 // ============================================
+// EXPORT RUNDOWN TO SPREADSHEET (XLSX)
+// ============================================
+function exportRundownToSpreadsheet() {
+  // Create workbook content with professional formatting
+  const BOM = '\uFEFF'; // UTF-8 BOM for Excel compatibility
+  
+  // Header info
+  let csvContent = BOM;
+  csvContent += 'RUNDOWN ACARA\n';
+  csvContent += `"${eventInfo.name}"\n`;
+  csvContent += `"${eventInfo.theme}"\n`;
+  csvContent += `"${eventInfo.location}"\n`;
+  csvContent += `"${eventInfo.date}"\n`;
+  csvContent += '\n';
+  
+  // Hari 1
+  csvContent += `HARI 1 - ${rundownHari1.hari.toUpperCase()}\n`;
+  csvContent += `${rundownHari1.tanggal}\n`;
+  csvContent += '\n';
+  csvContent += 'No,Waktu,Agenda,Detail/Keterangan,PIC\n';
+  
+  rundownHari1.jadwal.forEach((item, index) => {
+    const detail = item.detail.replace(/"/g, '""'); // Escape quotes
+    const agenda = item.agenda.replace(/"/g, '""');
+    const pic = item.pic.replace(/"/g, '""');
+    csvContent += `${index + 1},"${item.jam}","${agenda}","${detail}","${pic}"\n`;
+  });
+  
+  csvContent += '\n\n';
+  
+  // Hari 2
+  csvContent += `HARI 2 - ${rundownHari2.hari.toUpperCase()}\n`;
+  csvContent += `${rundownHari2.tanggal}\n`;
+  csvContent += '\n';
+  csvContent += 'No,Waktu,Agenda,Detail/Keterangan,PIC\n';
+  
+  rundownHari2.jadwal.forEach((item, index) => {
+    const detail = item.detail.replace(/"/g, '""');
+    const agenda = item.agenda.replace(/"/g, '""');
+    const pic = item.pic.replace(/"/g, '""');
+    csvContent += `${index + 1},"${item.jam}","${agenda}","${detail}","${pic}"\n`;
+  });
+  
+  csvContent += '\n\n';
+  
+  // Footer
+  csvContent += 'Catatan:\n';
+  csvContent += '"Dokumen ini dibuat secara otomatis dari sistem RAB Vertizon Academy"\n';
+  csvContent += `"Tanggal cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}"\n`;
+  
+  // Create and download file
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', `Rundown_Vertizon_Academy_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 function init() {
@@ -863,6 +928,12 @@ function init() {
   
   // Export PDF button
   document.getElementById('export-pdf').addEventListener('click', exportToPDF);
+  
+  // Export Rundown button
+  const exportRundownBtn = document.getElementById('export-rundown');
+  if (exportRundownBtn) {
+    exportRundownBtn.addEventListener('click', exportRundownToSpreadsheet);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);

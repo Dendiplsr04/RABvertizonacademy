@@ -112,68 +112,49 @@ export const operasionalKendaraan = [
 ];
 
 // Fun Games Budget
-// Jadwal: Tgl 15 malam jam 21.00 (Karaoke, Billiard, Tennis Meja) + Tgl 16 (Ngumpulin Koin, Grand Final Karaoke, UNO)
+// Jadwal: Hari 2 (16 Januari 2026) - 08.30 - 10.45
 export const funGames = [
   { 
     id: 1, 
-    item: 'Karaoke', 
+    item: 'Balon', 
     icon: 'game',
-    note: 'Solo & Duet | Juri: Sie Acara | Grand Final tgl 16 (30 menit)', 
-    price: 0, 
+    qty: 1,
+    unit: 'paket',
+    note: 'Untuk game Joget Balon', 
+    price: 50000, 
     editable: true 
   },
   { 
     id: 2, 
-    item: 'Billiard', 
+    item: 'Karet Gelang & Sedotan', 
     icon: 'game',
-    note: 'Sistem gugur | Tgl 15 malam jam 21.00', 
-    price: 0, 
+    qty: 1,
+    unit: 'paket',
+    note: 'Untuk game Estafet Karet', 
+    price: 30000, 
     editable: true 
   },
   { 
     id: 3, 
-    item: 'Tennis Meja', 
+    item: 'Ember & Gelas', 
     icon: 'game',
-    note: 'Sistem gugur | Tgl 15 malam jam 21.00', 
-    price: 0, 
+    qty: 1,
+    unit: 'paket',
+    note: 'Untuk game Estafet Air', 
+    price: 50000, 
     editable: true 
   },
   { 
     id: 4, 
-    item: 'Ngumpulin Koin di Kolam', 
-    icon: 'game',
-    note: 'Tgl 16 setelah senam pagi', 
-    price: 0, 
-    editable: true 
-  },
-  { 
-    id: 5, 
-    item: 'UNO', 
-    icon: 'game',
-    note: 'Khusus perempuan | Tgl 16', 
-    price: 0, 
-    editable: true 
-  },
-  { 
-    id: 6, 
-    item: 'Koin (500/1000 rupiah)', 
+    item: 'Sarung & Bola Voli', 
     icon: 'game',
     qty: 1,
     unit: 'paket',
-    note: 'Untuk game Ngumpulin Koin di Kolam', 
-    price: 300000, 
-    editable: true 
-  },
-  { 
-    id: 7, 
-    item: 'Bola Pingpong & Bedak Bayi', 
-    icon: 'game',
-    qty: 1,
-    unit: 'paket',
-    note: 'Peralatan fun games', 
-    price: 50000, 
+    note: 'Untuk game Voly Sarung di Kolam', 
+    price: 70000, 
     editable: true 
   }
 ];
 
-export const funGamesNote = 'Jadwal Fun Games: Tgl 15 jam 21.00 (Karaoke, Billiard, Tennis Meja) | Tgl 16 (Senam Pagi → Ngumpulin Koin → Grand Final Karaoke → UNO) | Close jam 11.30';
+export const funGamesNote = 'Fun Games Hari 2: Senam → Gelombang Bahagia → Lampu Merah → Joget Balon → Estafet Karet → Estafet Air → Voly Sarung | Sistem Kelompok dengan Akumulasi Poin';
+

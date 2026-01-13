@@ -40,7 +40,7 @@ export const quizData = [
     image: '🏘️',
     type: 'Townhouse Modern',
     location: 'Kemang, Jakarta Selatan',
-    specs: 'LT: 100m² | LB: 200m²',
+    specs: 'LT: 100m² | LB: 200m²', 
     features: '3 Lantai, Private Pool, Smart Home',
     actualPrice: 5500000000,
     options: [4200000000, 5500000000, 6800000000, 4800000000],

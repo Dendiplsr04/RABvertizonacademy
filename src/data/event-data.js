@@ -58,19 +58,20 @@ export const rundownHari1 = {
   hari: 'Kamis',
   tanggal: '15 Januari 2026',
   jadwal: [
-    { jam: '09.00 - 10.00', agenda: 'Registrasi', detail: 'Pendaftaran marketing baru & pembagian kit.', pic: 'Aziz & Kang Teguh (MC)', type: 'registration' },
-    { jam: '10.00 - 12.00', agenda: 'Opening', detail: 'Sambutan Ketua Panitia & Perkenalan Member.', pic: 'Ferdian & Kang Teguh', type: 'ceremony' },
-    { jam: '12.00 - 13.00', agenda: 'ISHOMA', detail: 'Makan siang & Shalat Dzuhur.', pic: 'Sarah & Nabila', type: 'break' },
-    { jam: '13.00 - 13.40', agenda: 'Materi 1', detail: 'Fundamental Marketing Properti', pic: 'Bpk. Muhammad Arsyad', type: 'materi' },
-    { jam: '13.45 - 14.25', agenda: 'Materi 2', detail: 'Mindset & Mental Closing Marketing', pic: 'Bpk. Muhammad Arsyad', type: 'materi' },
-    { jam: '14.30 - 15.10', agenda: 'Materi 3', detail: 'Cara Membangun Personal Branding Marketing Properti', pic: 'Bpk. Dony Firmansyah', type: 'materi' },
-    { jam: '15.10 - 15.40', agenda: 'Coffee Break', detail: 'Snack sore & Shalat Ashar.', pic: 'Sarah', type: 'break' },
-    { jam: '15.40 - 16.20', agenda: 'Materi 4', detail: 'Teknik Handling Objection Calon Buyer', pic: 'Bpk. Vany Firmansyah', type: 'materi' },
-    { jam: '16.25 - 17.05', agenda: 'Materi 5', detail: 'Strategi Follow Up yang Efektif', pic: 'Ibu Nany Pujiani', type: 'materi' },
-    { jam: '17.10 - 17.50', agenda: 'Materi 6', detail: 'Teknik Membuat Konten Pemasaran (Reels, Story & Feed)', pic: 'Muhammad Agung', type: 'materi' },
-    { jam: '17.50 - 19.30', agenda: 'Free Time', detail: 'Bersih diri & Shalat Maghrib.', pic: '-', type: 'break' },
-    { jam: '19.30 - 21.00', agenda: 'Dinner BBQ', detail: 'Bakar Kambing Guling & Keakraban.', pic: 'Kang Teguh & All Team', type: 'dinner' },
-    { jam: '21.00 - selesai', agenda: 'Fun Games Malam', detail: 'Karaoke (penyisihan Solo & Duet), Billiard & Tennis Meja (sistem gugur)', pic: 'Sie Acara', type: 'games' }
+    { jam: '10.00 - 10.15', agenda: 'Opening', detail: 'Sambutan Ketua Panitia', pic: 'Ferdian & MC', type: 'ceremony' },
+    { jam: '10.15 - 10.50', agenda: 'Materi Tamu 1', detail: 'Presentasi ALESTA', pic: 'ALESTA', type: 'materi' },
+    { jam: '10.50 - 11.25', agenda: 'Materi Tamu 2', detail: 'Presentasi Rumah123', pic: 'Rumah123', type: 'materi' },
+    { jam: '11.25 - 12.00', agenda: 'Materi Tamu 3', detail: 'Presentasi LAMUDI', pic: 'LAMUDI', type: 'materi' },
+    { jam: '12.00 - 13.00', agenda: 'ISHOMA', detail: 'Makan siang & Shalat Dzuhur', pic: 'Sie Konsumsi', type: 'break' },
+    { jam: '13.00 - 13.30', agenda: 'Materi 1', detail: 'Fundamental & Mindset Marketing Properti', pic: 'Bpk. Muhammad Arsyad', type: 'materi' },
+    { jam: '13.30 - 14.00', agenda: 'Materi 2', detail: 'Cara Membangun Personal Branding Marketing Properti', pic: 'Bpk. Dony Firmansyah', type: 'materi' },
+    { jam: '14.00 - 14.30', agenda: 'Materi 3', detail: 'Teknik Handling Objection Calon Buyer', pic: 'Bpk. Vany Firmansyah', type: 'materi' },
+    { jam: '14.30 - 15.00', agenda: 'Materi 4', detail: 'Strategi Follow Up yang Efektif', pic: 'Ibu Nany Pujiani', type: 'materi' },
+    { jam: '15.00 - 15.30', agenda: 'Materi 5', detail: 'Teknik Membuat Konten Pemasaran (Reels, Story & Feed)', pic: 'Muhammad Agung', type: 'materi' },
+    { jam: '15.30 - 15.50', agenda: 'Shalat Ashar', detail: 'Istirahat & Shalat Ashar', pic: '-', type: 'break' },
+    { jam: '15.50 - 17.40', agenda: 'Raker', detail: 'Rapat Kerja Vertizon Academy', pic: 'Bpk. Vany Firmansyah', type: 'meeting' },
+    { jam: '17.40 - 19.30', agenda: 'Free Time', detail: 'Bersih diri & Shalat Maghrib', pic: '-', type: 'break' },
+    { jam: '19.30 - 21.00', agenda: 'Dinner BBQ', detail: 'Bakar Kambing Guling & Keakraban', pic: 'All Team', type: 'dinner' }
   ]
 };
 
@@ -79,11 +80,17 @@ export const rundownHari2 = {
   tanggal: '16 Januari 2026',
   jadwal: [
     { jam: '04.30 - 05.30', agenda: 'Religi Pagi', detail: 'Shalat Shubuh Berjamaah & Kultum Singkat', pic: 'Ustad Satria', type: 'religious' },
-    { jam: '05.35 - 05.40', agenda: 'Senam Pagi', detail: '5 menit setelah kultum', pic: 'Sie Acara', type: 'games' },
-    { jam: '05.40 - 07.00', agenda: 'Coffee Morning', detail: 'Teh/Kopi hangat sambil menikmati udara Puncak.', pic: 'Sarah', type: 'break' },
-    { jam: '07.00 - 08.30', agenda: 'Sarapan Pagi', detail: 'Makan pagi bersama di Villa.', pic: 'Nabila', type: 'break' },
-    { jam: '08.30 - 11.00', agenda: 'Fun Games', detail: 'Ngumpulin Koin di Kolam, Grand Final Karaoke (30 menit), UNO (khusus perempuan)', pic: 'Sie Acara', type: 'games' },
-    { jam: '11.00 - 11.30', agenda: 'Closing', detail: 'Testimoni Marketing Baru & Foto Bersama.', pic: 'Kang Teguh & Nanda', type: 'ceremony' },
-    { jam: '11.30', agenda: 'Check-out', detail: 'Perjalanan pulang (sebelum Jumatan).', pic: 'Faris Azam', type: 'checkout' }
+    { jam: '05.30 - 07.00', agenda: 'Coffee Morning', detail: 'Teh/Kopi hangat sambil menikmati udara Puncak', pic: 'Sarah', type: 'break' },
+    { jam: '07.00 - 08.30', agenda: 'Sarapan Pagi', detail: 'Makan pagi bersama di Villa', pic: 'Nabila', type: 'break' },
+    { jam: '08.30 - 08.45', agenda: 'Senam', detail: 'Pemanasan sebelum Fun Games', pic: 'Sie Acara', type: 'games' },
+    { jam: '08.45 - 09.00', agenda: 'Gelombang Bahagia', detail: 'Ice Breaking', pic: 'Sie Acara', type: 'games' },
+    { jam: '09.00 - 09.15', agenda: 'Lampu Merah', detail: 'Fun Games', pic: 'Sie Acara', type: 'games' },
+    { jam: '09.15 - 09.30', agenda: 'Joget Balon', detail: 'Fun Games', pic: 'Sie Acara', type: 'games' },
+    { jam: '09.30 - 09.50', agenda: 'Estafet Karet', detail: 'Fun Games', pic: 'Sie Acara', type: 'games' },
+    { jam: '09.50 - 10.10', agenda: 'Estafet Air', detail: 'Fun Games', pic: 'Sie Acara', type: 'games' },
+    { jam: '10.10 - 10.40', agenda: 'Voly Sarung', detail: 'Fun Games di Kolam Renang', pic: 'Sie Acara', type: 'games' },
+    { jam: '10.40 - 10.45', agenda: 'Pengumuman Pemenang', detail: 'Pengumuman Juara Fun Games & Pembagian Hadiah', pic: 'Sie Acara', type: 'ceremony' },
+    { jam: '11.00 - 11.30', agenda: 'Closing', detail: 'Testimoni Marketing Baru & Foto Bersama', pic: 'MC & Nanda', type: 'ceremony' },
+    { jam: '11.30', agenda: 'Check-out', detail: 'Perjalanan pulang (sebelum Jumatan)', pic: 'Faris Azam', type: 'checkout' }
   ]
 };
