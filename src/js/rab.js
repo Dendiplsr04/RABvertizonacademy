@@ -838,68 +838,174 @@ function createSparkles(element) {
 }
 
 // ============================================
-// EXPORT RUNDOWN TO SPREADSHEET (XLSX)
+// EXPORT RUNDOWN TO SPREADSHEET (HTML Table for Print/Excel)
 // ============================================
 function exportRundownToSpreadsheet() {
-  // Create workbook content with professional formatting
-  const BOM = '\uFEFF'; // UTF-8 BOM for Excel compatibility
+  const today = new Date();
+  const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
   
-  // Header info
-  let csvContent = BOM;
-  csvContent += 'RUNDOWN ACARA\n';
-  csvContent += `"${eventInfo.name}"\n`;
-  csvContent += `"${eventInfo.theme}"\n`;
-  csvContent += `"${eventInfo.location}"\n`;
-  csvContent += `"${eventInfo.date}"\n`;
-  csvContent += '\n';
-  
-  // Hari 1
-  csvContent += `HARI 1 - ${rundownHari1.hari.toUpperCase()}\n`;
-  csvContent += `${rundownHari1.tanggal}\n`;
-  csvContent += '\n';
-  csvContent += 'No,Waktu,Agenda,Detail/Keterangan,PIC\n';
-  
-  rundownHari1.jadwal.forEach((item, index) => {
-    const detail = item.detail.replace(/"/g, '""'); // Escape quotes
-    const agenda = item.agenda.replace(/"/g, '""');
-    const pic = item.pic.replace(/"/g, '""');
-    csvContent += `${index + 1},"${item.jam}","${agenda}","${detail}","${pic}"\n`;
-  });
-  
-  csvContent += '\n\n';
-  
-  // Hari 2
-  csvContent += `HARI 2 - ${rundownHari2.hari.toUpperCase()}\n`;
-  csvContent += `${rundownHari2.tanggal}\n`;
-  csvContent += '\n';
-  csvContent += 'No,Waktu,Agenda,Detail/Keterangan,PIC\n';
-  
-  rundownHari2.jadwal.forEach((item, index) => {
-    const detail = item.detail.replace(/"/g, '""');
-    const agenda = item.agenda.replace(/"/g, '""');
-    const pic = item.pic.replace(/"/g, '""');
-    csvContent += `${index + 1},"${item.jam}","${agenda}","${detail}","${pic}"\n`;
-  });
-  
-  csvContent += '\n\n';
-  
-  // Footer
-  csvContent += 'Catatan:\n';
-  csvContent += '"Dokumen ini dibuat secara otomatis dari sistem RAB Vertizon Academy"\n';
-  csvContent += `"Tanggal cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}"\n`;
-  
-  // Create and download file
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement('a');
-  const url = URL.createObjectURL(blob);
-  
-  link.setAttribute('href', url);
-  link.setAttribute('download', `Rundown_Vertizon_Academy_${new Date().toISOString().split('T')[0]}.csv`);
-  link.style.visibility = 'hidden';
-  
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rundown Acara - ${eventInfo.name}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Calibri', 'Arial', sans-serif;
+      background: #fff;
+      color: #000;
+      padding: 20mm;
+      line-height: 1.4;
+      font-size: 11pt;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px double #000;
+    }
+    .header h1 { font-size: 16pt; font-weight: bold; margin-bottom: 5px; }
+    .header h2 { font-size: 12pt; font-weight: normal; font-style: italic; margin-bottom: 5px; color: #333; }
+    .header p { font-size: 10pt; margin: 2px 0; }
+    .section { margin-bottom: 25px; }
+    .section-title {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 12pt;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+    .section-date {
+      background: #10b981;
+      color: #fff;
+      padding: 6px 15px;
+      font-size: 10pt;
+      margin-bottom: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    th {
+      background: #f1f5f9;
+      border: 1px solid #000;
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 10pt;
+    }
+    td {
+      border: 1px solid #000;
+      padding: 6px 10px;
+      font-size: 10pt;
+      vertical-align: top;
+    }
+    td.no { text-align: center; width: 35px; }
+    td.waktu { width: 120px; white-space: nowrap; }
+    td.agenda { width: 150px; font-weight: 600; }
+    td.detail { }
+    td.pic { width: 150px; }
+    tr.break { background: #fef3c7; }
+    tr.materi { background: #dbeafe; }
+    tr.games { background: #d1fae5; }
+    tr.ceremony { background: #fce7f3; }
+    tr.religious { background: #e0e7ff; }
+    .footer {
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #ccc;
+      font-size: 9pt;
+      color: #666;
+      text-align: center;
+    }
+    @media print {
+      body { padding: 10mm; }
+      .section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>RUNDOWN ACARA</h1>
+    <h2>"${eventInfo.theme}"</h2>
+    <p><strong>${eventInfo.name}</strong></p>
+    <p>${eventInfo.location}</p>
+    <p>${eventInfo.date}</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">HARI 1 - ${rundownHari1.hari.toUpperCase()}</div>
+    <div class="section-date">${rundownHari1.tanggal}</div>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Waktu</th>
+          <th>Agenda</th>
+          <th>Detail / Keterangan</th>
+          <th>PIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rundownHari1.jadwal.map((item, i) => `
+        <tr class="${item.type}">
+          <td class="no">${i + 1}</td>
+          <td class="waktu">${item.jam}</td>
+          <td class="agenda">${item.agenda}</td>
+          <td class="detail">${item.detail}</td>
+          <td class="pic">${item.pic}</td>
+        </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">HARI 2 - ${rundownHari2.hari.toUpperCase()}</div>
+    <div class="section-date">${rundownHari2.tanggal}</div>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Waktu</th>
+          <th>Agenda</th>
+          <th>Detail / Keterangan</th>
+          <th>PIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rundownHari2.jadwal.map((item, i) => `
+        <tr class="${item.type}">
+          <td class="no">${i + 1}</td>
+          <td class="waktu">${item.jam}</td>
+          <td class="agenda">${item.agenda}</td>
+          <td class="detail">${item.detail}</td>
+          <td class="pic">${item.pic}</td>
+        </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <p>Dokumen ini dibuat secara otomatis dari sistem RAB Vertizon Academy</p>
+    <p>Tanggal cetak: ${tanggalCetak}</p>
+  </div>
+</body>
+</html>
+  `;
+
+  // Open in new window for print
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+  printWindow.onload = function() {
+    setTimeout(() => { printWindow.print(); }, 500);
+  };
 }
 
 // ============================================
