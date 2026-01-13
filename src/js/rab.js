@@ -891,91 +891,127 @@ function createSparkles(element) {
 }
 
 // ============================================
-// EXPORT RAB TO EXCEL (CSV Format)
+// EXPORT RAB TO EXCEL (Native Excel XML Format)
 // ============================================
 function exportRABToExcel() {
-  const BOM = '\uFEFF';
-  let csv = BOM;
-  
-  // Header
-  csv += 'RENCANA ANGGARAN BIAYA\n';
-  csv += `"${eventInfo.name}"\n`;
-  csv += `"${eventInfo.location}"\n`;
-  csv += `"${eventInfo.date}"\n\n`;
-  
-  csv += 'No,Item/Barang,Qty,Satuan,Harga (Rp)\n';
-  
-  // A. Peralatan
+  // Filter data dengan harga
   const peralatanDenganHarga = currentData.peralatan.filter(item => item.price !== null && item.price > 0);
-  if (peralatanDenganHarga.length > 0) {
-    csv += '\nA. PERALATAN,,,,\n';
-    peralatanDenganHarga.forEach((item, i) => {
-      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
-    });
-    const subtotal = peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0);
-    csv += `,Subtotal Peralatan,,,${subtotal}\n`;
-  }
-  
-  // B. Konsumsi
   const konsumsiDenganHarga = currentData.konsumsiKita.filter(item => item.price > 0);
-  if (konsumsiDenganHarga.length > 0) {
-    csv += '\nB. KONSUMSI,,,,\n';
-    konsumsiDenganHarga.forEach((item, i) => {
-      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
-    });
-    const subtotal = konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0);
-    csv += `,Subtotal Konsumsi,,,${subtotal}\n`;
-  }
-  
-  // C. Akomodasi & Transport
   const akomodasiDenganHarga = currentData.akomodasiTransport.filter(item => item.price > 0);
-  if (akomodasiDenganHarga.length > 0) {
-    csv += '\nC. AKOMODASI & TRANSPORT,,,,\n';
-    akomodasiDenganHarga.forEach((item, i) => {
-      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
-    });
-    const subtotal = akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0);
-    csv += `,Subtotal Akomodasi & Transport,,,${subtotal}\n`;
-  }
-  
-  // D. Fun Games
   const gamesDenganHarga = currentData.funGames.filter(item => item.price > 0);
-  if (gamesDenganHarga.length > 0) {
-    csv += '\nD. FUN GAMES,,,,\n';
-    gamesDenganHarga.forEach((item, i) => {
-      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
-    });
-    const subtotal = gamesDenganHarga.reduce((sum, item) => sum + item.price, 0);
-    csv += `,Subtotal Fun Games,,,${subtotal}\n`;
-  }
-  
-  // E. Hadiah
   const hadiahDenganHarga = currentData.hadiah.filter(item => item.price > 0);
-  if (hadiahDenganHarga.length > 0) {
-    csv += '\nE. HADIAH,,,,\n';
-    hadiahDenganHarga.forEach((item, i) => {
-      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+
+  const subtotalPeralatan = peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalKonsumsi = konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalAkomodasi = akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalGames = gamesDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalHadiah = hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const total = subtotalPeralatan + subtotalKonsumsi + subtotalAkomodasi + subtotalGames + subtotalHadiah;
+
+  const tanggalCetak = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Helper untuk escape XML
+  const escapeXml = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  // Build rows
+  let rows = '';
+  let rowNum = 1;
+
+  // Title rows
+  rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="title" ss:MergeAcross="4"><Data ss:Type="String">RENCANA ANGGARAN BIAYA</Data></Cell></Row>`;
+  rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="subtitle" ss:MergeAcross="4"><Data ss:Type="String">${escapeXml(eventInfo.name)}</Data></Cell></Row>`;
+  rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="info" ss:MergeAcross="4"><Data ss:Type="String">${escapeXml(eventInfo.location)}</Data></Cell></Row>`;
+  rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="info" ss:MergeAcross="4"><Data ss:Type="String">${escapeXml(eventInfo.date)}</Data></Cell></Row>`;
+  rows += `<Row ss:Index="${rowNum++}"></Row>`;
+
+  // Header row
+  rows += `<Row ss:Index="${rowNum++}">
+    <Cell ss:StyleID="header"><Data ss:Type="String">No</Data></Cell>
+    <Cell ss:StyleID="header"><Data ss:Type="String">Item / Barang</Data></Cell>
+    <Cell ss:StyleID="header"><Data ss:Type="String">Qty</Data></Cell>
+    <Cell ss:StyleID="header"><Data ss:Type="String">Satuan</Data></Cell>
+    <Cell ss:StyleID="headerRight"><Data ss:Type="String">Harga (Rp)</Data></Cell>
+  </Row>`;
+
+  // Helper untuk menambah section
+  const addSection = (label, items, subtotal) => {
+    if (items.length === 0) return;
+    rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="section" ss:MergeAcross="4"><Data ss:Type="String">${escapeXml(label)}</Data></Cell></Row>`;
+    items.forEach((item, i) => {
+      rows += `<Row ss:Index="${rowNum++}">
+        <Cell ss:StyleID="center"><Data ss:Type="Number">${i + 1}</Data></Cell>
+        <Cell ss:StyleID="default"><Data ss:Type="String">${escapeXml(item.item)}</Data></Cell>
+        <Cell ss:StyleID="center"><Data ss:Type="String">${item.qty || '-'}</Data></Cell>
+        <Cell ss:StyleID="center"><Data ss:Type="String">${item.unit || '-'}</Data></Cell>
+        <Cell ss:StyleID="currency"><Data ss:Type="Number">${item.price}</Data></Cell>
+      </Row>`;
     });
-    const subtotal = hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
-    csv += `,Subtotal Hadiah,,,${subtotal}\n`;
-  }
-  
-  // Total
-  const total = 
-    peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0) +
-    konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0) +
-    akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0) +
-    gamesDenganHarga.reduce((sum, item) => sum + item.price, 0) +
-    hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
-  
-  csv += `\n,TOTAL ANGGARAN,,,${total}\n`;
-  csv += `\nTanggal cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}\n`;
-  
-  // Download
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    rows += `<Row ss:Index="${rowNum++}">
+      <Cell ss:StyleID="subtotal"></Cell>
+      <Cell ss:StyleID="subtotal"><Data ss:Type="String">Subtotal ${escapeXml(label.replace(/^[A-Z]\.\s*/, ''))}</Data></Cell>
+      <Cell ss:StyleID="subtotal"></Cell>
+      <Cell ss:StyleID="subtotal"></Cell>
+      <Cell ss:StyleID="subtotalCurrency"><Data ss:Type="Number">${subtotal}</Data></Cell>
+    </Row>`;
+    rows += `<Row ss:Index="${rowNum++}"></Row>`;
+  };
+
+  addSection('A. PERALATAN', peralatanDenganHarga, subtotalPeralatan);
+  addSection('B. KONSUMSI', konsumsiDenganHarga, subtotalKonsumsi);
+  addSection('C. AKOMODASI & TRANSPORT', akomodasiDenganHarga, subtotalAkomodasi);
+  addSection('D. FUN GAMES', gamesDenganHarga, subtotalGames);
+  addSection('E. HADIAH', hadiahDenganHarga, subtotalHadiah);
+
+  // Total row
+  rows += `<Row ss:Index="${rowNum++}">
+    <Cell ss:StyleID="total"></Cell>
+    <Cell ss:StyleID="total"><Data ss:Type="String">TOTAL ANGGARAN</Data></Cell>
+    <Cell ss:StyleID="total"></Cell>
+    <Cell ss:StyleID="total"></Cell>
+    <Cell ss:StyleID="totalCurrency"><Data ss:Type="Number">${total}</Data></Cell>
+  </Row>`;
+  rows += `<Row ss:Index="${rowNum++}"></Row>`;
+  rows += `<Row ss:Index="${rowNum++}"><Cell ss:StyleID="footer" ss:MergeAcross="4"><Data ss:Type="String">Tanggal cetak: ${tanggalCetak}</Data></Cell></Row>`;
+
+  // Excel XML template
+  const excelXml = `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <Styles>
+    <Style ss:ID="Default"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/></Style>
+    <Style ss:ID="title"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="16" ss:Bold="1"/></Style>
+    <Style ss:ID="subtitle"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="12" ss:Bold="1"/></Style>
+    <Style ss:ID="info"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/></Style>
+    <Style ss:ID="header"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#D9D9D9" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="headerRight"><Alignment ss:Horizontal="Right" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#D9D9D9" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="section"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#E2EFDA" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="default"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="center"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="currency"><Alignment ss:Horizontal="Right" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/><NumberFormat ss:Format="#,##0"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="subtotal"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#FFF2CC" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="subtotalCurrency"><Alignment ss:Horizontal="Right" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/><NumberFormat ss:Format="#,##0"/><Interior ss:Color="#FFF2CC" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>
+    <Style ss:ID="total"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="12" ss:Bold="1"/><Interior ss:Color="#C6EFCE" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>
+    <Style ss:ID="totalCurrency"><Alignment ss:Horizontal="Right" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="12" ss:Bold="1"/><NumberFormat ss:Format="#,##0"/><Interior ss:Color="#C6EFCE" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>
+    <Style ss:ID="footer"><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="10" ss:Italic="1" ss:Color="#666666"/></Style>
+  </Styles>
+  <Worksheet ss:Name="RAB_Vertizon_Academy_${new Date().toISOString().split('T')[0]}">
+    <Table ss:DefaultColumnWidth="80">
+      <Column ss:Width="40"/>
+      <Column ss:Width="250"/>
+      <Column ss:Width="60"/>
+      <Column ss:Width="70"/>
+      <Column ss:Width="120"/>
+      ${rows}
+    </Table>
+  </Worksheet>
+</Workbook>`;
+
+  // Download as .xls
+  const blob = new Blob([excelXml], { type: 'application/vnd.ms-excel' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = `RAB_Vertizon_Academy_${new Date().toISOString().split('T')[0]}.csv`;
+  link.download = `RAB_Vertizon_Academy_${new Date().toISOString().split('T')[0]}.xls`;
   link.click();
 }
 
