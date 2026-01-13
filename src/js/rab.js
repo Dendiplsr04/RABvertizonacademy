@@ -1,6 +1,6 @@
 // RAB Vertizon Academy - Main JavaScript
 import * as THREE from 'three';
-import { eventInfo, peralatan, konsumsiNany, konsumsiKita, operasionalKendaraan, funGames, icons } from '../data/rab-data.js';
+import { eventInfo, peralatan, konsumsiNany, konsumsiKita, akomodasiTransport, funGames, hadiah, icons } from '../data/rab-data.js';
 import { rundownHari1, rundownHari2 } from '../data/event-data.js';
 import { initMiniGame } from './mini-game.js';
 import '../css/animations.css';
@@ -131,23 +131,27 @@ function initThreeBackground() {
 // ============================================
 // DATA MANAGEMENT
 // ============================================
-const STORAGE_KEY = 'rab_vertizon_2026_v2';
+const STORAGE_KEY = 'rab_vertizon_2026_v3';
 
 function loadData() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     const data = JSON.parse(saved);
-    // Ensure operasionalKendaraan exists (for users with old localStorage data)
-    if (!data.operasionalKendaraan || data.operasionalKendaraan.length === 0) {
-      data.operasionalKendaraan = operasionalKendaraan.map(item => ({ ...item }));
+    // Ensure new data structures exist
+    if (!data.akomodasiTransport) {
+      data.akomodasiTransport = akomodasiTransport.map(item => ({ ...item }));
+    }
+    if (!data.hadiah) {
+      data.hadiah = hadiah.map(item => ({ ...item }));
     }
     return data;
   }
   return {
     peralatan: peralatan.map(item => ({ ...item })),
     konsumsiKita: konsumsiKita.map(item => ({ ...item })),
-    operasionalKendaraan: operasionalKendaraan.map(item => ({ ...item })),
-    funGames: funGames.map(item => ({ ...item }))
+    akomodasiTransport: akomodasiTransport.map(item => ({ ...item })),
+    funGames: funGames.map(item => ({ ...item })),
+    hadiah: hadiah.map(item => ({ ...item }))
   };
 }
 
@@ -310,20 +314,20 @@ function renderKonsumsiKita() {
   });
 }
 
-function renderOperasionalKendaraan() {
-  const grid = document.getElementById('grid-operasional');
+function renderAkomodasiTransport() {
+  const grid = document.getElementById('grid-akomodasi');
   if (!grid) return;
   
   grid.innerHTML = '';
 
-  currentData.operasionalKendaraan.forEach((item) => {
+  currentData.akomodasiTransport.forEach((item) => {
     let qtyHtml = '';
     let priceHtml;
 
     if (item.qty && item.pricePerUnit && item.editable) {
       qtyHtml = `
         <div class="qty-calculator">
-          <input type="number" class="qty-input" data-type="operasional" data-id="${item.id}" value="${item.qty}" min="1" />
+          <input type="number" class="qty-input" data-type="akomodasi" data-id="${item.id}" value="${item.qty}" min="1" />
           <span class="qty-unit">${item.unit}</span>
           <span class="qty-multiply">×</span>
           <span class="qty-price">Rp ${item.pricePerUnit.toLocaleString('id-ID')}</span>
@@ -331,7 +335,7 @@ function renderOperasionalKendaraan() {
       `;
       priceHtml = `<span class="price-display price-calculated" style="color: #f97316;">${formatRupiah(item.price)}</span>`;
     } else if (item.editable) {
-      priceHtml = `<input type="text" class="price-input" data-type="operasional" data-id="${item.id}" value="${formatRupiah(item.price)}" style="color: #f97316;" />`;
+      priceHtml = `<input type="text" class="price-input" data-type="akomodasi" data-id="${item.id}" value="${formatRupiah(item.price)}" style="color: #f97316;" />`;
     } else {
       priceHtml = `<span class="price-display" style="color: #f97316;">${formatRupiah(item.price)}</span>`;
     }
@@ -344,6 +348,39 @@ function renderOperasionalKendaraan() {
         <div class="item-info">
           <div class="item-name">${item.item}</div>
           ${qtyHtml}
+          ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+        </div>
+      </div>
+      <div class="item-footer">
+        <span></span>
+        ${priceHtml}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderHadiah() {
+  const grid = document.getElementById('grid-hadiah');
+  if (!grid) return;
+  
+  grid.innerHTML = '';
+
+  currentData.hadiah.forEach((item) => {
+    let priceHtml;
+    if (item.editable) {
+      priceHtml = `<input type="text" class="price-input" data-type="hadiah" data-id="${item.id}" value="${formatRupiah(item.price)}" style="color: #fbbf24;" />`;
+    } else {
+      priceHtml = `<span class="price-display" style="color: #fbbf24;">${formatRupiah(item.price)}</span>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.innerHTML = `
+      <div class="item-header">
+        <div class="item-icon" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">${getIcon(item.icon)}</div>
+        <div class="item-info">
+          <div class="item-name">${item.item}</div>
           ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
         </div>
       </div>
@@ -457,11 +494,11 @@ function calculateTotals() {
   
   document.getElementById('subtotal-konsumsi').textContent = formatRupiah(subtotalKonsumsi);
 
-  const subtotalOperasional = currentData.operasionalKendaraan
+  const subtotalAkomodasi = currentData.akomodasiTransport
     .reduce((sum, item) => sum + (item.price || 0), 0);
   
-  const operasionalEl = document.getElementById('subtotal-operasional');
-  if (operasionalEl) operasionalEl.textContent = formatRupiah(subtotalOperasional);
+  const akomodasiEl = document.getElementById('subtotal-akomodasi');
+  if (akomodasiEl) akomodasiEl.textContent = formatRupiah(subtotalAkomodasi);
 
   const subtotalGames = currentData.funGames
     .reduce((sum, item) => sum + (item.price || 0), 0);
@@ -469,7 +506,13 @@ function calculateTotals() {
   const gamesEl = document.getElementById('subtotal-games');
   if (gamesEl) gamesEl.textContent = formatRupiah(subtotalGames);
 
-  const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
+  const subtotalHadiah = currentData.hadiah
+    .reduce((sum, item) => sum + (item.price || 0), 0);
+  
+  const hadiahEl = document.getElementById('subtotal-hadiah');
+  if (hadiahEl) hadiahEl.textContent = formatRupiah(subtotalHadiah);
+
+  const total = subtotalPeralatan + subtotalKonsumsi + subtotalAkomodasi + subtotalGames + subtotalHadiah;
   document.getElementById('total-amount').textContent = formatRupiah(total);
 }
 
@@ -489,11 +532,14 @@ function handlePriceInput(e) {
   } else if (type === 'konsumsi') {
     const item = currentData.konsumsiKita.find(k => k.id === id);
     if (item) item.price = value;
-  } else if (type === 'operasional') {
-    const item = currentData.operasionalKendaraan.find(o => o.id === id);
+  } else if (type === 'akomodasi') {
+    const item = currentData.akomodasiTransport.find(a => a.id === id);
     if (item) item.price = value;
   } else if (type === 'games') {
     const item = currentData.funGames.find(g => g.id === id);
+    if (item) item.price = value;
+  } else if (type === 'hadiah') {
+    const item = currentData.hadiah.find(h => h.id === id);
     if (item) item.price = value;
   }
 
@@ -520,8 +566,8 @@ function handleQtyInput(e) {
         priceDisplay.textContent = formatRupiah(item.price);
       }
     }
-  } else if (type === 'operasional') {
-    const item = currentData.operasionalKendaraan.find(o => o.id === id);
+  } else if (type === 'akomodasi') {
+    const item = currentData.akomodasiTransport.find(a => a.id === id);
     if (item && item.pricePerUnit) {
       item.qty = qty;
       item.price = qty * item.pricePerUnit;
@@ -549,15 +595,17 @@ function exportToPDF() {
   // Filter hanya item yang ada harganya (price > 0)
   const peralatanDenganHarga = currentData.peralatan.filter(item => item.price !== null && item.price > 0);
   const konsumsiDenganHarga = currentData.konsumsiKita.filter(item => item.price > 0);
-  const operasionalDenganHarga = currentData.operasionalKendaraan.filter(item => item.price > 0);
+  const akomodasiDenganHarga = currentData.akomodasiTransport.filter(item => item.price > 0);
   const gamesDenganHarga = currentData.funGames.filter(item => item.price > 0);
+  const hadiahDenganHarga = currentData.hadiah.filter(item => item.price > 0);
 
   const subtotalPeralatan = peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0);
   const subtotalKonsumsi = konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0);
-  const subtotalOperasional = operasionalDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalAkomodasi = akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0);
   const subtotalGames = gamesDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  const subtotalHadiah = hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
   
-  const total = subtotalPeralatan + subtotalKonsumsi + subtotalOperasional + subtotalGames;
+  const total = subtotalPeralatan + subtotalKonsumsi + subtotalAkomodasi + subtotalGames + subtotalHadiah;
   
   const today = new Date();
   const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -644,15 +692,20 @@ function exportToPDF() {
       ${konsumsiDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
       <tr class="subtotal"><td></td><td>Subtotal Konsumsi</td><td></td><td></td><td class="harga">${formatRupiah(subtotalKonsumsi)}</td></tr>
       ` : ''}
-      ${operasionalDenganHarga.length > 0 ? `
-      <tr class="section-header"><td colspan="5">C. OPERASIONAL KENDARAAN</td></tr>
-      ${operasionalDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
-      <tr class="subtotal"><td></td><td>Subtotal Operasional</td><td></td><td></td><td class="harga">${formatRupiah(subtotalOperasional)}</td></tr>
+      ${akomodasiDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="5">C. AKOMODASI & TRANSPORT</td></tr>
+      ${akomodasiDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Akomodasi & Transport</td><td></td><td></td><td class="harga">${formatRupiah(subtotalAkomodasi)}</td></tr>
       ` : ''}
       ${gamesDenganHarga.length > 0 ? `
       <tr class="section-header"><td colspan="5">D. FUN GAMES</td></tr>
       ${gamesDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
       <tr class="subtotal"><td></td><td>Subtotal Fun Games</td><td></td><td></td><td class="harga">${formatRupiah(subtotalGames)}</td></tr>
+      ` : ''}
+      ${hadiahDenganHarga.length > 0 ? `
+      <tr class="section-header"><td colspan="5">E. HADIAH</td></tr>
+      ${hadiahDenganHarga.map((item, i) => `<tr><td class="no">${i + 1}</td><td>${item.item}</td><td class="qty">${item.qty || '-'}</td><td class="satuan">${item.unit || '-'}</td><td class="harga">${formatRupiah(item.price)}</td></tr>`).join('')}
+      <tr class="subtotal"><td></td><td>Subtotal Hadiah</td><td></td><td></td><td class="harga">${formatRupiah(subtotalHadiah)}</td></tr>
       ` : ''}
       <tr class="total"><td></td><td>TOTAL ANGGARAN</td><td></td><td></td><td class="harga">${formatRupiah(total)}</td></tr>
     </tbody>
@@ -838,6 +891,95 @@ function createSparkles(element) {
 }
 
 // ============================================
+// EXPORT RAB TO EXCEL (CSV Format)
+// ============================================
+function exportRABToExcel() {
+  const BOM = '\uFEFF';
+  let csv = BOM;
+  
+  // Header
+  csv += 'RENCANA ANGGARAN BIAYA\n';
+  csv += `"${eventInfo.name}"\n`;
+  csv += `"${eventInfo.location}"\n`;
+  csv += `"${eventInfo.date}"\n\n`;
+  
+  csv += 'No,Item/Barang,Qty,Satuan,Harga (Rp)\n';
+  
+  // A. Peralatan
+  const peralatanDenganHarga = currentData.peralatan.filter(item => item.price !== null && item.price > 0);
+  if (peralatanDenganHarga.length > 0) {
+    csv += '\nA. PERALATAN,,,,\n';
+    peralatanDenganHarga.forEach((item, i) => {
+      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+    });
+    const subtotal = peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0);
+    csv += `,Subtotal Peralatan,,,${subtotal}\n`;
+  }
+  
+  // B. Konsumsi
+  const konsumsiDenganHarga = currentData.konsumsiKita.filter(item => item.price > 0);
+  if (konsumsiDenganHarga.length > 0) {
+    csv += '\nB. KONSUMSI,,,,\n';
+    konsumsiDenganHarga.forEach((item, i) => {
+      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+    });
+    const subtotal = konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0);
+    csv += `,Subtotal Konsumsi,,,${subtotal}\n`;
+  }
+  
+  // C. Akomodasi & Transport
+  const akomodasiDenganHarga = currentData.akomodasiTransport.filter(item => item.price > 0);
+  if (akomodasiDenganHarga.length > 0) {
+    csv += '\nC. AKOMODASI & TRANSPORT,,,,\n';
+    akomodasiDenganHarga.forEach((item, i) => {
+      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+    });
+    const subtotal = akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0);
+    csv += `,Subtotal Akomodasi & Transport,,,${subtotal}\n`;
+  }
+  
+  // D. Fun Games
+  const gamesDenganHarga = currentData.funGames.filter(item => item.price > 0);
+  if (gamesDenganHarga.length > 0) {
+    csv += '\nD. FUN GAMES,,,,\n';
+    gamesDenganHarga.forEach((item, i) => {
+      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+    });
+    const subtotal = gamesDenganHarga.reduce((sum, item) => sum + item.price, 0);
+    csv += `,Subtotal Fun Games,,,${subtotal}\n`;
+  }
+  
+  // E. Hadiah
+  const hadiahDenganHarga = currentData.hadiah.filter(item => item.price > 0);
+  if (hadiahDenganHarga.length > 0) {
+    csv += '\nE. HADIAH,,,,\n';
+    hadiahDenganHarga.forEach((item, i) => {
+      csv += `${i + 1},"${item.item}",${item.qty || '-'},${item.unit || '-'},${item.price}\n`;
+    });
+    const subtotal = hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
+    csv += `,Subtotal Hadiah,,,${subtotal}\n`;
+  }
+  
+  // Total
+  const total = 
+    peralatanDenganHarga.reduce((sum, item) => sum + item.price, 0) +
+    konsumsiDenganHarga.reduce((sum, item) => sum + item.price, 0) +
+    akomodasiDenganHarga.reduce((sum, item) => sum + item.price, 0) +
+    gamesDenganHarga.reduce((sum, item) => sum + item.price, 0) +
+    hadiahDenganHarga.reduce((sum, item) => sum + item.price, 0);
+  
+  csv += `\n,TOTAL ANGGARAN,,,${total}\n`;
+  csv += `\nTanggal cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}\n`;
+  
+  // Download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `RAB_Vertizon_Academy_${new Date().toISOString().split('T')[0]}.csv`;
+  link.click();
+}
+
+// ============================================
 // EXPORT RUNDOWN TO SPREADSHEET (HTML Table for Print/Excel)
 // ============================================
 function exportRundownToSpreadsheet() {
@@ -1018,8 +1160,9 @@ function init() {
   renderPeralatan();
   renderKonsumsiNany();
   renderKonsumsiKita();
-  renderOperasionalKendaraan();
+  renderAkomodasiTransport();
   renderFunGames();
+  renderHadiah();
   calculateTotals();
 
   // Initialize animations after render
@@ -1039,6 +1182,12 @@ function init() {
   const exportRundownBtn = document.getElementById('export-rundown');
   if (exportRundownBtn) {
     exportRundownBtn.addEventListener('click', exportRundownToSpreadsheet);
+  }
+  
+  // Export Excel button
+  const exportExcelBtn = document.getElementById('export-excel');
+  if (exportExcelBtn) {
+    exportExcelBtn.addEventListener('click', exportRABToExcel);
   }
 }
 

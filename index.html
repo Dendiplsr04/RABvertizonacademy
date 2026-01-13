@@ -543,6 +543,21 @@
         box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
       }
 
+      .export-btn.export-excel {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);
+        animation: pulse-green 2s infinite;
+      }
+
+      @keyframes pulse-green {
+        0%, 100% { box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4), 0 0 0 0 rgba(34, 197, 94, 0.4); }
+        50% { box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4), 0 0 0 10px rgba(34, 197, 94, 0); }
+      }
+
+      .export-btn.export-excel:hover {
+        box-shadow: 0 15px 40px rgba(34, 197, 94, 0.5);
+      }
+
       .export-btn svg {
         width: 20px;
         height: 20px;
@@ -1428,7 +1443,7 @@
         <div class="items-grid" id="grid-konsumsi-kita"></div>
       </div>
 
-      <!-- Section 6: Operasional Kendaraan -->
+      <!-- Section 6: Akomodasi & Transport -->
       <div class="section" style="--section-color: #f97316;">
         <div class="section-header" style="background: linear-gradient(135deg, #c2410c, #ea580c);">
           <div class="section-title-wrap">
@@ -1438,13 +1453,13 @@
               </svg>
             </div>
             <div>
-              <div class="section-title">Operasional Kendaraan</div>
-              <div class="section-subtitle">Sewa mobil, bensin & transportasi pemateri</div>
+              <div class="section-title">Akomodasi & Transport</div>
+              <div class="section-subtitle">Sewa mobil, bensin & transportasi panitia</div>
             </div>
           </div>
-          <div class="section-subtotal" id="subtotal-operasional" style="background: rgba(249, 115, 22, 0.2); border-color: rgba(249, 115, 22, 0.3); color: #fb923c;">Rp 0</div>
+          <div class="section-subtotal" id="subtotal-akomodasi" style="background: rgba(249, 115, 22, 0.2); border-color: rgba(249, 115, 22, 0.3); color: #fb923c;">Rp 0</div>
         </div>
-        <div class="items-grid" id="grid-operasional"></div>
+        <div class="items-grid" id="grid-akomodasi"></div>
       </div>
 
       <!-- Section 7: Fun Games -->
@@ -1458,12 +1473,31 @@
             </div>
             <div>
               <div class="section-title">Fun Games</div>
-              <div class="section-subtitle">Perlengkapan & hadiah untuk games</div>
+              <div class="section-subtitle">Perlengkapan untuk games</div>
             </div>
           </div>
           <div class="section-subtotal" id="subtotal-games" style="background: rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.3); color: #a78bfa;">Rp 0</div>
         </div>
         <div class="items-grid" id="grid-fun-games"></div>
+      </div>
+
+      <!-- Section 8: Hadiah -->
+      <div class="section" style="--section-color: #fbbf24;">
+        <div class="section-header" style="background: linear-gradient(135deg, #b45309, #d97706);">
+          <div class="section-title-wrap">
+            <div class="section-icon" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="section-title">Hadiah</div>
+              <div class="section-subtitle">Hadiah untuk pemenang Fun Games</div>
+            </div>
+          </div>
+          <div class="section-subtotal" id="subtotal-hadiah" style="background: rgba(251, 191, 36, 0.2); border-color: rgba(251, 191, 36, 0.3); color: #fbbf24;">Rp 0</div>
+        </div>
+        <div class="items-grid" id="grid-hadiah"></div>
       </div>
 
       <!-- Total -->
@@ -1485,7 +1519,13 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="15" y1="15" x2="12" y2="18"/>
         </svg>
-        Export RAB
+        Export RAB (PDF)
+      </button>
+      <button class="export-btn export-excel" id="export-excel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/>
+        </svg>
+        Export RAB (Excel)
       </button>
       <button class="export-btn export-rundown" id="export-rundown">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

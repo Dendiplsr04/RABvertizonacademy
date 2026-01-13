@@ -71,14 +71,11 @@ export const konsumsiNany = [
 
 export const konsumsiKita = [
   { id: 1, item: 'Kambing Guling (Paket)', icon: 'goat', qty: 1, unit: 'paket', note: 'Nasi Kebuli, Gulai Jeroan, 150 Tusuk Sate Sapi Maranggi | DP H-2 (50%): Rp 1.750.000, Sisa Hari H: Rp 1.750.000', price: 3500000, editable: true },
-  { id: 2, item: 'Air Mineral', icon: 'water', qty: 4, unit: 'dus', pricePerUnit: 34000, price: 136000, editable: true },
-  { id: 3, item: 'Tisu & Perlengkapan', icon: 'tissue', qty: 1, unit: 'paket', note: 'Tisu Meja, Toilet, Tisu Basah, Keresek Sampah', price: 150000, editable: true },
-  { id: 4, item: 'Hot Paper Cup', icon: 'cup', qty: 2, unit: 'pak', price: 20000, editable: true },
-  { id: 5, item: 'Biaya Transportasi Belanja', icon: 'transport', qty: 1, unit: 'paket', note: '', price: 30000, editable: true }
+  { id: 2, item: 'Air Mineral', icon: 'water', qty: 4, unit: 'dus', pricePerUnit: 34000, price: 136000, editable: true }
 ];
 
-// Operasional Kendaraan
-export const operasionalKendaraan = [
+// Akomodasi & Transport
+export const akomodasiTransport = [
   { 
     id: 1, 
     item: 'Sewa 2 Mobil (Rawa Gede - Villa)', 
@@ -111,22 +108,46 @@ export const operasionalKendaraan = [
   },
   { 
     id: 4, 
-    item: 'Operasional Sarah & Nabila', 
+    item: 'Operasional Ferdi (Survey Lokasi)', 
     icon: 'car',
     qty: 1,
-    unit: 'unit',
-    note: '1 Unit Motor', 
-    price: 50000, 
+    unit: 'paket',
+    note: 'Survey lokasi Villa', 
+    price: 150000, 
     editable: true 
   },
   { 
     id: 5, 
-    item: 'Operasional Doyok', 
-    icon: 'car',
+    item: 'Operasional Sarah & Nabila', 
+    icon: 'fuel',
     qty: 1,
-    unit: 'unit',
-    note: '1 Unit Motor', 
+    unit: 'paket',
+    note: 'Bensin Motor', 
+    price: 50000, 
+    editable: true 
+  },
+  { 
+    id: 6, 
+    item: 'Operasional Doyok', 
+    icon: 'fuel',
+    qty: 1,
+    unit: 'paket',
+    note: 'Bensin Motor', 
     price: 100000, 
+    editable: true 
+  }
+];
+
+// Hadiah Fun Games
+export const hadiah = [
+  { 
+    id: 1, 
+    item: 'Hadiah Fun Games', 
+    icon: 'game',
+    qty: 1,
+    unit: 'paket',
+    note: 'Juara 1, 2, 3 (per kelompok)', 
+    price: 800000, 
     editable: true 
   }
 ];
