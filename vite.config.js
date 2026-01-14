@@ -18,7 +18,7 @@ export default {
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        games: path.resolve(__dirname, 'games.html')
+        brief: path.resolve(__dirname, 'brief.html')
       }
     }
   },
