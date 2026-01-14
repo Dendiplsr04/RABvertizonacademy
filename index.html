@@ -5,1544 +5,584 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>RAB - Vertizon Academy Super Boot Camp</title>
-    <meta name="title" content="RAB - Vertizon Academy Super Boot Camp" />
-    <meta name="description" content="Rencana Anggaran Biaya - Vertizon Academy Super Boot Camp 2026" />
+    <title>Project Web Game - Proposal & Perencanaan</title>
+    <meta name="title" content="Project Web Game - Proposal & Perencanaan" />
+    <meta name="description" content="Proposal pembuatan Website & Aplikasi Top Up Game profesional" />
     
     <link rel="manifest" href="/app.webmanifest" />
     <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#0a0a0f" />
     <meta name="mobile-web-app-capable" content="yes" />
     
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      :root {
-        --primary: #0f172a;
-        --secondary: #1e293b;
-        --tertiary: #334155;
-        --emerald: #10b981;
-        --emerald-light: #34d399;
-        --emerald-dark: #059669;
-        --emerald-glow: rgba(16, 185, 129, 0.3);
-        --gold: #fbbf24;
-        --text: #f8fafc;
-        --text-muted: #94a3b8;
-        --text-dark: #64748b;
-        --success: #22c55e;
-        --border: rgba(255, 255, 255, 0.1);
-        --glass: rgba(30, 41, 59, 0.7);
-        --glass-border: rgba(255, 255, 255, 0.08);
-      }
-
-      body {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        background: var(--primary);
-        color: var(--text);
-        min-height: 100vh;
-        line-height: 1.6;
-        overflow-x: hidden;
-      }
-
-      #canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      .container {
-        position: relative;
-        z-index: 10;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 24px;
-      }
-
-      /* Header with Glassmorphism */
-      .header {
-        text-align: center;
-        padding: 50px 30px;
-        margin-bottom: 40px;
-        background: var(--glass);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 24px;
-        border: 1px solid var(--glass-border);
-        box-shadow: 
-          0 25px 50px -12px rgba(0, 0, 0, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--emerald-dark), var(--emerald), var(--emerald-light));
-      }
-
-      .header h1 {
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin-bottom: 12px;
-        background: linear-gradient(135deg, var(--emerald-light), var(--emerald), var(--emerald-dark));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-
-      .header .event-name {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 8px;
-      }
-
-      .header .theme {
-        font-size: 0.95rem;
-        color: var(--text-muted);
-        margin-bottom: 24px;
-        font-style: italic;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .event-info {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 24px;
-        font-size: 0.9rem;
-      }
-
-      .event-info-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 20px;
-        background: rgba(16, 185, 129, 0.1);
-        border-radius: 50px;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-
-      .event-info-item .icon {
-        width: 20px;
-        height: 20px;
-        color: var(--emerald);
-      }
-
-      /* Section Cards */
-      .section {
-        background: var(--glass);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 20px;
-        border: 1px solid var(--glass-border);
-        margin-bottom: 28px;
-        overflow: hidden;
-        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .section:hover {
-        transform: translateY(-4px);
-        box-shadow: 
-          0 30px 60px -20px rgba(0, 0, 0, 0.5),
-          0 0 40px var(--emerald-glow);
-      }
-
-      .section-header {
-        background: linear-gradient(135deg, var(--secondary), var(--tertiary));
-        padding: 20px 24px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .section-title-wrap {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-
-      .section-icon {
-        width: 44px;
-        height: 44px;
-        background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px var(--emerald-glow);
-      }
-
-      .section-icon svg {
-        width: 24px;
-        height: 24px;
-        color: white;
-      }
-
-      .section-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--text);
-      }
-
-      .section-subtitle {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        margin-top: 2px;
-      }
-
-      .section-subtotal {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--emerald);
-        padding: 8px 16px;
-        background: rgba(16, 185, 129, 0.1);
-        border-radius: 10px;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-
-      /* Item Cards Grid */
-      .items-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 16px;
-        padding: 20px;
-      }
-
-      .item-card {
-        background: linear-gradient(145deg, var(--secondary), var(--tertiary));
-        border-radius: 16px;
-        padding: 18px;
-        border: 1px solid var(--border);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .item-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--emerald), var(--emerald-dark));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .item-card:hover {
-        border-color: rgba(16, 185, 129, 0.3);
-        transform: translateX(4px);
-      }
-
-      .item-card:hover::before {
-        opacity: 1;
-      }
-
-      .item-header {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        margin-bottom: 12px;
-      }
-
-      .item-icon {
-        width: 42px;
-        height: 42px;
-        min-width: 42px;
-        background: rgba(16, 185, 129, 0.15);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--emerald);
-      }
-
-      .item-icon svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      .item-info {
-        flex: 1;
-      }
-
-      .item-name {
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--text);
-        margin-bottom: 4px;
-      }
-
-      .item-note {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        line-height: 1.4;
-      }
-
-      .item-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 14px;
-        padding-top: 14px;
-        border-top: 1px solid var(--border);
-      }
-
-      .provider-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        background: rgba(34, 197, 94, 0.15);
-        color: var(--success);
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
-
-      .provider-badge svg {
-        width: 14px;
-        height: 14px;
-      }
-
-      .provided-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        background: rgba(16, 185, 129, 0.15);
-        color: var(--emerald);
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
-
-      .price-input {
-        background: var(--primary);
-        border: 2px solid var(--border);
-        border-radius: 10px;
-        padding: 10px 14px;
-        color: var(--emerald-light);
-        font-size: 0.95rem;
-        font-weight: 600;
-        width: 150px;
-        text-align: right;
-        transition: all 0.3s ease;
-        font-family: 'Inter', monospace;
-      }
-
-      .price-input:focus {
-        outline: none;
-        border-color: var(--emerald);
-        box-shadow: 0 0 20px var(--emerald-glow);
-      }
-
-      .price-display {
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--emerald-light);
-        font-family: 'Inter', monospace;
-      }
-
-      .price-calculated {
-        background: rgba(16, 185, 129, 0.1);
-        padding: 8px 14px;
-        border-radius: 10px;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-
-      /* Qty Calculator */
-      .qty-calculator {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 8px;
-        flex-wrap: wrap;
-      }
-
-      .qty-input {
-        width: 60px;
-        background: var(--primary);
-        border: 2px solid var(--border);
-        border-radius: 8px;
-        padding: 6px 10px;
-        color: var(--emerald-light);
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-align: center;
-        font-family: 'Inter', monospace;
-        transition: all 0.3s ease;
-      }
-
-      .qty-input:focus {
-        outline: none;
-        border-color: var(--emerald);
-        box-shadow: 0 0 15px var(--emerald-glow);
-      }
-
-      .qty-input::-webkit-inner-spin-button,
-      .qty-input::-webkit-outer-spin-button {
-        opacity: 1;
-      }
-
-      .qty-unit {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        font-weight: 500;
-      }
-
-      .qty-multiply {
-        color: var(--text-dark);
-        font-weight: 600;
-      }
-
-      .qty-price {
-        font-size: 0.85rem;
-        color: var(--emerald);
-        font-weight: 600;
-        background: rgba(16, 185, 129, 0.1);
-        padding: 4px 10px;
-        border-radius: 6px;
-      }
-
-      .qty-badge {
-        display: inline-block;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        background: var(--tertiary);
-        padding: 4px 10px;
-        border-radius: 6px;
-        margin-top: 6px;
-      }
-
-      /* Total Section */
-      .total-section {
-        background: linear-gradient(135deg, var(--emerald-dark), var(--emerald), var(--emerald-light));
-        border-radius: 24px;
-        padding: 40px;
-        text-align: center;
-        margin-top: 40px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 
-          0 25px 50px -12px rgba(16, 185, 129, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      }
-
-      .total-section::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-        animation: shimmer 3s infinite;
-      }
-
-      @keyframes shimmer {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      .total-label {
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.8);
-        margin-bottom: 10px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        position: relative;
-      }
-
-      .total-amount {
-        font-size: 3rem;
-        font-weight: 800;
-        color: white;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        position: relative;
-        font-family: 'Inter', monospace;
-      }
-
-      /* Export Buttons Container */
-      .export-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        z-index: 100;
-      }
-
-      /* Export Button */
-      .export-btn {
-        background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
-        color: white;
-        border: none;
-        padding: 14px 24px;
-        border-radius: 50px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 
-          0 10px 30px rgba(16, 185, 129, 0.4),
-          0 0 0 0 rgba(16, 185, 129, 0.4);
-        transition: all 0.3s ease;
-        animation: pulse 2s infinite;
-      }
-
-      @keyframes pulse {
-        0%, 100% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4), 0 0 0 0 rgba(16, 185, 129, 0.4); }
-        50% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4), 0 0 0 10px rgba(16, 185, 129, 0); }
-      }
-
-      .export-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
-      }
-
-      .export-btn.export-rundown {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-        animation: pulse-blue 2s infinite;
-      }
-
-      @keyframes pulse-blue {
-        0%, 100% { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4), 0 0 0 0 rgba(59, 130, 246, 0.4); }
-        50% { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4), 0 0 0 10px rgba(59, 130, 246, 0); }
-      }
-
-      .export-btn.export-rundown:hover {
-        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
-      }
-
-      .export-btn.export-excel {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);
-        animation: pulse-green 2s infinite;
-      }
-
-      @keyframes pulse-green {
-        0%, 100% { box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4), 0 0 0 0 rgba(34, 197, 94, 0.4); }
-        50% { box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4), 0 0 0 10px rgba(34, 197, 94, 0); }
-      }
-
-      .export-btn.export-excel:hover {
-        box-shadow: 0 15px 40px rgba(34, 197, 94, 0.5);
-      }
-
-      .export-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      /* Games Button */
-      .games-btn {
-        position: fixed;
-        bottom: 30px;
-        left: 30px;
-        background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-        color: white;
-        border: none;
-        padding: 16px 28px;
-        border-radius: 50px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-        transition: all 0.3s ease;
-        z-index: 100;
-        text-decoration: none;
-      }
-
-      .games-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
-      }
-
-      .games-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      /* Footer */
-      .footer {
-        text-align: center;
-        padding: 40px 20px;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-      }
-
-      .footer p {
-        margin-bottom: 4px;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .container {
-          padding: 16px;
-        }
-
-        .header {
-          padding: 30px 20px;
-        }
-
-        .header h1 {
-          font-size: 1.5rem;
-          letter-spacing: 1px;
-        }
-
-        .header .event-name {
-          font-size: 1.1rem;
-        }
-
-        .event-info {
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .items-grid {
-          grid-template-columns: 1fr;
-          padding: 16px;
-          gap: 12px;
-        }
-
-        .section-header {
-          flex-direction: column;
-          gap: 12px;
-          align-items: flex-start;
-        }
-
-        .total-amount {
-          font-size: 2rem;
-        }
-
-        .export-btn {
-          bottom: 20px;
-          right: 20px;
-          padding: 14px 20px;
-          font-size: 0.9rem;
-        }
-
-        .price-input {
-          width: 120px;
-          font-size: 0.85rem;
-        }
-      }
-
-      /* Animations */
-      @keyframes fadeInUp {
-        from { 
-          opacity: 0; 
-          transform: translateY(30px); 
-        }
-        to { 
-          opacity: 1; 
-          transform: translateY(0); 
-        }
-      }
-
-      .section {
-        animation: fadeInUp 0.6s ease-out forwards;
-        opacity: 0;
-      }
-
-      .section:nth-child(1) { animation-delay: 0.1s; }
-      .section:nth-child(2) { animation-delay: 0.2s; }
-      .section:nth-child(3) { animation-delay: 0.3s; }
-      .section:nth-child(4) { animation-delay: 0.4s; }
-      .section:nth-child(5) { animation-delay: 0.5s; }
-      .section:nth-child(6) { animation-delay: 0.6s; }
-      .section:nth-child(7) { animation-delay: 0.7s; }
-
-      .header {
-        animation: fadeInUp 0.6s ease-out forwards;
-      }
-
-      /* ========== STRUKTUR KEPANITIAAN ========== */
-      .org-chart {
-        padding: 30px 20px;
-        position: relative;
-      }
-
-      .org-level {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-        position: relative;
-      }
-
-      .org-level::after {
-        content: '';
-        position: absolute;
-        bottom: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 2px;
-        height: 15px;
-        background: linear-gradient(180deg, var(--emerald), transparent);
-      }
-
-      .org-level:last-child::after {
-        display: none;
-      }
-
-      .org-level.sie-level {
-        gap: 16px;
-      }
-
-      .org-level.sie-level::after {
-        display: none;
-      }
-
-      .org-card {
-        background: linear-gradient(145deg, var(--secondary), var(--tertiary));
-        border-radius: 16px;
-        padding: 20px 28px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        min-width: 180px;
-        border: 2px solid transparent;
-      }
-
-      .org-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: var(--card-color, var(--emerald));
-      }
-
-      .org-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.05) 100%);
-        pointer-events: none;
-      }
-
-      .org-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        border-color: var(--card-color, var(--emerald));
-        box-shadow: 
-          0 20px 40px -10px rgba(0,0,0,0.5),
-          0 0 30px color-mix(in srgb, var(--card-color, var(--emerald)) 30%, transparent);
-      }
-
-      .org-icon {
-        width: 50px;
-        height: 50px;
-        margin: 0 auto 12px;
-        background: color-mix(in srgb, var(--card-color, var(--emerald)) 20%, transparent);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--card-color, var(--emerald));
-      }
-
-      .org-icon svg {
-        width: 24px;
-        height: 24px;
-        color: var(--card-color, var(--emerald));
-      }
-
-      .org-posisi {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--card-color, var(--emerald));
-        margin-bottom: 6px;
-      }
-
-      .org-nama {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--text);
-      }
-
-      .org-nama-list {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: var(--text);
-        line-height: 1.6;
-      }
-
-      .org-catatan {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-top: 8px;
-        font-style: italic;
-      }
-
-      .org-card.ketua {
-        --card-color: #10b981;
-        min-width: 220px;
-        padding: 24px 32px;
-      }
-
-      .org-card.wakil {
-        --card-color: #059669;
-      }
-
-      .org-card.sekretaris {
-        --card-color: #3b82f6;
-      }
-
-      .org-card.bendahara {
-        --card-color: #f59e0b;
-      }
-
-      .org-card.sie-acara {
-        --card-color: #8b5cf6;
-      }
-
-      .org-card.sie-konsumsi {
-        --card-color: #ec4899;
-      }
-
-      .org-card.sie-dokumentasi {
-        --card-color: #06b6d4;
-      }
-
-      .org-card.sie-peralatan {
-        --card-color: #f97316;
-      }
-
-      /* Connection Lines */
-      .org-connector {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-
-      .connector-line {
-        width: 60%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, var(--emerald), transparent);
-        position: relative;
-      }
-
-      .connector-line::before,
-      .connector-line::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        width: 2px;
-        height: 20px;
-        background: var(--emerald);
-      }
-
-      .connector-line::before { left: 25%; }
-      .connector-line::after { right: 25%; }
-
-      /* ========== RUNDOWN ACARA ========== */
-      .rundown-container {
-        padding: 20px;
-      }
-
-      .rundown-day {
-        margin-bottom: 30px;
-      }
-
-      .rundown-day:last-child {
-        margin-bottom: 0;
-      }
-
-      .day-header {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 20px;
-        padding: 16px 20px;
-        background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
-        border-radius: 12px;
-      }
-
-      .day-badge {
-        background: white;
-        color: var(--emerald-dark);
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-weight: 800;
-        font-size: 0.9rem;
-      }
-
-      .day-info {
-        color: white;
-      }
-
-      .day-info .day-name {
-        font-size: 1.2rem;
-        font-weight: 700;
-      }
-
-      .day-info .day-date {
-        font-size: 0.85rem;
-        opacity: 0.9;
-      }
-
-      .timeline {
-        position: relative;
-        padding-left: 30px;
-      }
-
-      .timeline::before {
-        content: '';
-        position: absolute;
-        left: 8px;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: linear-gradient(180deg, var(--emerald), var(--emerald-dark), var(--tertiary));
-        border-radius: 3px;
-      }
-
-      .timeline-item {
-        position: relative;
-        padding: 16px 20px;
-        margin-bottom: 12px;
-        background: linear-gradient(145deg, var(--secondary), var(--tertiary));
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        transition: all 0.3s ease;
-      }
-
-      .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -26px;
-        top: 24px;
-        width: 14px;
-        height: 14px;
-        background: var(--item-color, var(--emerald));
-        border-radius: 50%;
-        border: 3px solid var(--primary);
-        box-shadow: 0 0 10px var(--item-color, var(--emerald));
-      }
-
-      .timeline-item:hover {
-        transform: translateX(8px);
-        border-color: var(--item-color, var(--emerald));
-        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.4);
-      }
-
-      .timeline-item.registration { --item-color: #3b82f6; }
-      .timeline-item.ceremony { --item-color: #10b981; }
-      .timeline-item.break { --item-color: #f59e0b; }
-      .timeline-item.materi { --item-color: #8b5cf6; }
-      .timeline-item.meeting { --item-color: #ef4444; }
-      .timeline-item.dinner { --item-color: #ec4899; }
-      .timeline-item.religious { --item-color: #14b8a6; }
-      .timeline-item.games { --item-color: #f97316; }
-      .timeline-item.checkout { --item-color: #6b7280; }
-
-      .timeline-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 8px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .timeline-time {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--item-color, var(--emerald));
-        background: color-mix(in srgb, var(--item-color, var(--emerald)) 15%, transparent);
-        padding: 4px 12px;
-        border-radius: 20px;
-      }
-
-      .timeline-agenda {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--text);
-      }
-
-      .timeline-detail {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        margin-bottom: 10px;
-      }
-
-      .timeline-pic {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.8rem;
-        color: var(--text-dark);
-        background: rgba(255,255,255,0.05);
-        padding: 6px 12px;
-        border-radius: 20px;
-      }
-
-      .timeline-pic svg {
-        width: 14px;
-        height: 14px;
-        color: var(--emerald);
-      }
-
-      /* ========== RAB DIVIDER ========== */
-      .rab-divider {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin: 50px 0 40px;
-        padding: 0 20px;
-      }
-
-      .divider-line {
-        flex: 1;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, var(--emerald), transparent);
-      }
-
-      .divider-text {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 28px;
-        background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
-        border-radius: 50px;
-        color: white;
-        font-size: 1rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-      }
-
-      @media (max-width: 768px) {
-        .rab-divider {
-          margin: 40px 0 30px;
-          gap: 12px;
-        }
-
-        .divider-text {
-          padding: 10px 16px;
-          font-size: 0.75rem;
-          letter-spacing: 1px;
-        }
-
-        .divider-text svg {
-          width: 18px !important;
-          height: 18px !important;
-        }
-      }
-
-      /* ========== MOBILE RESPONSIVE ========== */
-      @media (max-width: 768px) {
-        .org-chart {
-          padding: 20px 10px;
-        }
-
-        .org-level {
-          flex-direction: column;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .org-level.sie-level {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-
-        .org-card {
-          min-width: unset;
-          width: 100%;
-          max-width: 280px;
-          padding: 16px 20px;
-        }
-
-        .org-card.ketua {
-          min-width: unset;
-          padding: 20px 24px;
-        }
-
-        .org-level.sie-level .org-card {
-          max-width: unset;
-        }
-
-        .org-icon {
-          width: 40px;
-          height: 40px;
-        }
-
-        .org-icon svg {
-          width: 20px;
-          height: 20px;
-        }
-
-        .org-nama {
-          font-size: 1rem;
-        }
-
-        .connector-line {
-          display: none;
-        }
-
-        .rundown-container {
-          padding: 16px;
-        }
-
-        .day-header {
-          flex-direction: column;
-          text-align: center;
-          gap: 10px;
-        }
-
-        .timeline {
-          padding-left: 24px;
-        }
-
-        .timeline::before {
-          left: 6px;
-        }
-
-        .timeline-item {
-          padding: 14px 16px;
-        }
-
-        .timeline-item::before {
-          left: -22px;
-          width: 12px;
-          height: 12px;
-        }
-
-        .timeline-header {
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .games-btn {
-          padding: 12px 16px;
-          font-size: 0.85rem;
-          left: 16px;
-          bottom: 16px;
-        }
-
-        .export-buttons {
-          right: 16px;
-          bottom: 16px;
-          gap: 8px;
-        }
-
-        .export-btn {
-          padding: 10px 14px;
-          font-size: 0.8rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .org-level.sie-level {
-          grid-template-columns: 1fr;
-        }
-
-        .header h1 {
-          font-size: 1.3rem;
-        }
-
-        .total-amount {
-          font-size: 1.8rem;
-        }
-
-        .total-section {
-          padding: 30px 20px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="/src/css/presentation.css" />
   </head>
   <body>
+    <!-- 3D Canvas Background -->
     <canvas id="canvas"></canvas>
 
-    <div class="container">
-      <header class="header">
-        <h1>Rencana Anggaran Biaya</h1>
-        <p class="event-name" id="event-name"></p>
-        <p class="theme" id="event-theme"></p>
-        <div class="event-info">
-          <div class="event-info-item">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span id="event-date"></span>
-          </div>
-          <div class="event-info-item">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span id="event-location"></span>
-          </div>
-          <div class="event-info-item">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
-            </svg>
-            <span id="event-participants"></span>
-          </div>
-        </div>
-      </header>
-
-      <!-- Section 1: Struktur Kepanitiaan -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <div class="section-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Struktur Kepanitiaan</div>
-              <div class="section-subtitle">Tim pelaksana Super Boot Camp 2026</div>
-            </div>
-          </div>
-        </div>
-        <div class="org-chart" id="org-chart">
-          <!-- Ketua -->
-          <div class="org-level">
-            <div class="org-card ketua">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Ketua</div>
-              <div class="org-nama">Ferdian</div>
-            </div>
-          </div>
-
-          <!-- Wakil Ketua -->
-          <div class="org-level">
-            <div class="org-card wakil">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Wakil Ketua</div>
-              <div class="org-nama">Anim</div>
-            </div>
-          </div>
-
-          <!-- Sekretaris & Bendahara -->
-          <div class="org-level">
-            <div class="org-card sekretaris">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Sekretaris</div>
-              <div class="org-nama">Aziz Jaelani</div>
-            </div>
-            <div class="org-card bendahara">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="16" x2="6" y2="16.01"/><line x1="10" y1="16" x2="14" y2="16"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Bendahara</div>
-              <div class="org-nama">Atikah</div>
-            </div>
-          </div>
-
-          <!-- Sie-Sie -->
-          <div class="org-level sie-level">
-            <div class="org-card sie-acara">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Sie Acara</div>
-              <div class="org-nama-list">Nanda<br>Ustad Satria<br>Doyok</div>
-              <div class="org-catatan">Memimpin doa: Ustad Satria</div>
-            </div>
-            <div class="org-card sie-konsumsi">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Sie Konsumsi</div>
-              <div class="org-nama-list">Sarah<br>Nabila</div>
-            </div>
-            <div class="org-card sie-dokumentasi">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Sie Dokumentasi</div>
-              <div class="org-nama-list">Umam<br>Bagas</div>
-            </div>
-            <div class="org-card sie-peralatan">
-              <div class="org-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-                </svg>
-              </div>
-              <div class="org-posisi">Sie Peralatan</div>
-              <div class="org-nama-list">Faris Azam<br>Agung</div>
-            </div>
-          </div>
-        </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">🎮</span>
+        <span class="brand-text">Project Web Game</span>
       </div>
-
-      <!-- Section 2: Rundown Acara -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <div class="section-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Rundown Acara</div>
-              <div class="section-subtitle">Jadwal kegiatan 2 hari</div>
-            </div>
-          </div>
-        </div>
-        <div class="rundown-container">
-          <!-- Hari 1 -->
-          <div class="rundown-day">
-            <div class="day-header">
-              <div class="day-badge">HARI 1</div>
-              <div class="day-info">
-                <div class="day-name">Kamis</div>
-                <div class="day-date">15 Januari 2026</div>
-              </div>
-            </div>
-            <div class="timeline" id="timeline-hari1"></div>
-          </div>
-
-          <!-- Hari 2 -->
-          <div class="rundown-day">
-            <div class="day-header" style="background: linear-gradient(135deg, #6d28d9, #8b5cf6);">
-              <div class="day-badge" style="color: #6d28d9;">HARI 2</div>
-              <div class="day-info">
-                <div class="day-name">Jumat</div>
-                <div class="day-date">16 Januari 2026</div>
-              </div>
-            </div>
-            <div class="timeline" id="timeline-hari2"></div>
-          </div>
-        </div>
+      <div class="nav-links">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#features" class="nav-link">Fitur</a>
+        <a href="#workflow" class="nav-link">Alur Kerja</a>
+        <a href="#timeline" class="nav-link">Timeline</a>
+        <a href="#tech" class="nav-link">Teknologi</a>
+        <a href="brief.html" class="nav-link nav-cta">📝 Brief Form</a>
       </div>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
 
-      <!-- Divider: RAB Section -->
-      <div class="rab-divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
-          </svg>
-          <span>RENCANA ANGGARAN BIAYA</span>
-        </div>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- Section 3: Peralatan (RAB) -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <div class="section-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Peralatan</div>
-              <div class="section-subtitle">Perlengkapan teknis & pendukung acara</div>
-            </div>
-          </div>
-          <div class="section-subtotal" id="subtotal-peralatan">Rp 0</div>
-        </div>
-        <div class="items-grid" id="grid-peralatan"></div>
-      </div>
-
-      <!-- Section 4: Konsumsi Bu Nany -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <div class="section-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Konsumsi (Bu Nany)</div>
-              <div class="section-subtitle">Menu makan & minuman selama acara</div>
-            </div>
-          </div>
-          <div class="provided-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            Disediakan
-          </div>
-        </div>
-        <div class="items-grid" id="grid-konsumsi-nany"></div>
-      </div>
-
-      <!-- Section 5: Konsumsi Kita -->
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <div class="section-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Konsumsi (Tim Kita)</div>
-              <div class="section-subtitle">Belanja tambahan dari tim</div>
-            </div>
-          </div>
-          <div class="section-subtotal" id="subtotal-konsumsi">Rp 0</div>
-        </div>
-        <div class="items-grid" id="grid-konsumsi-kita"></div>
-      </div>
-
-      <!-- Section 6: Akomodasi & Transport -->
-      <div class="section" style="--section-color: #f97316;">
-        <div class="section-header" style="background: linear-gradient(135deg, #c2410c, #ea580c);">
-          <div class="section-title-wrap">
-            <div class="section-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M5 12h14"/><path d="M7 8l1-3h8l1 3"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Akomodasi & Transport</div>
-              <div class="section-subtitle">Sewa mobil, bensin & transportasi panitia</div>
-            </div>
-          </div>
-          <div class="section-subtotal" id="subtotal-akomodasi" style="background: rgba(249, 115, 22, 0.2); border-color: rgba(249, 115, 22, 0.3); color: #fb923c;">Rp 0</div>
-        </div>
-        <div class="items-grid" id="grid-akomodasi"></div>
-      </div>
-
-      <!-- Section 7: Fun Games -->
-      <div class="section" style="--section-color: #8b5cf6;">
-        <div class="section-header" style="background: linear-gradient(135deg, #4c1d95, #6d28d9);">
-          <div class="section-title-wrap">
-            <div class="section-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12.01"/><line x1="18" y1="12" x2="18" y2="12.01"/><path d="M12 6v4"/><path d="M10 10h4"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Fun Games</div>
-              <div class="section-subtitle">Perlengkapan untuk games</div>
-            </div>
-          </div>
-          <div class="section-subtotal" id="subtotal-games" style="background: rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.3); color: #a78bfa;">Rp 0</div>
-        </div>
-        <div class="items-grid" id="grid-fun-games"></div>
-      </div>
-
-      <!-- Section 8: Hadiah -->
-      <div class="section" style="--section-color: #fbbf24;">
-        <div class="section-header" style="background: linear-gradient(135deg, #b45309, #d97706);">
-          <div class="section-title-wrap">
-            <div class="section-icon" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="section-title">Hadiah</div>
-              <div class="section-subtitle">Hadiah untuk pemenang Fun Games</div>
-            </div>
-          </div>
-          <div class="section-subtotal" id="subtotal-hadiah" style="background: rgba(251, 191, 36, 0.2); border-color: rgba(251, 191, 36, 0.3); color: #fbbf24;">Rp 0</div>
-        </div>
-        <div class="items-grid" id="grid-hadiah"></div>
-      </div>
-
-      <!-- Total -->
-      <div class="total-section">
-        <div class="total-label">Total Biaya Keseluruhan</div>
-        <div class="total-amount" id="total-amount">Rp 0</div>
-      </div>
-
-      <!-- Footer -->
-      <footer class="footer">
-        <p>RAB Vertizon Academy – Super Boot Camp 2026</p>
-        <p>Villa Teras Air, Cisarua Bogor</p>
-      </footer>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <a href="#home" class="mobile-link">Home</a>
+      <a href="#overview" class="mobile-link">Overview</a>
+      <a href="#features" class="mobile-link">Fitur</a>
+      <a href="#workflow" class="mobile-link">Alur Kerja</a>
+      <a href="#timeline" class="mobile-link">Timeline</a>
+      <a href="#tech" class="mobile-link">Teknologi</a>
+      <a href="brief.html" class="mobile-link cta">📝 Brief Form</a>
     </div>
 
-    <!-- Export Buttons -->
-    <div class="export-buttons">
-      <button class="export-btn" id="export-pdf">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="15" y1="15" x2="12" y2="18"/>
-        </svg>
-        Export RAB (PDF)
-      </button>
-      <button class="export-btn export-excel" id="export-excel">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/>
-        </svg>
-        Export RAB (Excel)
-      </button>
-      <button class="export-btn export-rundown" id="export-rundown">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/>
-        </svg>
-        Export Rundown
-      </button>
-    </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">🚀 Proposal Project</div>
+        <h1 class="hero-title">
+          <span class="title-line">Website &</span>
+          <span class="title-line gradient-text">Aplikasi Top Up Game</span>
+        </h1>
+        <p class="hero-subtitle">
+          Solusi lengkap untuk bisnis top up game Anda dengan teknologi modern, 
+          desain premium, dan pengalaman pengguna terbaik.
+        </p>
+        <div class="hero-buttons">
+          <a href="#overview" class="btn btn-primary">
+            <span>Lihat Detail</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="brief.html" class="btn btn-secondary">
+            <span>Isi Brief Form</span>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">2-3</span>
+            <span class="stat-label">Minggu Pengerjaan</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Fitur Lengkap</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Auto Transaction</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll untuk explore</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
 
-    <!-- Games Button -->
-    <a href="games.html" class="games-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/>
-      </svg>
-      Fun Games
-    </a>
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">📋 Overview</span>
+          <h2 class="section-title">Apa yang Akan Dibangun?</h2>
+          <p class="section-subtitle">Platform top up game lengkap dengan fitur modern dan desain premium</p>
+        </div>
+        
+        <div class="overview-grid">
+          <div class="overview-card main-card">
+            <div class="card-icon">🎯</div>
+            <h3>Tujuan Project</h3>
+            <p>Membangun platform top up game mandiri dengan brand sendiri, lepas dari ketergantungan platform pihak ketiga, dengan tampilan lebih profesional dan fitur lebih lengkap.</p>
+          </div>
+          
+          <div class="overview-card">
+            <div class="card-icon">🌐</div>
+            <h3>Website Responsive</h3>
+            <p>Tampilan optimal di semua device - desktop, tablet, dan mobile</p>
+          </div>
+          
+          <div class="overview-card">
+            <div class="card-icon">📱</div>
+            <h3>PWA Ready</h3>
+            <p>Bisa di-install seperti aplikasi native tanpa perlu Play Store</p>
+          </div>
+          
+          <div class="overview-card">
+            <div class="card-icon">⚡</div>
+            <h3>Transaksi Otomatis</h3>
+            <p>Integrasi API supplier untuk proses order instan 24/7</p>
+          </div>
+          
+          <div class="overview-card">
+            <div class="card-icon">🔒</div>
+            <h3>Keamanan Terjamin</h3>
+            <p>Payment gateway terpercaya dan enkripsi data pengguna</p>
+          </div>
+          
+          <div class="overview-card">
+            <div class="card-icon">📊</div>
+            <h3>Dashboard Admin</h3>
+            <p>Kelola produk, harga, dan laporan penjualan dengan mudah</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script type="module" src="/src/js/rab.js"></script>
+    <!-- Features Section -->
+    <section id="features" class="section section-dark">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">✨ Fitur</span>
+          <h2 class="section-title">Fitur Lengkap yang Akan Tersedia</h2>
+          <p class="section-subtitle">Semua yang dibutuhkan untuk menjalankan bisnis top up game profesional</p>
+        </div>
+
+        <div class="features-tabs">
+          <button class="tab-btn active" data-tab="customer">👤 Fitur Customer</button>
+          <button class="tab-btn" data-tab="admin">⚙️ Fitur Admin</button>
+          <button class="tab-btn" data-tab="system">🔧 Fitur Sistem</button>
+        </div>
+
+        <div class="features-content">
+          <!-- Customer Features -->
+          <div class="tab-content active" id="tab-customer">
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h4>Katalog Game Lengkap</h4>
+                <p>Mobile Legends, Free Fire, PUBG, Genshin Impact, dan game populer lainnya</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h4>Validasi ID Game</h4>
+                <p>Cek nickname otomatis sebelum transaksi untuk menghindari kesalahan</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h4>Multi Payment</h4>
+                <p>QRIS, Virtual Account, E-wallet, Minimarket, dan Transfer Bank</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📜</div>
+                <h4>Riwayat Transaksi</h4>
+                <p>Lacak semua pesanan dengan status real-time</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h4>Notifikasi Otomatis</h4>
+                <p>Update status via WhatsApp atau Email</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <h4>Promo & Voucher</h4>
+                <p>Sistem diskon dan kode voucher untuk customer</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h4>Member & Poin</h4>
+                <p>Sistem membership dengan reward poin setiap transaksi</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h4>Live Chat</h4>
+                <p>Tombol WhatsApp untuk bantuan langsung</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Features -->
+          <div class="tab-content" id="tab-admin">
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h4>Manajemen Produk</h4>
+                <p>Tambah, edit, hapus produk dengan mudah</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h4>Pengaturan Harga</h4>
+                <p>Set harga jual, margin, dan harga khusus member</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h4>Laporan Penjualan</h4>
+                <p>Statistik harian, mingguan, bulanan dengan grafik</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h4>Manajemen User</h4>
+                <p>Kelola data customer dan member</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🎫</div>
+                <h4>Kelola Voucher</h4>
+                <p>Buat dan atur promo/voucher diskon</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h4>Log Transaksi</h4>
+                <p>Riwayat lengkap semua transaksi</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h4>Pengaturan Website</h4>
+                <p>Logo, banner, kontak, dan konfigurasi lainnya</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">💵</div>
+                <h4>Saldo & Deposit</h4>
+                <p>Monitor saldo API dan riwayat deposit</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Features -->
+          <div class="tab-content" id="tab-system">
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">🔌</div>
+                <h4>Integrasi API Supplier</h4>
+                <p>Digiflazz, Apigames, VocaGame, atau supplier pilihan</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h4>Payment Gateway</h4>
+                <p>Midtrans, Xendit, Tripay, atau Duitku</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h4>Auto Processing</h4>
+                <p>Transaksi diproses otomatis 24/7 tanpa manual</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h4>WhatsApp API</h4>
+                <p>Notifikasi otomatis ke customer via WA</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h4>SSL & Security</h4>
+                <p>Enkripsi data dan keamanan transaksi</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h4>Cloud Hosting</h4>
+                <p>Server cepat dan stabil dengan uptime 99.9%</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h4>SEO Optimized</h4>
+                <p>Struktur website ramah mesin pencari</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h4>Performance</h4>
+                <p>Loading cepat dengan optimasi maksimal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🔄 Alur Kerja</span>
+          <h2 class="section-title">Bagaimana Sistem Bekerja?</h2>
+          <p class="section-subtitle">Proses transaksi otomatis dari order hingga diamond masuk</p>
+        </div>
+
+        <div class="workflow-container">
+          <div class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-icon">🎮</div>
+            <h4>Pilih Game & Nominal</h4>
+            <p>Customer memilih game dan jumlah diamond/voucher yang diinginkan</p>
+          </div>
+          
+          <div class="workflow-arrow">→</div>
+          
+          <div class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-icon">📝</div>
+            <h4>Input ID Game</h4>
+            <p>Masukkan User ID dan Server ID, sistem validasi nickname otomatis</p>
+          </div>
+          
+          <div class="workflow-arrow">→</div>
+          
+          <div class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-icon">💳</div>
+            <h4>Pilih Pembayaran</h4>
+            <p>Pilih metode pembayaran yang tersedia (QRIS, VA, E-wallet, dll)</p>
+          </div>
+          
+          <div class="workflow-arrow">→</div>
+          
+          <div class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-icon">✅</div>
+            <h4>Bayar & Konfirmasi</h4>
+            <p>Selesaikan pembayaran, sistem deteksi otomatis</p>
+          </div>
+          
+          <div class="workflow-arrow">→</div>
+          
+          <div class="workflow-step">
+            <div class="step-number">5</div>
+            <div class="step-icon">⚡</div>
+            <h4>Proses Otomatis</h4>
+            <p>Sistem kirim request ke API supplier secara instan</p>
+          </div>
+          
+          <div class="workflow-arrow">→</div>
+          
+          <div class="workflow-step highlight">
+            <div class="step-number">6</div>
+            <div class="step-icon">🎉</div>
+            <h4>Diamond Masuk!</h4>
+            <p>Customer terima diamond dalam hitungan detik</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="section section-dark">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">📅 Timeline</span>
+          <h2 class="section-title">Tahapan Pengerjaan</h2>
+          <p class="section-subtitle">Estimasi waktu pengerjaan 2-3 minggu</p>
+        </div>
+
+        <div class="timeline-container">
+          <div class="timeline-line"></div>
+          
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <span>Minggu 1</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-phase">
+                <h4>📋 Fase 1: Persiapan & Setup</h4>
+                <ul>
+                  <li>Finalisasi requirement dari brief form</li>
+                  <li>Setup project & environment</li>
+                  <li>Desain UI/UX mockup</li>
+                  <li>Setup database & struktur</li>
+                </ul>
+                <span class="timeline-duration">Hari 1-3</span>
+              </div>
+              <div class="timeline-phase">
+                <h4>🎨 Fase 2: Frontend Development</h4>
+                <ul>
+                  <li>Halaman utama & katalog game</li>
+                  <li>Halaman detail produk & checkout</li>
+                  <li>Halaman riwayat & tracking</li>
+                  <li>Responsive design</li>
+                </ul>
+                <span class="timeline-duration">Hari 4-7</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <span>Minggu 2</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-phase">
+                <h4>⚙️ Fase 3: Backend & Integrasi</h4>
+                <ul>
+                  <li>Integrasi API supplier (Digiflazz/Apigames)</li>
+                  <li>Integrasi payment gateway</li>
+                  <li>Sistem transaksi otomatis</li>
+                  <li>Notifikasi WhatsApp/Email</li>
+                </ul>
+                <span class="timeline-duration">Hari 8-11</span>
+              </div>
+              <div class="timeline-phase">
+                <h4>🔧 Fase 4: Admin Panel</h4>
+                <ul>
+                  <li>Dashboard admin</li>
+                  <li>Manajemen produk & harga</li>
+                  <li>Laporan & statistik</li>
+                  <li>Pengaturan website</li>
+                </ul>
+                <span class="timeline-duration">Hari 12-14</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker highlight">
+              <span>Minggu 3</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-phase">
+                <h4>🧪 Fase 5: Testing & Optimasi</h4>
+                <ul>
+                  <li>Testing semua fitur</li>
+                  <li>Testing transaksi real</li>
+                  <li>Bug fixing & optimasi</li>
+                  <li>Performance tuning</li>
+                </ul>
+                <span class="timeline-duration">Hari 15-18</span>
+              </div>
+              <div class="timeline-phase highlight">
+                <h4>🚀 Fase 6: Deployment & Launch</h4>
+                <ul>
+                  <li>Setup hosting & domain</li>
+                  <li>SSL & security configuration</li>
+                  <li>Final review & handover</li>
+                  <li>Training penggunaan admin</li>
+                </ul>
+                <span class="timeline-duration">Hari 19-21</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-note">
+          <div class="note-icon">💡</div>
+          <p><strong>Catatan:</strong> Timeline bisa lebih cepat (kurang dari 2 minggu) tergantung kompleksitas fitur dan kecepatan feedback dari klien.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🛠️ Teknologi</span>
+          <h2 class="section-title">Tech Stack yang Digunakan</h2>
+          <p class="section-subtitle">Teknologi modern untuk performa dan keamanan terbaik</p>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-category">
+            <h4>Frontend</h4>
+            <div class="tech-items">
+              <div class="tech-item">
+                <span class="tech-icon">⚛️</span>
+                <span>React / Next.js</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🎨</span>
+                <span>Tailwind CSS</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🌐</span>
+                <span>Three.js (3D)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>Backend</h4>
+            <div class="tech-items">
+              <div class="tech-item">
+                <span class="tech-icon">🟢</span>
+                <span>Node.js / Laravel</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🗄️</span>
+                <span>MySQL / PostgreSQL</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🔴</span>
+                <span>Redis (Cache)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>Integrasi</h4>
+            <div class="tech-items">
+              <div class="tech-item">
+                <span class="tech-icon">🔌</span>
+                <span>Digiflazz / Apigames</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">💳</span>
+                <span>Midtrans / Xendit</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">📱</span>
+                <span>WhatsApp API</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4>Infrastructure</h4>
+            <div class="tech-items">
+              <div class="tech-item">
+                <span class="tech-icon">☁️</span>
+                <span>Cloud Hosting</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🔒</span>
+                <span>SSL Certificate</span>
+              </div>
+              <div class="tech-item">
+                <span class="tech-icon">🚀</span>
+                <span>CDN & Caching</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Siap Memulai Project?</h2>
+          <p>Isi brief form untuk memulai diskusi lebih lanjut tentang kebutuhan website top up game Anda.</p>
+          <a href="brief.html" class="btn btn-primary btn-large">
+            <span>📝 Isi Brief Form Sekarang</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>Project Web Game - Proposal & Perencanaan</p>
+        <p class="footer-note">Dokumen ini dibuat untuk presentasi kepada klien</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/presentation.js"></script>
   </body>
 </html>

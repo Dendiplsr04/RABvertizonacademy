@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Brief Form - Project Web Game</title>
+    <meta name="title" content="Brief Form - Project Web Game" />
+    <meta name="description" content="Formulir brief untuk project Website & Aplikasi Top Up Game" />
+    
+    <link rel="manifest" href="/app.webmanifest" />
+    <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" href="/src/css/presentation.css" />
+    <link rel="stylesheet" href="/src/css/brief-form.css" />
+  </head>
+  <body>
+    <!-- 3D Canvas Background -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">🎮</span>
+        <span class="brand-text">Project Web Game</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">← Kembali ke Proposal</a>
+      </div>
+    </nav>
+
+    <!-- Brief Form Section -->
+    <section class="brief-section">
+      <div class="container">
+        <div class="brief-header">
+          <span class="section-badge">📝 Brief Form</span>
+          <h1>Formulir Kebutuhan Project</h1>
+          <p>Mohon isi formulir berikut untuk membantu kami memahami kebutuhan Anda dengan lebih baik.</p>
+        </div>
+
+        <form class="brief-form" id="briefForm">
+          <!-- Section 1: Informasi Bisnis -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">1</span>
+              <h3>Informasi Bisnis</h3>
+            </div>
+            
+            <div class="form-group">
+              <label for="brandName">Nama Brand/Usaha yang akan digunakan <span class="required">*</span></label>
+              <input type="text" id="brandName" name="brandName" placeholder="Contoh: DiamondKu, TopUpCepat, dll" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="hasDomain">Apakah sudah memiliki domain?</label>
+                <select id="hasDomain" name="hasDomain">
+                  <option value="">Pilih...</option>
+                  <option value="yes">Ya, sudah punya</option>
+                  <option value="no">Belum punya</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="domainName">Jika sudah, sebutkan domain:</label>
+                <input type="text" id="domainName" name="domainName" placeholder="contoh.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="hasLogo">Apakah sudah memiliki logo?</label>
+                <select id="hasLogo" name="hasLogo">
+                  <option value="">Pilih...</option>
+                  <option value="yes">Ya, sudah punya</option>
+                  <option value="no">Belum, perlu dibuatkan</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="businessDuration">Berapa lama sudah menjalankan bisnis top up?</label>
+                <select id="businessDuration" name="businessDuration">
+                  <option value="">Pilih...</option>
+                  <option value="new">Baru akan mulai</option>
+                  <option value="<1year">Kurang dari 1 tahun</option>
+                  <option value="1-2years">1-2 tahun</option>
+                  <option value=">2years">Lebih dari 2 tahun</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="currentPlatform">Saat ini menggunakan platform apa untuk berjualan?</label>
+              <textarea id="currentPlatform" name="currentPlatform" rows="2" placeholder="Contoh: Shopee, Tokopedia, Instagram, platform top up lain, dll"></textarea>
+            </div>
+          </div>
+
+          <!-- Section 2: Produk & Supplier -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">2</span>
+              <h3>Produk & Supplier</h3>
+            </div>
+
+            <div class="form-group">
+              <label>Game apa saja yang ingin dijual? <span class="required">*</span></label>
+              <div class="checkbox-grid">
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="mobile-legends">
+                  <span class="checkmark"></span>
+                  <span>Mobile Legends</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="free-fire">
+                  <span class="checkmark"></span>
+                  <span>Free Fire</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="pubg">
+                  <span class="checkmark"></span>
+                  <span>PUBG Mobile</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="genshin">
+                  <span class="checkmark"></span>
+                  <span>Genshin Impact</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="valorant">
+                  <span class="checkmark"></span>
+                  <span>Valorant</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="honkai">
+                  <span class="checkmark"></span>
+                  <span>Honkai Star Rail</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="cod">
+                  <span class="checkmark"></span>
+                  <span>Call of Duty Mobile</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="games" value="all">
+                  <span class="checkmark"></span>
+                  <span>Semua game yang tersedia</span>
+                </label>
+              </div>
+              <div class="form-group" style="margin-top: 12px;">
+                <input type="text" name="gamesOther" placeholder="Game lainnya (pisahkan dengan koma)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Apakah ingin menjual produk selain game?</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="pulsa">
+                  <span class="checkmark"></span>
+                  <span>Pulsa</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="paket-data">
+                  <span class="checkmark"></span>
+                  <span>Paket Data</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="pln">
+                  <span class="checkmark"></span>
+                  <span>Token Listrik (PLN)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="voucher">
+                  <span class="checkmark"></span>
+                  <span>Voucher (Google Play, Steam, dll)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="ewallet">
+                  <span class="checkmark"></span>
+                  <span>E-wallet (OVO, DANA, GoPay)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="otherProducts" value="none">
+                  <span class="checkmark"></span>
+                  <span>Tidak, hanya game saja</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="supplier">Supplier/API yang ingin digunakan:</label>
+                <select id="supplier" name="supplier">
+                  <option value="">Pilih...</option>
+                  <option value="digiflazz">Digiflazz</option>
+                  <option value="apigames">Apigames</option>
+                  <option value="vocagame">VocaGame</option>
+                  <option value="other">Sudah punya supplier sendiri</option>
+                  <option value="recommend">Belum tau, minta rekomendasi</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="hasApiAccess">Sudah punya akses API dari supplier?</label>
+                <select id="hasApiAccess" name="hasApiAccess">
+                  <option value="">Pilih...</option>
+                  <option value="yes">Ya, sudah punya</option>
+                  <option value="no">Belum punya</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Fitur yang Diinginkan -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">3</span>
+              <h3>Fitur yang Diinginkan</h3>
+            </div>
+
+            <div class="form-group">
+              <label>Platform yang diinginkan: <span class="required">*</span></label>
+              <div class="radio-grid">
+                <label class="radio-item">
+                  <input type="radio" name="platform" value="web-only" required>
+                  <span class="radiomark"></span>
+                  <span>Website saja</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="platform" value="web-android">
+                  <span class="radiomark"></span>
+                  <span>Website + Aplikasi Android</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="platform" value="web-android-ios">
+                  <span class="radiomark"></span>
+                  <span>Website + Android + iOS</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Fitur tambahan yang diinginkan:</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="member-login">
+                  <span class="checkmark"></span>
+                  <span>Sistem member/login pelanggan</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="member-price">
+                  <span class="checkmark"></span>
+                  <span>Harga khusus member vs non-member</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="points">
+                  <span class="checkmark"></span>
+                  <span>Sistem poin/reward pelanggan</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="reseller">
+                  <span class="checkmark"></span>
+                  <span>Fitur reseller/agen (harga bertingkat)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="live-chat">
+                  <span class="checkmark"></span>
+                  <span>Live chat/WhatsApp button</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="promo">
+                  <span class="checkmark"></span>
+                  <span>Promo/voucher diskon</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="flash-sale">
+                  <span class="checkmark"></span>
+                  <span>Flash sale</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="wa-notif">
+                  <span class="checkmark"></span>
+                  <span>Notifikasi WhatsApp otomatis</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="admin-dashboard">
+                  <span class="checkmark"></span>
+                  <span>Dashboard admin lengkap</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="features" value="reports">
+                  <span class="checkmark"></span>
+                  <span>Laporan penjualan</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Pembayaran -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">4</span>
+              <h3>Pembayaran</h3>
+            </div>
+
+            <div class="form-group">
+              <label>Metode pembayaran yang diinginkan:</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="qris">
+                  <span class="checkmark"></span>
+                  <span>QRIS</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="va">
+                  <span class="checkmark"></span>
+                  <span>Virtual Account (BCA, BNI, Mandiri, dll)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="ewallet">
+                  <span class="checkmark"></span>
+                  <span>E-wallet (OVO, DANA, GoPay, ShopeePay)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="minimarket">
+                  <span class="checkmark"></span>
+                  <span>Minimarket (Alfamart, Indomaret)</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="transfer">
+                  <span class="checkmark"></span>
+                  <span>Transfer manual</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" name="payment" value="saldo">
+                  <span class="checkmark"></span>
+                  <span>Saldo member/deposit</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="paymentGateway">Payment gateway yang diinginkan:</label>
+              <select id="paymentGateway" name="paymentGateway">
+                <option value="">Pilih...</option>
+                <option value="midtrans">Midtrans</option>
+                <option value="xendit">Xendit</option>
+                <option value="tripay">Tripay</option>
+                <option value="duitku">Duitku</option>
+                <option value="recommend">Belum tau, minta rekomendasi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section 5: Desain & Referensi -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">5</span>
+              <h3>Desain & Referensi</h3>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="primaryColor">Warna utama yang diinginkan:</label>
+                <input type="text" id="primaryColor" name="primaryColor" placeholder="Contoh: Biru, Ungu, Hijau, dll">
+              </div>
+              <div class="form-group">
+                <label for="designStyle">Gaya desain yang disukai:</label>
+                <select id="designStyle" name="designStyle">
+                  <option value="">Pilih...</option>
+                  <option value="modern">Modern/minimalis</option>
+                  <option value="gaming">Gaming/bold (warna gelap, neon)</option>
+                  <option value="colorful">Colorful/ceria</option>
+                  <option value="professional">Profesional/corporate</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="references">Website top up game yang Anda sukai sebagai referensi:</label>
+              <textarea id="references" name="references" rows="3" placeholder="Sebutkan 1-3 link website yang Anda sukai (contoh: ziqostore.com, unipin.com, dll)"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="referenceNotes">Apa yang Anda suka dari website referensi tersebut?</label>
+              <textarea id="referenceNotes" name="referenceNotes" rows="3" placeholder="Contoh: Desainnya keren, fitur lengkap, mudah digunakan, dll"></textarea>
+            </div>
+          </div>
+
+          <!-- Section 6: Timeline -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">6</span>
+              <h3>Timeline & Lainnya</h3>
+            </div>
+
+            <div class="form-group">
+              <label>Target website/aplikasi ini live kapan?</label>
+              <div class="radio-grid">
+                <label class="radio-item">
+                  <input type="radio" name="timeline" value="asap">
+                  <span class="radiomark"></span>
+                  <span>Secepatnya (1-2 minggu)</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="timeline" value="1month">
+                  <span class="radiomark"></span>
+                  <span>1 bulan</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="timeline" value="2-3months">
+                  <span class="radiomark"></span>
+                  <span>2-3 bulan</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="timeline" value="flexible">
+                  <span class="radiomark"></span>
+                  <span>Fleksibel, tidak buru-buru</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="additionalNotes">Fitur khusus atau permintaan lain yang belum disebutkan:</label>
+              <textarea id="additionalNotes" name="additionalNotes" rows="4" placeholder="Tuliskan jika ada fitur atau permintaan khusus lainnya..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="questions">Pertanyaan yang ingin ditanyakan sebelum project dimulai:</label>
+              <textarea id="questions" name="questions" rows="3" placeholder="Tuliskan pertanyaan Anda di sini..."></textarea>
+            </div>
+          </div>
+
+          <!-- Section 7: Kontak -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span class="section-number">7</span>
+              <h3>Informasi Kontak</h3>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contactName">Nama Lengkap <span class="required">*</span></label>
+                <input type="text" id="contactName" name="contactName" required>
+              </div>
+              <div class="form-group">
+                <label for="contactWhatsapp">Nomor WhatsApp <span class="required">*</span></label>
+                <input type="tel" id="contactWhatsapp" name="contactWhatsapp" placeholder="08xxxxxxxxxx" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contactEmail">Email (opsional)</label>
+              <input type="email" id="contactEmail" name="contactEmail" placeholder="email@example.com">
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary btn-large">
+              <span>📤 Kirim Brief Form</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <p class="submit-note">Setelah mengirim, kami akan menghubungi Anda untuk diskusi lebih lanjut.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>Project Web Game - Brief Form</p>
+        <p class="footer-note">Dokumen ini dibuat untuk presentasi kepada klien</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/brief.js"></script>
+  </body>
+</html>
