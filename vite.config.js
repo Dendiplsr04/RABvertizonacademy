@@ -18,7 +18,8 @@ export default {
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        brief: path.resolve(__dirname, 'brief.html')
+        brief: path.resolve(__dirname, 'brief.html'),
+        demo: path.resolve(__dirname, 'demo.html')
       }
     }
   },
