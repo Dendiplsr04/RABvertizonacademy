@@ -19,7 +19,8 @@ export default {
       input: {
         main: path.resolve(__dirname, 'index.html'),
         brief: path.resolve(__dirname, 'brief.html'),
-        demo: path.resolve(__dirname, 'demo.html')
+        demo: path.resolve(__dirname, 'demo.html'),
+        pricing: path.resolve(__dirname, 'pricing.html')
       }
     }
   },

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RAB & Pricing - Project Web Game</title>
+    <meta name="title" content="RAB & Pricing - Project Web Game" />
+    <meta name="description" content="Rencana Anggaran Biaya Website & Aplikasi Top Up Game" />
+    
+    <link rel="manifest" href="/app.webmanifest" />
+    <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" href="/src/css/presentation.css" />
+    <link rel="stylesheet" href="/src/css/pricing.css" />
+  </head>
+  <body>
+    <!-- 3D Canvas Background -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">💰</span>
+        <span class="brand-text">RAB & Pricing</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">← Kembali ke Proposal</a>
+        <a href="demo.html" class="nav-link">👁️ Live Demo</a>
+      </div>
+    </nav>
+
+    <!-- Pricing Hero -->
+    <section class="pricing-hero">
+      <div class="container">
+        <div class="pricing-header">
+          <span class="section-badge">💰 Rencana Anggaran Biaya</span>
+          <h1>Investasi untuk Website Top Up Game Premium</h1>
+          <p>Breakdown detail biaya pengembangan dengan transparansi penuh</p>
+        </div>
+        
+        <div class="pricing-summary">
+          <div class="summary-card main-total">
+            <div class="summary-icon">💎</div>
+            <div class="summary-info">
+              <h3>Total Investment</h3>
+              <div class="total-amount">Rp 38.750.000</div>
+              <p>Termasuk 3 bulan maintenance & support</p>
+            </div>
+          </div>
+          
+          <div class="summary-stats">
+            <div class="stat-item">
+              <span class="stat-number">2-3</span>
+              <span class="stat-label">Minggu Timeline</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">6</span>
+              <span class="stat-label">Komponen Utama</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Fitur Lengkap</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Package Options -->
+    <section class="package-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">📦 Paket Pilihan</span>
+          <h2>Pilih Paket Sesuai Kebutuhan</h2>
+          <p>Fleksibilitas investasi dengan fitur yang dapat disesuaikan</p>
+        </div>
+
+        <div class="packages-grid">
+          <div class="package-card basic">
+            <div class="package-header">
+              <h3>Basic Package</h3>
+              <div class="package-price">Rp 22.500.000</div>
+              <p>Cocok untuk startup & testing market</p>
+            </div>
+            <div class="package-features">
+              <div class="feature-item included">✅ Website Responsive</div>
+              <div class="feature-item included">✅ 10 Game Populer</div>
+              <div class="feature-item included">✅ Payment Gateway (3 metode)</div>
+              <div class="feature-item included">✅ Admin Dashboard Basic</div>
+              <div class="feature-item included">✅ 1 Bulan Support</div>
+              <div class="feature-item excluded">❌ Sistem Member</div>
+              <div class="feature-item excluded">❌ WhatsApp Notification</div>
+              <div class="feature-item excluded">❌ Advanced Reports</div>
+            </div>
+          </div>
+
+          <div class="package-card standard recommended">
+            <div class="package-badge">🔥 Recommended</div>
+            <div class="package-header">
+              <h3>Standard Package</h3>
+              <div class="package-price">Rp 32.750.000</div>
+              <p>Paket lengkap untuk bisnis serius</p>
+            </div>
+            <div class="package-features">
+              <div class="feature-item included">✅ Semua fitur Basic</div>
+              <div class="feature-item included">✅ 25+ Game Lengkap</div>
+              <div class="feature-item included">✅ Payment Gateway (8 metode)</div>
+              <div class="feature-item included">✅ Sistem Member & Poin</div>
+              <div class="feature-item included">✅ WhatsApp Notification</div>
+              <div class="feature-item included">✅ 2 Bulan Support</div>
+              <div class="feature-item excluded">❌ Aplikasi Mobile</div>
+              <div class="feature-item excluded">❌ Advanced Analytics</div>
+            </div>
+          </div>
+
+          <div class="package-card premium">
+            <div class="package-header">
+              <h3>Premium Package</h3>
+              <div class="package-price">Rp 38.750.000</div>
+              <p>Solusi enterprise dengan fitur maksimal</p>
+            </div>
+            <div class="package-features">
+              <div class="feature-item included">✅ Semua fitur Standard</div>
+              <div class="feature-item included">✅ PWA (App-like Experience)</div>
+              <div class="feature-item included">✅ Advanced Analytics</div>
+              <div class="feature-item included">✅ Multi-Supplier Integration</div>
+              <div class="feature-item included">✅ Reseller System</div>
+              <div class="feature-item included">✅ 3 Bulan Support</div>
+              <div class="feature-item included">✅ Priority Support</div>
+              <div class="feature-item included">✅ Custom Branding</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Breakdown -->
+    <section class="breakdown-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">📋 Breakdown Detail</span>
+          <h2>Rincian Biaya Premium Package</h2>
+          <p>Transparansi penuh untuk setiap komponen pengembangan</p>
+        </div>
+
+        <div class="breakdown-container">
+          <!-- Frontend Development -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="frontend">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">🎨</div>
+                <div class="breakdown-details">
+                  <h3>Frontend Development</h3>
+                  <p>User Interface & User Experience</p>
+                  <span class="breakdown-timeline">⏱️ 5-7 hari</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 8.500.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="frontend">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">UI/UX Design & Mockup</span>
+                  <span class="subitem-price">Rp 2.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Responsive Layout (Desktop, Tablet, Mobile)</span>
+                  <span class="subitem-price">Rp 1.750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Game Catalog & Product Pages</span>
+                  <span class="subitem-price">Rp 1.500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Checkout Flow & Payment Interface</span>
+                  <span class="subitem-price">Rp 1.250.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">User Dashboard & Transaction History</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">3D Animations & Interactive Elements</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">PWA Configuration & Optimization</span>
+                  <span class="subitem-price">Rp 250.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Backend Development -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="backend">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">⚙️</div>
+                <div class="breakdown-details">
+                  <h3>Backend Development & API Integration</h3>
+                  <p>Server Logic & Third-party Integrations</p>
+                  <span class="breakdown-timeline">⏱️ 7-9 hari</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 12.750.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="backend">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">Database Design & Setup (MySQL/PostgreSQL)</span>
+                  <span class="subitem-price">Rp 1.500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">RESTful API Development</span>
+                  <span class="subitem-price">Rp 2.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Supplier API Integration (Apigames/Digiflazz)</span>
+                  <span class="subitem-price">Rp 2.500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Payment Gateway Integration (Multi-provider)</span>
+                  <span class="subitem-price">Rp 2.250.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Game ID Validation System</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Transaction Processing Engine</span>
+                  <span class="subitem-price">Rp 1.750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">WhatsApp API Integration</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Security & Authentication System</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Dashboard -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="admin">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">📊</div>
+                <div class="breakdown-details">
+                  <h3>Admin Dashboard & Management</h3>
+                  <p>Control Panel & Analytics</p>
+                  <span class="breakdown-timeline">⏱️ 4-5 hari</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 6.250.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="admin">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">Dashboard Overview & Statistics</span>
+                  <span class="subitem-price">Rp 1.500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Product Management System</span>
+                  <span class="subitem-price">Rp 1.250.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Transaction Management & Monitoring</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">User Management & Member System</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Sales Reports & Analytics</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Website Settings & Configuration</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Voucher & Promotion Management</span>
+                  <span class="subitem-price">Rp 250.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Member System -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="member">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">👥</div>
+                <div class="breakdown-details">
+                  <h3>Member System & Loyalty Program</h3>
+                  <p>User Registration & Reward System</p>
+                  <span class="breakdown-timeline">⏱️ 3-4 hari</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 3.500.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="member">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">User Registration & Login System</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Member Dashboard & Profile</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Point System & Rewards</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Member Pricing & Discounts</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Referral System</span>
+                  <span class="subitem-price">Rp 250.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testing & Deployment -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="testing">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">🧪</div>
+                <div class="breakdown-details">
+                  <h3>Testing & Deployment</h3>
+                  <p>Quality Assurance & Go Live</p>
+                  <span class="breakdown-timeline">⏱️ 2-3 hari</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 2.750.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="testing">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">Unit Testing & Integration Testing</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">User Acceptance Testing (UAT)</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Performance Testing & Optimization</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Security Testing & Penetration Test</span>
+                  <span class="subitem-price">Rp 250.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Server Setup & Domain Configuration</span>
+                  <span class="subitem-price">Rp 300.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">SSL Certificate & Security Setup</span>
+                  <span class="subitem-price">Rp 200.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Management -->
+          <div class="breakdown-item">
+            <div class="breakdown-header" data-toggle="management">
+              <div class="breakdown-info">
+                <div class="breakdown-icon">📋</div>
+                <div class="breakdown-details">
+                  <h3>Project Management & Support</h3>
+                  <p>Coordination & 3 Months Maintenance</p>
+                  <span class="breakdown-timeline">⏱️ Ongoing</span>
+                </div>
+              </div>
+              <div class="breakdown-price">Rp 5.000.000</div>
+              <div class="breakdown-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+            <div class="breakdown-content" id="management">
+              <div class="breakdown-subitems">
+                <div class="subitem">
+                  <span class="subitem-name">Project Planning & Coordination</span>
+                  <span class="subitem-price">Rp 1.000.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Client Communication & Updates</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Documentation & User Manual</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Training & Knowledge Transfer</span>
+                  <span class="subitem-price">Rp 500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">3 Months Bug Fixes & Updates</span>
+                  <span class="subitem-price">Rp 1.500.000</span>
+                </div>
+                <div class="subitem">
+                  <span class="subitem-name">Priority Support & Consultation</span>
+                  <span class="subitem-price">Rp 750.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Summary -->
+        <div class="total-summary">
+          <div class="summary-breakdown">
+            <div class="summary-row">
+              <span>Subtotal Development</span>
+              <span>Rp 33.750.000</span>
+            </div>
+            <div class="summary-row">
+              <span>Project Management & Support</span>
+              <span>Rp 5.000.000</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total Investment</span>
+              <span>Rp 38.750.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment Terms -->
+    <section class="terms-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">💳 Terms & Conditions</span>
+          <h2>Syarat Pembayaran & Garansi</h2>
+          <p>Fleksibilitas pembayaran dengan jaminan kualitas</p>
+        </div>
+
+        <div class="terms-grid">
+          <div class="terms-card">
+            <div class="terms-icon">💰</div>
+            <h3>Skema Pembayaran</h3>
+            <div class="payment-scheme">
+              <div class="payment-step">
+                <span class="step-label">Down Payment</span>
+                <span class="step-amount">50% (Rp 19.375.000)</span>
+                <span class="step-desc">Saat kontrak ditandatangani</span>
+              </div>
+              <div class="payment-step">
+                <span class="step-label">Progress Payment</span>
+                <span class="step-amount">30% (Rp 11.625.000)</span>
+                <span class="step-desc">Saat 70% development selesai</span>
+              </div>
+              <div class="payment-step">
+                <span class="step-label">Final Payment</span>
+                <span class="step-amount">20% (Rp 7.750.000)</span>
+                <span class="step-desc">Saat website live & testing selesai</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="terms-card">
+            <div class="terms-icon">🛡️</div>
+            <h3>Garansi & Support</h3>
+            <div class="guarantee-list">
+              <div class="guarantee-item">✅ 3 bulan bug fixes gratis</div>
+              <div class="guarantee-item">✅ 24/7 priority support</div>
+              <div class="guarantee-item">✅ Free minor updates</div>
+              <div class="guarantee-item">✅ Performance guarantee</div>
+              <div class="guarantee-item">✅ Security updates</div>
+              <div class="guarantee-item">✅ Backup & recovery</div>
+            </div>
+          </div>
+
+          <div class="terms-card">
+            <div class="terms-icon">📋</div>
+            <h3>Deliverables</h3>
+            <div class="deliverable-list">
+              <div class="deliverable-item">📱 Fully functional website</div>
+              <div class="deliverable-item">⚙️ Admin dashboard</div>
+              <div class="deliverable-item">📚 Complete documentation</div>
+              <div class="deliverable-item">🔑 Source code access</div>
+              <div class="deliverable-item">🎓 Training materials</div>
+              <div class="deliverable-item">☁️ Deployment assistance</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Siap Memulai Project?</h2>
+          <p>Diskusikan kebutuhan Anda dan dapatkan proposal yang disesuaikan</p>
+          <div class="cta-buttons">
+            <a href="brief.html" class="btn btn-primary btn-large">
+              <span>📝 Isi Brief Form</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <button class="btn btn-secondary btn-large" onclick="exportToPDF()">
+              <span>📥 Download RAB PDF</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>Project Web Game - RAB & Pricing</p>
+        <p class="footer-note">Harga dapat berubah sesuai dengan scope dan kompleksitas project</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/pricing.js"></script>
+  </body>
+</html>

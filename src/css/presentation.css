@@ -143,8 +143,15 @@ body {
   font-weight: 600;
 }
 
+.nav-link.nav-pricing {
+  background: var(--gradient-gold);
+  color: white;
+  font-weight: 600;
+}
+
 .nav-link.nav-cta:hover,
-.nav-link.nav-demo:hover {
+.nav-link.nav-demo:hover,
+.nav-link.nav-pricing:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px var(--glow-primary);
 }
@@ -196,7 +203,8 @@ body {
 
 .mobile-link:hover,
 .mobile-link.cta,
-.mobile-link.demo {
+.mobile-link.demo,
+.mobile-link.pricing {
   background: rgba(139, 92, 246, 0.1);
   color: var(--text-primary);
 }
