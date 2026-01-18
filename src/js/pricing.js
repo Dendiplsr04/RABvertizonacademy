@@ -994,3 +994,4 @@ if (document.readyState === 'loading') {
     initCounterAnimation();
   }, 100);
 }
+ 
