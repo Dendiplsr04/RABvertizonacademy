@@ -77,7 +77,7 @@ function initThreeBackground() {
   // Create premium geometric shapes
   const shapes = [
     { geo: new THREE.OctahedronGeometry(0.5), pos: [-8, 4, -6] },
-    { geo: new THREE.DiamondGeometry ? new THREE.DiamondGeometry(0.4) : new THREE.OctahedronGeometry(0.4), pos: [7, -3, -7] },
+    { geo: new THREE.OctahedronGeometry(0.4), pos: [7, -3, -7] },
     { geo: new THREE.IcosahedronGeometry(0.6), pos: [-6, -5, -5] },
     { geo: new THREE.DodecahedronGeometry(0.35), pos: [9, 5, -8] },
     { geo: new THREE.TorusGeometry(0.4, 0.15, 8, 20), pos: [0, 6, -9] },
@@ -412,6 +412,9 @@ function updateTotalSummary(packageType) {
       animateNumberChange(totalEl, data.price);
     }
   }, 600);
+  
+  // Update payment scheme
+  updatePaymentScheme(packageType);
 }
 
 function updateMainTotal(packageType) {
@@ -458,6 +461,71 @@ function animateNumberChange(element, targetValue, isMainTotal = false) {
 
 function formatRupiah(number) {
   return 'Rp ' + number.toLocaleString('id-ID');
+}
+
+// ============================================
+// UPDATE PAYMENT SCHEME
+// ============================================
+function updatePaymentScheme(packageType) {
+  const data = packageData[packageType];
+  const totalPrice = data.price;
+  
+  // Calculate payment percentages
+  const downPayment = totalPrice * 0.5;
+  const progressPayment = totalPrice * 0.3;
+  const finalPayment = totalPrice * 0.2;
+  
+  console.log('Updating payment scheme for:', packageType, {
+    total: totalPrice,
+    down: downPayment,
+    progress: progressPayment,
+    final: finalPayment
+  });
+  
+  // Update payment step amounts
+  const downPaymentEl = document.querySelector('.payment-step[data-payment="down"] .step-amount');
+  const progressPaymentEl = document.querySelector('.payment-step[data-payment="progress"] .step-amount');
+  const finalPaymentEl = document.querySelector('.payment-step[data-payment="final"] .step-amount');
+  
+  if (downPaymentEl) {
+    animatePaymentChange(downPaymentEl, downPayment, '50%');
+  }
+  
+  if (progressPaymentEl) {
+    animatePaymentChange(progressPaymentEl, progressPayment, '30%');
+  }
+  
+  if (finalPaymentEl) {
+    animatePaymentChange(finalPaymentEl, finalPayment, '20%');
+  }
+}
+
+function animatePaymentChange(element, targetValue, percentage) {
+  const currentText = element.textContent;
+  const currentValue = parseFloat(currentText.replace(/[^\d]/g, '')) || 0;
+  const duration = 1000;
+  const steps = 30;
+  const stepValue = (targetValue - currentValue) / steps;
+  let currentStep = 0;
+  
+  element.classList.add('number-changing');
+  
+  const interval = setInterval(() => {
+    currentStep++;
+    const newValue = currentValue + (stepValue * currentStep);
+    
+    element.textContent = percentage + ' (' + formatRupiah(Math.floor(newValue)) + ')';
+    
+    if (currentStep >= steps) {
+      clearInterval(interval);
+      element.classList.remove('number-changing');
+      element.classList.add('number-changed');
+      
+      setTimeout(() => {
+        element.classList.remove('number-changed');
+      }, 500);
+    }
+  }, duration / steps);
 }
 
 // ============================================
