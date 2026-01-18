@@ -964,19 +964,10 @@ function exportToExcel() {
     month: 'long', 
     year: 'numeric' 
   });
-
-  // Create CSV content with proper formatting
-  let csvContent = '';
   
-  // Header Section
-  csvContent += 'RENCANA ANGGARAN BIAYA (RAB)\n';
-  csvContent += `WEBSITE & APLIKASI TOP UP GAME - ${data.name.toUpperCase()}\n`;
-  csvContent += `Tanggal:,${tanggalCetak}\n`;
-  csvContent += 'Client:,[Nama Client]\n';
-  csvContent += 'Developer:,[Nama Developer]\n';
-  csvContent += '\n';
-  csvContent += 'NO,KOMPONEN,DESKRIPSI,TOOLS/TEKNOLOGI,TIMELINE,HARGA\n';
-  csvContent += '\n';
+  // Create professional HTML-based Excel export
+  const htmlContent = createExcelHTML(packageType, data, formatRupiah);
+
   
   // 1. Frontend Development
   csvContent += `1,FRONTEND DEVELOPMENT,,,5-7 hari,${formatRupiah(data.components.frontend)}\n`;
