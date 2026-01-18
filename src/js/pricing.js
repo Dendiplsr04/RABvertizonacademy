@@ -166,14 +166,14 @@ const packageData = {
   },
   premium: {
     name: 'Premium Package', 
-    price: 38750000,
+    price: 35000000,
     components: {
-      frontend: 8500000,
-      backend: 12750000,
-      admin: 6250000,
-      member: 3500000,
-      testing: 2750000,
-      management: 5000000
+      frontend: 7500000,
+      backend: 11250000,
+      admin: 5500000,
+      member: 3000000,
+      testing: 2500000,
+      management: 5250000
     }
   }
 };
@@ -470,10 +470,10 @@ function updatePaymentScheme(packageType) {
   const data = packageData[packageType];
   const totalPrice = data.price;
   
-  // Calculate payment percentages
-  const downPayment = totalPrice * 0.5;
-  const progressPayment = totalPrice * 0.3;
-  const finalPayment = totalPrice * 0.2;
+  // Calculate payment percentages - 30/40/30
+  const downPayment = totalPrice * 0.3;
+  const progressPayment = totalPrice * 0.4;
+  const finalPayment = totalPrice * 0.3;
   
   console.log('Updating payment scheme for:', packageType, {
     total: totalPrice,
@@ -488,15 +488,15 @@ function updatePaymentScheme(packageType) {
   const finalPaymentEl = document.querySelector('.payment-step[data-payment="final"] .step-amount');
   
   if (downPaymentEl) {
-    animatePaymentChange(downPaymentEl, downPayment, '50%');
+    animatePaymentChange(downPaymentEl, downPayment, '30%');
   }
   
   if (progressPaymentEl) {
-    animatePaymentChange(progressPaymentEl, progressPayment, '30%');
+    animatePaymentChange(progressPaymentEl, progressPayment, '40%');
   }
   
   if (finalPaymentEl) {
-    animatePaymentChange(finalPaymentEl, finalPayment, '20%');
+    animatePaymentChange(finalPaymentEl, finalPayment, '30%');
   }
 }
 
@@ -668,7 +668,7 @@ function initCounterAnimation() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         if (entry.target === totalAmount) {
-          animateCounter(totalAmount, 38750000, 3000);
+          animateCounter(totalAmount, 35000000, 3000);
         } else {
           const targetValue = parseInt(entry.target.textContent);
           animateCounter(entry.target, targetValue, 1500);
@@ -965,10 +965,10 @@ function exportToExcel() {
     year: 'numeric' 
   });
 
-  // Create CSV content
+  // Create CSV content with proper formatting
   let csvContent = '';
   
-  // Header
+  // Header Section
   csvContent += 'RENCANA ANGGARAN BIAYA (RAB)\n';
   csvContent += `WEBSITE & APLIKASI TOP UP GAME - ${data.name.toUpperCase()}\n`;
   csvContent += `Tanggal:,${tanggalCetak}\n`;
@@ -978,53 +978,71 @@ function exportToExcel() {
   csvContent += 'NO,KOMPONEN,DESKRIPSI,TOOLS/TEKNOLOGI,TIMELINE,HARGA\n';
   csvContent += '\n';
   
-  // Frontend Development
-  csvContent += '1,FRONTEND DEVELOPMENT,,,5-7 hari,' + formatRupiah(data.components.frontend) + '\n';
+  // 1. Frontend Development
+  csvContent += `1,FRONTEND DEVELOPMENT,,,5-7 hari,${formatRupiah(data.components.frontend)}\n`;
   csvContent += ',1.1,UI/UX Design & Mockup,Desain interface dan user experience,"Figma Adobe XD",1-2 hari,Rp 2.000.000\n';
   csvContent += ',1.2,Responsive Layout,"Desktop Tablet Mobile optimization","HTML5 CSS3 TailwindCSS",1-2 hari,Rp 1.750.000\n';
   csvContent += ',1.3,Game Catalog & Product Pages,Halaman katalog dan detail produk,"React/Vue.js REST API",1 hari,Rp 1.500.000\n';
   csvContent += ',1.4,Checkout Flow & Payment Interface,Proses pembelian dan pembayaran,"JavaScript Payment Gateway SDK",1 hari,Rp 1.250.000\n';
   csvContent += ',1.5,User Dashboard & Transaction History,Panel user dan riwayat transaksi,"React Dashboard Chart.js",1 hari,Rp 1.000.000\n';
-  csvContent += ',1.6,3D Animations & Interactive Elements,Animasi dan elemen interaktif,"Three.js GSAP CSS Animations",0.5 hari,Rp 750.000\n';
+  
   if (packageType === 'premium') {
+    csvContent += ',1.6,3D Animations & Interactive Elements,Animasi dan elemen interaktif,"Three.js GSAP CSS Animations",0.5 hari,Rp 750.000\n';
     csvContent += ',1.7,PWA Configuration & Optimization,Progressive Web App setup,"Service Worker Manifest.json",0.5 hari,Rp 250.000\n';
+  } else {
+    csvContent += ',1.6,Basic Animations & Interactive Elements,Animasi dasar,"CSS Animations JavaScript",0.5 hari,Rp 500.000\n';
   }
   csvContent += '\n';
   
-  // Backend Development
-  csvContent += '2,BACKEND DEVELOPMENT & API INTEGRATION,,,7-9 hari,' + formatRupiah(data.components.backend) + '\n';
+  // 2. Backend Development
+  csvContent += `2,BACKEND DEVELOPMENT & API INTEGRATION,,,7-9 hari,${formatRupiah(data.components.backend)}\n`;
   csvContent += ',2.1,Database Design & Setup,MySQL/PostgreSQL database,"MySQL 8.0 PostgreSQL 14",1 hari,Rp 1.500.000\n';
   csvContent += ',2.2,RESTful API Development,Backend API endpoints,"Node.js Express.js JWT Auth",2 hari,Rp 2.000.000\n';
   csvContent += ',2.3,Supplier API Integration,Apigames/Digiflazz integration,"Axios API Gateway Webhook",2 hari,Rp 2.500.000\n';
-  csvContent += ',2.4,Payment Gateway Integration,Multi-provider payment system,"Midtrans Xendit Doku QRIS",2 hari,Rp 2.250.000\n';
+  
+  if (packageType === 'premium') {
+    csvContent += ',2.4,Payment Gateway Integration,Multi-provider payment system (10 metode),"Midtrans Xendit Doku QRIS",2 hari,Rp 2.250.000\n';
+  } else {
+    csvContent += ',2.4,Payment Gateway Integration,Multi-provider payment system (6 metode),"Midtrans Xendit Doku",2 hari,Rp 2.000.000\n';
+  }
+  
   csvContent += ',2.5,Game ID Validation System,Nickname validation,"API Integration Regex Validation",1 hari,Rp 1.000.000\n';
   csvContent += ',2.6,Transaction Processing Engine,Automated transaction handling,"Queue System Redis Cron Jobs",1.5 hari,Rp 1.750.000\n';
   csvContent += ',2.7,WhatsApp API Integration,Notification system,"WhatsApp Business API Twilio",0.5 hari,Rp 750.000\n';
   csvContent += ',2.8,Security & Authentication System,User auth and security,"JWT bcrypt Rate Limiting CORS",1 hari,Rp 1.000.000\n';
   csvContent += '\n';
   
-  // Admin Dashboard
-  csvContent += '3,ADMIN DASHBOARD & MANAGEMENT,,,4-5 hari,' + formatRupiah(data.components.admin) + '\n';
+  // 3. Admin Dashboard
+  csvContent += `3,ADMIN DASHBOARD & MANAGEMENT,,,4-5 hari,${formatRupiah(data.components.admin)}\n`;
   csvContent += ',3.1,Dashboard Overview & Statistics,Real-time analytics dan monitoring,"Chart.js D3.js WebSocket",1.5 hari,Rp 1.500.000\n';
   csvContent += ',3.2,Product Management System,CRUD untuk game dan produk,"Admin Panel DataTables",1.25 hari,Rp 1.250.000\n';
   csvContent += ',3.3,Transaction Management & Monitoring,Monitoring dan management transaksi,"Real-time Dashboard Export Excel",1 hari,Rp 1.000.000\n';
   csvContent += ',3.4,User Management & Member System,Management user dan member,"User Roles Permissions CRUD",0.75 hari,Rp 750.000\n';
-  csvContent += ',3.5,Sales Reports & Analytics,Laporan penjualan dan analytics,"Excel Export PDF Report Charts",1 hari,Rp 1.000.000\n';
+  
+  if (packageType === 'premium') {
+    csvContent += ',3.5,Sales Reports & Advanced Analytics,Laporan penjualan dan analytics lengkap,"Excel Export PDF Report Charts",1 hari,Rp 1.000.000\n';
+  } else {
+    csvContent += ',3.5,Sales Reports & Analytics,Laporan penjualan dan analytics,"Excel Export PDF Report",1 hari,Rp 750.000\n';
+  }
+  
   csvContent += ',3.6,Website Settings & Configuration,Konfigurasi website,"Settings Panel Environment Config",0.5 hari,Rp 500.000\n';
   csvContent += ',3.7,Voucher & Promotion Management,Management voucher dan promo,"Promo Code System Discount Engine",0.25 hari,Rp 250.000\n';
   csvContent += '\n';
   
-  // Member System
-  csvContent += '4,MEMBER SYSTEM & LOYALTY PROGRAM,,,3-4 hari,' + formatRupiah(data.components.member) + '\n';
+  // 4. Member System
+  csvContent += `4,MEMBER SYSTEM & LOYALTY PROGRAM,,,3-4 hari,${formatRupiah(data.components.member)}\n`;
   csvContent += ',4.1,User Registration & Login System,Sistem registrasi dan login,"OAuth 2.0 Social Login Email Verification",1 hari,Rp 1.000.000\n';
   csvContent += ',4.2,Member Dashboard & Profile,Dashboard dan profile member,"User Profile Avatar Upload Edit Info",0.75 hari,Rp 750.000\n';
   csvContent += ',4.3,Point System & Rewards,Sistem poin dan reward,"Point Calculation Reward Catalog",1 hari,Rp 1.000.000\n';
   csvContent += ',4.4,Member Pricing & Discounts,Harga khusus member dan diskon,"Tier System Dynamic Pricing",0.5 hari,Rp 500.000\n';
-  csvContent += ',4.5,Referral System,Sistem referral,"Referral Code Tracking Rewards",0.25 hari,Rp 250.000\n';
+  
+  if (packageType === 'premium') {
+    csvContent += ',4.5,Referral System,Sistem referral,"Referral Code Tracking Rewards",0.25 hari,Rp 250.000\n';
+  }
   csvContent += '\n';
   
-  // Testing & Deployment
-  csvContent += '5,TESTING & DEPLOYMENT,,,2-3 hari,' + formatRupiah(data.components.testing) + '\n';
+  // 5. Testing & Deployment
+  csvContent += `5,TESTING & DEPLOYMENT,,,2-3 hari,${formatRupiah(data.components.testing)}\n`;
   csvContent += ',5.1,Unit Testing & Integration Testing,Testing komponen dan integrasi,"Jest Mocha Chai Postman",1 hari,Rp 1.000.000\n';
   csvContent += ',5.2,User Acceptance Testing (UAT),Testing oleh user,"Manual Testing Bug Tracking",0.5 hari,Rp 500.000\n';
   csvContent += ',5.3,Performance Testing & Optimization,Testing performa dan optimasi,"Lighthouse GTmetrix Load Testing",0.5 hari,Rp 500.000\n';
@@ -1033,54 +1051,104 @@ function exportToExcel() {
   csvContent += ',5.6,SSL Certificate & Security Setup,Setup SSL dan keamanan,"Let\'s Encrypt Cloudflare Firewall",0.2 hari,Rp 200.000\n';
   csvContent += '\n';
   
-  // Project Management
-  csvContent += '6,PROJECT MANAGEMENT & SUPPORT,,,Ongoing,' + formatRupiah(data.components.management) + '\n';
+  // 6. Project Management
+  csvContent += `6,PROJECT MANAGEMENT & SUPPORT,,,Ongoing,${formatRupiah(data.components.management)}\n`;
   csvContent += ',6.1,Project Planning & Coordination,Perencanaan dan koordinasi project,"Trello Jira Slack Daily Standup",1 hari,Rp 1.000.000\n';
   csvContent += ',6.2,Client Communication & Updates,Komunikasi dan update ke client,"Weekly Report Progress Updates",0.5 hari,Rp 500.000\n';
   csvContent += ',6.3,Documentation & User Manual,Dokumentasi dan manual user,"Technical Docs User Guide API Docs",0.75 hari,Rp 750.000\n';
   csvContent += ',6.4,Training & Knowledge Transfer,Training untuk client,"Video Tutorial Live Training Session",0.5 hari,Rp 500.000\n';
-  csvContent += ',6.5,3 Months Bug Fixes & Updates,Bug fixes dan updates 3 bulan,"Bug Tracking Hotfix Updates",1.5 hari,Rp 1.500.000\n';
-  csvContent += ',6.6,Priority Support & Consultation,Support prioritas dan konsultasi,"24/7 Support WhatsApp Email",0.75 hari,Rp 750.000\n';
+  
+  if (packageType === 'premium') {
+    csvContent += ',6.5,3 Months Bug Fixes & Updates,Bug fixes dan updates 3 bulan,"Bug Tracking Hotfix Updates",1.5 hari,Rp 1.500.000\n';
+    csvContent += ',6.6,Priority Support & Consultation,Support prioritas dan konsultasi,"24/7 Support WhatsApp Email",0.75 hari,Rp 1.000.000\n';
+  } else {
+    csvContent += ',6.5,2 Months Bug Fixes & Updates,Bug fixes dan updates 2 bulan,"Bug Tracking Hotfix Updates",1 hari,Rp 1.000.000\n';
+    csvContent += ',6.6,Standard Support & Consultation,Support standard dan konsultasi,"Email Support WhatsApp",0.5 hari,Rp 700.000\n';
+  }
   csvContent += '\n';
   
   // Summary
   const subtotal = data.price - data.components.management;
-  csvContent += ',SUBTOTAL DEVELOPMENT,,,21-28 hari,' + formatRupiah(subtotal) + '\n';
-  csvContent += ',PROJECT MANAGEMENT & SUPPORT,,,Ongoing,' + formatRupiah(data.components.management) + '\n';
-  csvContent += ',TOTAL INVESTMENT,,,2-3 Minggu,' + formatRupiah(data.price) + '\n';
+  csvContent += `,SUBTOTAL DEVELOPMENT,,,21-28 hari,${formatRupiah(subtotal)}\n`;
+  csvContent += `,PROJECT MANAGEMENT & SUPPORT,,,Ongoing,${formatRupiah(data.components.management)}\n`;
+  csvContent += '\n';
+  csvContent += `,TOTAL INVESTMENT,,,2-3 Minggu,${formatRupiah(data.price)}\n`;
+  csvContent += '\n';
   csvContent += '\n';
   
-  // Payment Scheme
+  // Payment Scheme - Updated to 30/40/30
   csvContent += 'SKEMA PEMBAYARAN\n';
   csvContent += 'NO,TAHAP,PERSENTASE,JUMLAH,KETERANGAN\n';
-  csvContent += '1,Down Payment,50%,' + formatRupiah(data.price * 0.5) + ',Saat kontrak ditandatangani\n';
-  csvContent += '2,Progress Payment,30%,' + formatRupiah(data.price * 0.3) + ',Saat 70% development selesai\n';
-  csvContent += '3,Final Payment,20%,' + formatRupiah(data.price * 0.2) + ',Saat website live & testing selesai\n';
-  csvContent += ',TOTAL,100%,' + formatRupiah(data.price) + '\n';
+  csvContent += `1,Down Payment (DP),30%,${formatRupiah(data.price * 0.3)},Saat kontrak ditandatangani\n`;
+  csvContent += `2,Progress Payment,40%,${formatRupiah(data.price * 0.4)},Saat 70% development selesai\n`;
+  csvContent += `3,Final Payment,30%,${formatRupiah(data.price * 0.3)},Saat website live & testing selesai\n`;
+  csvContent += `,TOTAL,100%,${formatRupiah(data.price)},\n`;
+  csvContent += '\n';
   csvContent += '\n';
   
-  // Garansi
+  // Garansi & Support
   csvContent += 'GARANSI & SUPPORT\n';
   csvContent += 'NO,ITEM,DESKRIPSI,DURASI\n';
-  csvContent += '1,Bug Fixes,Perbaikan bug gratis,3 Bulan\n';
-  csvContent += '2,Priority Support,Support 24/7 via WhatsApp & Email,3 Bulan\n';
-  csvContent += '3,Free Minor Updates,Update kecil gratis,3 Bulan\n';
-  csvContent += '4,Performance Guarantee,Website load < 2 detik,Selamanya\n';
-  csvContent += '5,Security Updates,Update keamanan gratis,3 Bulan\n';
-  csvContent += '6,Backup & Recovery,Backup otomatis dan recovery,3 Bulan\n';
+  
+  if (packageType === 'premium') {
+    csvContent += '1,Bug Fixes,Perbaikan bug gratis,3 Bulan\n';
+    csvContent += '2,Priority Support,Support 24/7 via WhatsApp & Email,3 Bulan\n';
+    csvContent += '3,Free Minor Updates,Update kecil gratis,3 Bulan\n';
+    csvContent += '4,Performance Guarantee,Website load < 2 detik,Selamanya\n';
+    csvContent += '5,Security Updates,Update keamanan gratis,3 Bulan\n';
+    csvContent += '6,Backup & Recovery,Backup otomatis dan recovery,3 Bulan\n';
+  } else {
+    csvContent += '1,Bug Fixes,Perbaikan bug gratis,2 Bulan\n';
+    csvContent += '2,Standard Support,Support via Email & WhatsApp,2 Bulan\n';
+    csvContent += '3,Free Minor Updates,Update kecil gratis,2 Bulan\n';
+    csvContent += '4,Performance Guarantee,Website load < 3 detik,Selamanya\n';
+    csvContent += '5,Security Updates,Update keamanan gratis,2 Bulan\n';
+    csvContent += '6,Backup & Recovery,Backup manual,2 Bulan\n';
+  }
+  csvContent += '\n';
+  csvContent += '\n';
+  
+  // Deliverables
+  csvContent += 'DELIVERABLES\n';
+  csvContent += 'NO,ITEM,DESKRIPSI,FORMAT\n';
+  csvContent += '1,Fully Functional Website,Website yang siap digunakan,Live Website\n';
+  csvContent += '2,Admin Dashboard,Dashboard untuk management,Web Application\n';
+  csvContent += '3,Complete Documentation,Dokumentasi lengkap,PDF + Online Docs\n';
+  csvContent += '4,Source Code Access,Akses ke source code,GitHub Repository\n';
+  csvContent += '5,Training Materials,Materi training,Video + PDF\n';
+  csvContent += '6,Deployment Assistance,Bantuan deployment,Live Support\n';
+  csvContent += '\n';
+  csvContent += '\n';
+  
+  // Catatan Penting
+  csvContent += 'CATATAN PENTING\n';
+  csvContent += '1,Harga berlaku selama 30 hari dari tanggal penerbitan\n';
+  csvContent += '2,Harga sudah termasuk PPN 11%\n';
+  csvContent += '3,Perubahan scope akan dikenakan biaya tambahan\n';
+  csvContent += '4,Timeline dapat berubah sesuai feedback dan revisi\n';
+  
+  if (packageType === 'premium') {
+    csvContent += '5,Maintenance setelah 3 bulan: Rp 3-5 juta/bulan\n';
+  } else {
+    csvContent += '5,Maintenance setelah 2 bulan: Rp 2-3 juta/bulan\n';
+  }
 
   // Create download link
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
   
+  const filename = `RAB_Website_TopUp_Game_${packageType}_${tanggalCetak.replace(/ /g, '_')}.csv`;
   link.setAttribute('href', url);
-  link.setAttribute('download', `RAB_Website_TopUp_Game_${packageType}_${tanggalCetak.replace(/ /g, '_')}.csv`);
+  link.setAttribute('download', filename);
   link.style.visibility = 'hidden';
   
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  
+  // Show success message
+  console.log(`RAB ${data.name} berhasil di-download: ${filename}`);
 }
 
 // Make exportToExcel globally available
