@@ -184,63 +184,125 @@ let currentPackage = 'premium';
 // PACKAGE SELECTION & DYNAMIC PRICING
 // ============================================
 function initPackageSelection() {
-  const packageCards = document.querySelectorAll('.package-card');
-  const selectorBtns = document.querySelectorAll('.selector-btn');
-  const packageSelectBtns = document.querySelectorAll('.package-select-btn');
+  console.log('Initializing package selection...');
+  
+  const packageCards = document.querySelectorAll('.package-card[data-package]');
+  const selectorBtns = document.querySelectorAll('.selector-btn[data-package]');
+  const packageSelectBtns = document.querySelectorAll('.package-select-btn[data-package]');
+  
+  console.log('Found elements:', {
+    packageCards: packageCards.length,
+    selectorBtns: selectorBtns.length,
+    packageSelectBtns: packageSelectBtns.length
+  });
   
   // Package card selection
-  packageCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const packageType = card.dataset.package;
-      selectPackage(packageType);
+  packageCards.forEach((card, index) => {
+    const packageType = card.dataset.package;
+    console.log(`Adding click listener to package card ${index}:`, packageType);
+    
+    card.addEventListener('click', (e) => {
+      // Don't trigger if clicking on the select button
+      if (e.target.closest('.package-select-btn')) {
+        return;
+      }
+      
+      console.log('Package card clicked:', packageType);
+      if (packageType) {
+        selectPackage(packageType);
+      }
     });
   });
   
   // Selector button clicks
-  selectorBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const packageType = btn.dataset.package;
-      selectPackage(packageType);
+  selectorBtns.forEach((btn, index) => {
+    const packageType = btn.dataset.package;
+    console.log(`Adding click listener to selector btn ${index}:`, packageType);
+    
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Selector button clicked:', packageType);
+      
+      if (packageType) {
+        selectPackage(packageType);
+      }
     });
   });
   
   // Package select button clicks
-  packageSelectBtns.forEach(btn => {
+  packageSelectBtns.forEach((btn, index) => {
+    const packageType = btn.dataset.package;
+    console.log(`Adding click listener to select btn ${index}:`, packageType);
+    
     btn.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      const packageType = btn.dataset.package;
-      selectPackage(packageType);
+      console.log('Package select button clicked:', packageType);
       
-      // Scroll to breakdown
-      document.querySelector('.breakdown-section').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      if (packageType) {
+        selectPackage(packageType);
+        
+        // Scroll to breakdown with smooth animation
+        setTimeout(() => {
+          const breakdownSection = document.querySelector('.breakdown-section');
+          if (breakdownSection) {
+            breakdownSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }, 300);
+      }
     });
   });
+  
+  // Initialize with premium package
+  selectPackage('premium');
 }
 
 function selectPackage(packageType) {
+  console.log('Selecting package:', packageType);
+  
+  if (!packageData[packageType]) {
+    console.error('Package data not found for:', packageType);
+    return;
+  }
+  
   currentPackage = packageType;
+  
+  // Update package cards visual state
+  document.querySelectorAll('.package-card').forEach(card => {
+    if (card.dataset.package === packageType) {
+      card.classList.add('selected');
+      card.style.transform = card.classList.contains('premium') ? 'scale(1.08)' : 'scale(1.05)';
+    } else {
+      card.classList.remove('selected');
+      card.style.transform = 'scale(1)';
+    }
+  });
   
   // Update selector buttons
   document.querySelectorAll('.selector-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.package === packageType);
   });
   
-  // Update package name in breakdown title
+  // Update package name in breakdown title with animation
   const packageNameEl = document.querySelector('.selected-package-name');
   if (packageNameEl) {
-    packageNameEl.textContent = packageData[packageType].name;
+    packageNameEl.style.opacity = '0';
+    packageNameEl.style.transform = 'scale(0.8)';
     
-    // Add animation
-    packageNameEl.style.transform = 'scale(1.1)';
     setTimeout(() => {
+      packageNameEl.textContent = packageData[packageType].name;
+      packageNameEl.style.opacity = '1';
       packageNameEl.style.transform = 'scale(1)';
-    }, 200);
+    }, 150);
+  } else {
+    console.warn('Package name element not found');
   }
   
-  // Update breakdown prices with animation
+  // Update breakdown prices with staggered animation
   updateBreakdownPrices(packageType);
   
   // Update total summary
@@ -248,6 +310,52 @@ function selectPackage(packageType) {
   
   // Update main total amount
   updateMainTotal(packageType);
+  
+  // Add success feedback
+  showPackageSelectionFeedback(packageType);
+}
+
+function showPackageSelectionFeedback(packageType) {
+  // Create temporary success indicator
+  const feedback = document.createElement('div');
+  feedback.className = 'package-selection-feedback';
+  feedback.innerHTML = `
+    <div class="feedback-content">
+      <span class="feedback-icon">✅</span>
+      <span class="feedback-text">${packageData[packageType].name} Selected!</span>
+    </div>
+  `;
+  
+  // Add styles
+  feedback.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-secondary));
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    font-weight: 600;
+  `;
+  
+  document.body.appendChild(feedback);
+  
+  // Animate in
+  setTimeout(() => {
+    feedback.style.transform = 'translateX(0)';
+  }, 100);
+  
+  // Remove after delay
+  setTimeout(() => {
+    feedback.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      document.body.removeChild(feedback);
+    }, 300);
+  }, 2000);
 }
 
 function updateBreakdownPrices(packageType) {
@@ -356,28 +464,52 @@ function formatRupiah(number) {
 // BREAKDOWN TOGGLE FUNCTIONALITY
 // ============================================
 function initBreakdownToggles() {
-  const breakdownHeaders = document.querySelectorAll('.breakdown-header');
+  console.log('Initializing breakdown toggles...');
   
-  breakdownHeaders.forEach(header => {
-    header.addEventListener('click', () => {
-      const toggleId = header.dataset.toggle;
+  const breakdownHeaders = document.querySelectorAll('.breakdown-header[data-toggle]');
+  console.log('Found breakdown headers:', breakdownHeaders.length);
+  
+  breakdownHeaders.forEach((header, index) => {
+    const toggleId = header.dataset.toggle;
+    console.log(`Setting up toggle ${index} for:`, toggleId);
+    
+    header.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('Breakdown header clicked:', toggleId);
+      
       const content = document.getElementById(toggleId);
       const toggle = header.querySelector('.breakdown-toggle');
       const breakdownItem = header.closest('.breakdown-item');
       
-      // Toggle content
-      content.classList.toggle('active');
-      toggle.classList.toggle('active');
-      breakdownItem.classList.toggle('expanded');
-      
-      // Smooth animation with 3D effect
-      if (content.classList.contains('active')) {
-        content.style.maxHeight = content.scrollHeight + 'px';
-        breakdownItem.style.transform = 'scale(1.02)';
-      } else {
-        content.style.maxHeight = '0';
-        breakdownItem.style.transform = 'scale(1)';
+      if (!content) {
+        console.error('Content element not found for:', toggleId);
+        return;
       }
+      
+      console.log('Toggling content for:', toggleId);
+      
+      // Toggle content
+      const isActive = content.classList.contains('active');
+      
+      if (isActive) {
+        // Close
+        content.classList.remove('active');
+        toggle?.classList.remove('active');
+        breakdownItem?.classList.remove('expanded');
+        content.style.maxHeight = '0';
+        if (breakdownItem) breakdownItem.style.transform = 'scale(1)';
+      } else {
+        // Open
+        content.classList.add('active');
+        toggle?.classList.add('active');
+        breakdownItem?.classList.add('expanded');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        if (breakdownItem) breakdownItem.style.transform = 'scale(1.02)';
+      }
+      
+      console.log('Toggle completed. Active:', !isActive);
     });
   });
 }
@@ -756,9 +888,41 @@ window.exportToPDF = exportToPDF;
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM Content Loaded - Initializing pricing page...');
+  
+  // Initialize in sequence with delays to ensure proper setup
   initThreeBackground();
-  initPackageSelection();
-  initBreakdownToggles();
-  initScrollAnimations();
-  initCounterAnimation();
+  
+  setTimeout(() => {
+    initPackageSelection();
+  }, 100);
+  
+  setTimeout(() => {
+    initBreakdownToggles();
+  }, 200);
+  
+  setTimeout(() => {
+    initScrollAnimations();
+  }, 300);
+  
+  setTimeout(() => {
+    initCounterAnimation();
+  }, 400);
+  
+  console.log('All pricing page components initialized');
 });
+
+// Fallback initialization if DOMContentLoaded already fired
+if (document.readyState === 'loading') {
+  // Document still loading, wait for DOMContentLoaded
+} else {
+  // Document already loaded
+  console.log('Document already loaded - initializing immediately...');
+  setTimeout(() => {
+    initThreeBackground();
+    initPackageSelection();
+    initBreakdownToggles();
+    initScrollAnimations();
+    initCounterAnimation();
+  }, 100);
+}
