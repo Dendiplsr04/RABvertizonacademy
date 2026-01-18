@@ -82,44 +82,35 @@
         </div>
 
         <div class="packages-grid">
-          <div class="package-card basic">
-            <div class="package-header">
-              <h3>Basic Package</h3>
-              <div class="package-price">Rp 22.500.000</div>
-              <p>Cocok untuk startup & testing market</p>
-            </div>
-            <div class="package-features">
-              <div class="feature-item included">✅ Website Responsive</div>
-              <div class="feature-item included">✅ 10 Game Populer</div>
-              <div class="feature-item included">✅ Payment Gateway (3 metode)</div>
-              <div class="feature-item included">✅ Admin Dashboard Basic</div>
-              <div class="feature-item included">✅ 1 Bulan Support</div>
-              <div class="feature-item excluded">❌ Sistem Member</div>
-              <div class="feature-item excluded">❌ WhatsApp Notification</div>
-              <div class="feature-item excluded">❌ Advanced Reports</div>
-            </div>
-          </div>
-
-          <div class="package-card standard recommended">
-            <div class="package-badge">🔥 Recommended</div>
+          <div class="package-card standard" data-package="standard">
+            <div class="package-glow"></div>
             <div class="package-header">
               <h3>Standard Package</h3>
-              <div class="package-price">Rp 32.750.000</div>
-              <p>Paket lengkap untuk bisnis serius</p>
+              <div class="package-price">Rp 30.900.000</div>
+              <p>Solusi lengkap untuk bisnis yang berkembang</p>
             </div>
             <div class="package-features">
-              <div class="feature-item included">✅ Semua fitur Basic</div>
-              <div class="feature-item included">✅ 25+ Game Lengkap</div>
-              <div class="feature-item included">✅ Payment Gateway (8 metode)</div>
+              <div class="feature-item included">✅ Website Responsive Premium</div>
+              <div class="feature-item included">✅ 20+ Game Populer</div>
+              <div class="feature-item included">✅ Payment Gateway (6 metode)</div>
+              <div class="feature-item included">✅ Admin Dashboard Standard</div>
               <div class="feature-item included">✅ Sistem Member & Poin</div>
               <div class="feature-item included">✅ WhatsApp Notification</div>
               <div class="feature-item included">✅ 2 Bulan Support</div>
-              <div class="feature-item excluded">❌ Aplikasi Mobile</div>
+              <div class="feature-item excluded">❌ PWA (App-like Experience)</div>
               <div class="feature-item excluded">❌ Advanced Analytics</div>
+              <div class="feature-item excluded">❌ Multi-Supplier Integration</div>
+              <div class="feature-item excluded">❌ Reseller System</div>
             </div>
+            <button class="package-select-btn" data-package="standard">
+              <span>Pilih Standard</span>
+              <div class="btn-particles"></div>
+            </button>
           </div>
 
-          <div class="package-card premium">
+          <div class="package-card premium recommended" data-package="premium">
+            <div class="package-badge">🔥 Recommended</div>
+            <div class="package-glow"></div>
             <div class="package-header">
               <h3>Premium Package</h3>
               <div class="package-price">Rp 38.750.000</div>
@@ -127,14 +118,20 @@
             </div>
             <div class="package-features">
               <div class="feature-item included">✅ Semua fitur Standard</div>
+              <div class="feature-item included">✅ 30+ Game Lengkap</div>
+              <div class="feature-item included">✅ Payment Gateway (10 metode)</div>
               <div class="feature-item included">✅ PWA (App-like Experience)</div>
-              <div class="feature-item included">✅ Advanced Analytics</div>
+              <div class="feature-item included">✅ Advanced Analytics & Reports</div>
               <div class="feature-item included">✅ Multi-Supplier Integration</div>
               <div class="feature-item included">✅ Reseller System</div>
-              <div class="feature-item included">✅ 3 Bulan Support</div>
-              <div class="feature-item included">✅ Priority Support</div>
+              <div class="feature-item included">✅ 3 Bulan Priority Support</div>
               <div class="feature-item included">✅ Custom Branding</div>
+              <div class="feature-item included">✅ Performance Optimization</div>
             </div>
+            <button class="package-select-btn" data-package="premium">
+              <span>Pilih Premium</span>
+              <div class="btn-particles"></div>
+            </button>
           </div>
         </div>
       </div>
@@ -145,13 +142,17 @@
       <div class="container">
         <div class="section-header">
           <span class="section-badge">📋 Breakdown Detail</span>
-          <h2>Rincian Biaya Premium Package</h2>
+          <h2>Rincian Biaya <span class="selected-package-name">Premium Package</span></h2>
           <p>Transparansi penuh untuk setiap komponen pengembangan</p>
+          <div class="package-selector">
+            <button class="selector-btn" data-package="standard">Standard</button>
+            <button class="selector-btn active" data-package="premium">Premium</button>
+          </div>
         </div>
 
         <div class="breakdown-container">
           <!-- Frontend Development -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="frontend">
             <div class="breakdown-header" data-toggle="frontend">
               <div class="breakdown-info">
                 <div class="breakdown-icon">🎨</div>
@@ -203,7 +204,7 @@
           </div>
 
           <!-- Backend Development -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="backend">
             <div class="breakdown-header" data-toggle="backend">
               <div class="breakdown-info">
                 <div class="breakdown-icon">⚙️</div>
@@ -259,7 +260,7 @@
           </div>
 
           <!-- Admin Dashboard -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="admin">
             <div class="breakdown-header" data-toggle="admin">
               <div class="breakdown-info">
                 <div class="breakdown-icon">📊</div>
@@ -311,7 +312,7 @@
           </div>
 
           <!-- Member System -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="member">
             <div class="breakdown-header" data-toggle="member">
               <div class="breakdown-info">
                 <div class="breakdown-icon">👥</div>
@@ -355,7 +356,7 @@
           </div>
 
           <!-- Testing & Deployment -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="testing">
             <div class="breakdown-header" data-toggle="testing">
               <div class="breakdown-info">
                 <div class="breakdown-icon">🧪</div>
@@ -403,7 +404,7 @@
           </div>
 
           <!-- Project Management -->
-          <div class="breakdown-item">
+          <div class="breakdown-item" data-component="management">
             <div class="breakdown-header" data-toggle="management">
               <div class="breakdown-info">
                 <div class="breakdown-icon">📋</div>
@@ -456,15 +457,15 @@
           <div class="summary-breakdown">
             <div class="summary-row">
               <span>Subtotal Development</span>
-              <span>Rp 33.750.000</span>
+              <span class="subtotal-amount">Rp 33.750.000</span>
             </div>
             <div class="summary-row">
               <span>Project Management & Support</span>
-              <span>Rp 5.000.000</span>
+              <span class="management-amount">Rp 5.000.000</span>
             </div>
             <div class="summary-row total">
               <span>Total Investment</span>
-              <span>Rp 38.750.000</span>
+              <span class="total-investment">Rp 38.750.000</span>
             </div>
           </div>
         </div>

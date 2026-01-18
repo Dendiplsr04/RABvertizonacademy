@@ -149,6 +149,210 @@ function initThreeBackground() {
 }
 
 // ============================================
+// PACKAGE DATA
+// ============================================
+const packageData = {
+  standard: {
+    name: 'Standard Package',
+    price: 30900000,
+    components: {
+      frontend: 7200000,
+      backend: 10500000,
+      admin: 5000000,
+      member: 2800000,
+      testing: 2200000,
+      management: 3200000
+    }
+  },
+  premium: {
+    name: 'Premium Package', 
+    price: 38750000,
+    components: {
+      frontend: 8500000,
+      backend: 12750000,
+      admin: 6250000,
+      member: 3500000,
+      testing: 2750000,
+      management: 5000000
+    }
+  }
+};
+
+let currentPackage = 'premium';
+
+// ============================================
+// PACKAGE SELECTION & DYNAMIC PRICING
+// ============================================
+function initPackageSelection() {
+  const packageCards = document.querySelectorAll('.package-card');
+  const selectorBtns = document.querySelectorAll('.selector-btn');
+  const packageSelectBtns = document.querySelectorAll('.package-select-btn');
+  
+  // Package card selection
+  packageCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const packageType = card.dataset.package;
+      selectPackage(packageType);
+    });
+  });
+  
+  // Selector button clicks
+  selectorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const packageType = btn.dataset.package;
+      selectPackage(packageType);
+    });
+  });
+  
+  // Package select button clicks
+  packageSelectBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const packageType = btn.dataset.package;
+      selectPackage(packageType);
+      
+      // Scroll to breakdown
+      document.querySelector('.breakdown-section').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+  });
+}
+
+function selectPackage(packageType) {
+  currentPackage = packageType;
+  
+  // Update selector buttons
+  document.querySelectorAll('.selector-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.package === packageType);
+  });
+  
+  // Update package name in breakdown title
+  const packageNameEl = document.querySelector('.selected-package-name');
+  if (packageNameEl) {
+    packageNameEl.textContent = packageData[packageType].name;
+    
+    // Add animation
+    packageNameEl.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+      packageNameEl.style.transform = 'scale(1)';
+    }, 200);
+  }
+  
+  // Update breakdown prices with animation
+  updateBreakdownPrices(packageType);
+  
+  // Update total summary
+  updateTotalSummary(packageType);
+  
+  // Update main total amount
+  updateMainTotal(packageType);
+}
+
+function updateBreakdownPrices(packageType) {
+  const data = packageData[packageType];
+  const components = data.components;
+  
+  // Update each breakdown price with stagger animation
+  const priceElements = [
+    { selector: '.breakdown-item[data-component="frontend"] .breakdown-price', value: components.frontend },
+    { selector: '.breakdown-item[data-component="backend"] .breakdown-price', value: components.backend },
+    { selector: '.breakdown-item[data-component="admin"] .breakdown-price', value: components.admin },
+    { selector: '.breakdown-item[data-component="member"] .breakdown-price', value: components.member },
+    { selector: '.breakdown-item[data-component="testing"] .breakdown-price', value: components.testing },
+    { selector: '.breakdown-item[data-component="management"] .breakdown-price', value: components.management }
+  ];
+  
+  priceElements.forEach((item, index) => {
+    setTimeout(() => {
+      const element = document.querySelector(item.selector);
+      if (element) {
+        // Add animation class
+        element.classList.add('price-updating');
+        
+        setTimeout(() => {
+          element.textContent = formatRupiah(item.value);
+          element.classList.remove('price-updating');
+          element.classList.add('price-updated');
+          
+          setTimeout(() => {
+            element.classList.remove('price-updated');
+          }, 500);
+        }, 200);
+      }
+    }, index * 100);
+  });
+}
+
+function updateTotalSummary(packageType) {
+  const data = packageData[packageType];
+  const subtotal = Object.values(data.components).reduce((sum, val) => sum + val, 0) - data.components.management;
+  
+  setTimeout(() => {
+    const subtotalEl = document.querySelector('.subtotal-amount');
+    const managementEl = document.querySelector('.management-amount');
+    const totalEl = document.querySelector('.total-investment');
+    
+    if (subtotalEl) {
+      animateNumberChange(subtotalEl, subtotal);
+    }
+    if (managementEl) {
+      animateNumberChange(managementEl, data.components.management);
+    }
+    if (totalEl) {
+      animateNumberChange(totalEl, data.price);
+    }
+  }, 600);
+}
+
+function updateMainTotal(packageType) {
+  const data = packageData[packageType];
+  const mainTotalEl = document.querySelector('.total-amount');
+  
+  if (mainTotalEl) {
+    setTimeout(() => {
+      animateNumberChange(mainTotalEl, data.price, true);
+    }, 800);
+  }
+}
+
+function animateNumberChange(element, targetValue, isMainTotal = false) {
+  const currentValue = parseFloat(element.textContent.replace(/[^\d]/g, '')) || 0;
+  const duration = 1000;
+  const steps = 30;
+  const stepValue = (targetValue - currentValue) / steps;
+  let currentStep = 0;
+  
+  element.classList.add('number-changing');
+  
+  const interval = setInterval(() => {
+    currentStep++;
+    const newValue = currentValue + (stepValue * currentStep);
+    
+    if (isMainTotal) {
+      element.textContent = 'Rp ' + Math.floor(newValue).toLocaleString('id-ID');
+    } else {
+      element.textContent = formatRupiah(Math.floor(newValue));
+    }
+    
+    if (currentStep >= steps) {
+      clearInterval(interval);
+      element.classList.remove('number-changing');
+      element.classList.add('number-changed');
+      
+      setTimeout(() => {
+        element.classList.remove('number-changed');
+      }, 500);
+    }
+  }, duration / steps);
+}
+
+function formatRupiah(number) {
+  return 'Rp ' + number.toLocaleString('id-ID');
+}
+
+// ============================================
 // BREAKDOWN TOGGLE FUNCTIONALITY
 // ============================================
 function initBreakdownToggles() {
@@ -159,41 +363,21 @@ function initBreakdownToggles() {
       const toggleId = header.dataset.toggle;
       const content = document.getElementById(toggleId);
       const toggle = header.querySelector('.breakdown-toggle');
+      const breakdownItem = header.closest('.breakdown-item');
       
       // Toggle content
       content.classList.toggle('active');
       toggle.classList.toggle('active');
+      breakdownItem.classList.toggle('expanded');
       
-      // Smooth animation
+      // Smooth animation with 3D effect
       if (content.classList.contains('active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
+        breakdownItem.style.transform = 'scale(1.02)';
       } else {
         content.style.maxHeight = '0';
+        breakdownItem.style.transform = 'scale(1)';
       }
-    });
-  });
-}
-
-// ============================================
-// PACKAGE HOVER EFFECTS
-// ============================================
-function initPackageEffects() {
-  const packageCards = document.querySelectorAll('.package-card');
-  
-  packageCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      // Add glow effect
-      if (card.classList.contains('basic')) {
-        card.style.boxShadow = '0 20px 40px rgba(107, 114, 128, 0.3)';
-      } else if (card.classList.contains('standard')) {
-        card.style.boxShadow = '0 25px 50px rgba(139, 92, 246, 0.4)';
-      } else if (card.classList.contains('premium')) {
-        card.style.boxShadow = '0 25px 50px rgba(251, 191, 36, 0.4)';
-      }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.boxShadow = '';
     });
   });
 }
@@ -573,8 +757,8 @@ window.exportToPDF = exportToPDF;
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
   initThreeBackground();
+  initPackageSelection();
   initBreakdownToggles();
-  initPackageEffects();
   initScrollAnimations();
   initCounterAnimation();
 });
