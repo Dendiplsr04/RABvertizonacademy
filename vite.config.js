@@ -17,11 +17,9 @@ export default {
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
-        brief: path.resolve(__dirname, 'brief.html'),
-        demo: path.resolve(__dirname, 'demo.html'),
-        pricing: path.resolve(__dirname, 'pricing.html')
-      }
+        main: path.resolve(__dirname, 'index.html')
+      },
+      external: ['@mediapipe/tasks-vision']
     }
   },
   plugins: [

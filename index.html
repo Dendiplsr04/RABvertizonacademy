@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Project Web Game - Proposal & Perencanaan</title>
-    <meta name="title" content="Project Web Game - Proposal & Perencanaan" />
-    <meta name="description" content="Proposal pembuatan Website & Aplikasi Top Up Game profesional" />
+    <title>Villa Gesture Control - Hand Gesture 3D Configurator</title>
+    <meta name="title" content="Villa Gesture Control" />
+    <meta name="description" content="Interactive 3D Villa Configurator with Hand Gesture Control" />
     
     <link rel="manifest" href="/app.webmanifest" />
     <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
@@ -16,582 +16,93 @@
     <meta name="theme-color" content="#0a0a0f" />
     <meta name="mobile-web-app-capable" content="yes" />
     
-    <link rel="stylesheet" href="/src/css/presentation.css" />
+    <link rel="stylesheet" href="/src/css/global.css" />
+    <link rel="stylesheet" href="/src/css/villa.css" />
   </head>
   <body>
-    <!-- 3D Canvas Background -->
+    <!-- Main Canvas -->
     <canvas id="canvas"></canvas>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-brand">
-        <span class="brand-icon">🎮</span>
-        <span class="brand-text">Project Web Game</span>
-      </div>
-      <div class="nav-links">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#overview" class="nav-link">Overview</a>
-        <a href="#features" class="nav-link">Fitur</a>
-        <a href="#workflow" class="nav-link">Alur Kerja</a>
-        <a href="#timeline" class="nav-link">Timeline</a>
-        <a href="#tech" class="nav-link">Teknologi</a>
-        <a href="pricing.html" class="nav-link nav-pricing">💰 Lihat Harga</a>
-        <a href="demo.html" class="nav-link nav-demo">👁️ Live Demo</a>
-        <a href="brief.html" class="nav-link nav-cta">📝 Brief Form</a>
-      </div>
-      <button class="nav-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
+    <!-- Video Feed (Hidden) -->
+    <video id="video" style="display: none;"></video>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-      <a href="#home" class="mobile-link">Home</a>
-      <a href="#overview" class="mobile-link">Overview</a>
-      <a href="#features" class="mobile-link">Fitur</a>
-      <a href="#workflow" class="mobile-link">Alur Kerja</a>
-      <a href="#timeline" class="mobile-link">Timeline</a>
-      <a href="#tech" class="mobile-link">Teknologi</a>
-      <a href="pricing.html" class="mobile-link pricing">💰 Lihat Harga</a>
-      <a href="demo.html" class="mobile-link demo">👁️ Live Demo</a>
-      <a href="brief.html" class="mobile-link cta">📝 Brief Form</a>
+    <!-- UI Overlay -->
+    <div id="ui-container" class="ui-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-content">
+          <h1 class="title">🏢 Villa Gesture Control</h1>
+          <p class="subtitle">Use your hand gestures to interact with the villa</p>
+        </div>
+      </header>
+
+      <!-- Instructions Panel -->
+      <div class="instructions-panel">
+        <div class="instruction-item">
+          <span class="gesture-icon">✋</span>
+          <span class="gesture-text">Open Hand = Deconstruct</span>
+        </div>
+        <div class="instruction-item">
+          <span class="gesture-icon">✊</span>
+          <span class="gesture-text">Closed Fist = Reconstruct</span>
+        </div>
+        <div class="instruction-item">
+          <span class="gesture-icon">🔄</span>
+          <span class="gesture-text">Move Hand = Rotate</span>
+        </div>
+        <div class="instruction-item">
+          <span class="gesture-icon">🤏</span>
+          <span class="gesture-text">Pinch = Zoom</span>
+        </div>
+      </div>
+
+      <!-- Property Info Panel -->
+      <div class="property-panel">
+        <h2 class="property-title">Luxury Villa</h2>
+        <div class="property-info">
+          <div class="info-item">
+            <span class="info-label">Area:</span>
+            <span class="info-value">500 m²</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Bedrooms:</span>
+            <span class="info-value">4</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Bathrooms:</span>
+            <span class="info-value">3</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Price:</span>
+            <span class="info-value">$2.5M</span>
+          </div>
+        </div>
+        <button class="btn-inquiry">Inquiry Now</button>
+      </div>
+
+      <!-- Hand Status -->
+      <div class="hand-status">
+        <div class="status-indicator" id="hand-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">Waiting for hand...</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="btn-control" id="btn-reset">Reset View</button>
+        <button class="btn-control" id="btn-toggle-info">Toggle Info</button>
+      </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <div class="hero-badge">🚀 Proposal Project</div>
-        <h1 class="hero-title">
-          <span class="title-line">Website &</span>
-          <span class="title-line gradient-text">Aplikasi Top Up Game</span>
-        </h1>
-        <p class="hero-subtitle">
-          Solusi lengkap untuk bisnis top up game Anda dengan teknologi modern, 
-          desain premium, dan pengalaman pengguna terbaik.
-        </p>
-        <div class="hero-buttons">
-          <a href="pricing.html" class="btn btn-primary">
-            <span>💰 Lihat Harga & RAB</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-          <a href="demo.html" class="btn btn-secondary">
-            <span>👁️ Lihat Live Demo</span>
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-number">2-3</span>
-            <span class="stat-label">Minggu Pengerjaan</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <span class="stat-label">Fitur Lengkap</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Auto Transaction</span>
-          </div>
-        </div>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p>Loading Villa Configurator...</p>
       </div>
-      <div class="scroll-indicator">
-        <span>Scroll untuk explore</span>
-        <div class="scroll-arrow"></div>
-      </div>
-    </section>
+    </div>
 
-    <!-- Overview Section -->
-    <section id="overview" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge">📋 Overview</span>
-          <h2 class="section-title">Apa yang Akan Dibangun?</h2>
-          <p class="section-subtitle">Platform top up game lengkap dengan fitur modern dan desain premium</p>
-        </div>
-        
-        <div class="overview-grid">
-          <div class="overview-card main-card">
-            <div class="card-icon">🎯</div>
-            <h3>Tujuan Project</h3>
-            <p>Membangun platform top up game mandiri dengan brand sendiri, lepas dari ketergantungan platform pihak ketiga, dengan tampilan lebih profesional dan fitur lebih lengkap.</p>
-          </div>
-          
-          <div class="overview-card">
-            <div class="card-icon">🌐</div>
-            <h3>Website Responsive</h3>
-            <p>Tampilan optimal di semua device - desktop, tablet, dan mobile</p>
-          </div>
-          
-          <div class="overview-card">
-            <div class="card-icon">📱</div>
-            <h3>PWA Ready</h3>
-            <p>Bisa di-install seperti aplikasi native tanpa perlu Play Store</p>
-          </div>
-          
-          <div class="overview-card">
-            <div class="card-icon">⚡</div>
-            <h3>Transaksi Otomatis</h3>
-            <p>Integrasi API supplier untuk proses order instan 24/7</p>
-          </div>
-          
-          <div class="overview-card">
-            <div class="card-icon">🔒</div>
-            <h3>Keamanan Terjamin</h3>
-            <p>Payment gateway terpercaya dan enkripsi data pengguna</p>
-          </div>
-          
-          <div class="overview-card">
-            <div class="card-icon">📊</div>
-            <h3>Dashboard Admin</h3>
-            <p>Kelola produk, harga, dan laporan penjualan dengan mudah</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="section section-dark">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge">✨ Fitur</span>
-          <h2 class="section-title">Fitur Lengkap yang Akan Tersedia</h2>
-          <p class="section-subtitle">Semua yang dibutuhkan untuk menjalankan bisnis top up game profesional</p>
-        </div>
-
-        <div class="features-tabs">
-          <button class="tab-btn active" data-tab="customer">👤 Fitur Customer</button>
-          <button class="tab-btn" data-tab="admin">⚙️ Fitur Admin</button>
-          <button class="tab-btn" data-tab="system">🔧 Fitur Sistem</button>
-        </div>
-
-        <div class="features-content">
-          <!-- Customer Features -->
-          <div class="tab-content active" id="tab-customer">
-            <div class="features-grid">
-              <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h4>Katalog Game Lengkap</h4>
-                <p>Mobile Legends, Free Fire, PUBG, Genshin Impact, dan game populer lainnya</p>
-                <a href="demo.html#catalog" class="feature-preview">👁️ Lihat Preview</a>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🔍</div>
-                <h4>Validasi ID Game</h4>
-                <p>Cek nickname otomatis sebelum transaksi untuk menghindari kesalahan</p>
-                <a href="demo.html#validation" class="feature-preview">👁️ Lihat Preview</a>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h4>Multi Payment</h4>
-                <p>QRIS, Virtual Account, E-wallet, Minimarket, dan Transfer Bank</p>
-                <a href="demo.html#payment" class="feature-preview">👁️ Lihat Preview</a>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">📜</div>
-                <h4>Riwayat Transaksi</h4>
-                <p>Lacak semua pesanan dengan status real-time</p>
-                <a href="demo.html#history" class="feature-preview">👁️ Lihat Preview</a>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🔔</div>
-                <h4>Notifikasi Otomatis</h4>
-                <p>Update status via WhatsApp atau Email</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🎁</div>
-                <h4>Promo & Voucher</h4>
-                <p>Sistem diskon dan kode voucher untuk customer</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h4>Member & Poin</h4>
-                <p>Sistem membership dengan reward poin setiap transaksi</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h4>Live Chat</h4>
-                <p>Tombol WhatsApp untuk bantuan langsung</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Admin Features -->
-          <div class="tab-content" id="tab-admin">
-            <div class="features-grid">
-              <div class="feature-card">
-                <div class="feature-icon">📦</div>
-                <h4>Manajemen Produk</h4>
-                <p>Tambah, edit, hapus produk dengan mudah</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h4>Pengaturan Harga</h4>
-                <p>Set harga jual, margin, dan harga khusus member</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h4>Laporan Penjualan</h4>
-                <p>Statistik harian, mingguan, bulanan dengan grafik</p>
-                <a href="demo.html#reports" class="feature-preview">👁️ Lihat Preview</a>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h4>Manajemen User</h4>
-                <p>Kelola data customer dan member</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🎫</div>
-                <h4>Kelola Voucher</h4>
-                <p>Buat dan atur promo/voucher diskon</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">📝</div>
-                <h4>Log Transaksi</h4>
-                <p>Riwayat lengkap semua transaksi</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">⚙️</div>
-                <h4>Pengaturan Website</h4>
-                <p>Logo, banner, kontak, dan konfigurasi lainnya</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">💵</div>
-                <h4>Saldo & Deposit</h4>
-                <p>Monitor saldo API dan riwayat deposit</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- System Features -->
-          <div class="tab-content" id="tab-system">
-            <div class="features-grid">
-              <div class="feature-card">
-                <div class="feature-icon">🔌</div>
-                <h4>Integrasi API Supplier</h4>
-                <p>Digiflazz, Apigames, VocaGame, atau supplier pilihan</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h4>Payment Gateway</h4>
-                <p>Midtrans, Xendit, Tripay, atau Duitku</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h4>Auto Processing</h4>
-                <p>Transaksi diproses otomatis 24/7 tanpa manual</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h4>WhatsApp API</h4>
-                <p>Notifikasi otomatis ke customer via WA</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h4>SSL & Security</h4>
-                <p>Enkripsi data dan keamanan transaksi</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">☁️</div>
-                <h4>Cloud Hosting</h4>
-                <p>Server cepat dan stabil dengan uptime 99.9%</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h4>SEO Optimized</h4>
-                <p>Struktur website ramah mesin pencari</p>
-              </div>
-              <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h4>Performance</h4>
-                <p>Loading cepat dengan optimasi maksimal</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Workflow Section -->
-    <section id="workflow" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge">🔄 Alur Kerja</span>
-          <h2 class="section-title">Bagaimana Sistem Bekerja?</h2>
-          <p class="section-subtitle">Proses transaksi otomatis dari order hingga diamond masuk</p>
-        </div>
-
-        <div class="workflow-container">
-          <div class="workflow-step">
-            <div class="step-number">1</div>
-            <div class="step-icon">🎮</div>
-            <h4>Pilih Game & Nominal</h4>
-            <p>Customer memilih game dan jumlah diamond/voucher yang diinginkan</p>
-          </div>
-          
-          <div class="workflow-arrow">→</div>
-          
-          <div class="workflow-step">
-            <div class="step-number">2</div>
-            <div class="step-icon">📝</div>
-            <h4>Input ID Game</h4>
-            <p>Masukkan User ID dan Server ID, sistem validasi nickname otomatis</p>
-          </div>
-          
-          <div class="workflow-arrow">→</div>
-          
-          <div class="workflow-step">
-            <div class="step-number">3</div>
-            <div class="step-icon">💳</div>
-            <h4>Pilih Pembayaran</h4>
-            <p>Pilih metode pembayaran yang tersedia (QRIS, VA, E-wallet, dll)</p>
-          </div>
-          
-          <div class="workflow-arrow">→</div>
-          
-          <div class="workflow-step">
-            <div class="step-number">4</div>
-            <div class="step-icon">✅</div>
-            <h4>Bayar & Konfirmasi</h4>
-            <p>Selesaikan pembayaran, sistem deteksi otomatis</p>
-          </div>
-          
-          <div class="workflow-arrow">→</div>
-          
-          <div class="workflow-step">
-            <div class="step-number">5</div>
-            <div class="step-icon">⚡</div>
-            <h4>Proses Otomatis</h4>
-            <p>Sistem kirim request ke API supplier secara instan</p>
-          </div>
-          
-          <div class="workflow-arrow">→</div>
-          
-          <div class="workflow-step highlight">
-            <div class="step-number">6</div>
-            <div class="step-icon">🎉</div>
-            <h4>Diamond Masuk!</h4>
-            <p>Customer terima diamond dalam hitungan detik</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section id="timeline" class="section section-dark">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge">📅 Timeline</span>
-          <h2 class="section-title">Tahapan Pengerjaan</h2>
-          <p class="section-subtitle">Estimasi waktu pengerjaan 2-3 minggu</p>
-        </div>
-
-        <div class="timeline-container">
-          <div class="timeline-line"></div>
-          
-          <div class="timeline-item">
-            <div class="timeline-marker">
-              <span>Minggu 1</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-phase">
-                <h4>📋 Fase 1: Persiapan & Setup</h4>
-                <ul>
-                  <li>Finalisasi requirement dari brief form</li>
-                  <li>Setup project & environment</li>
-                  <li>Desain UI/UX mockup</li>
-                  <li>Setup database & struktur</li>
-                </ul>
-                <span class="timeline-duration">Hari 1-3</span>
-              </div>
-              <div class="timeline-phase">
-                <h4>🎨 Fase 2: Frontend Development</h4>
-                <ul>
-                  <li>Halaman utama & katalog game</li>
-                  <li>Halaman detail produk & checkout</li>
-                  <li>Halaman riwayat & tracking</li>
-                  <li>Responsive design</li>
-                </ul>
-                <span class="timeline-duration">Hari 4-7</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker">
-              <span>Minggu 2</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-phase">
-                <h4>⚙️ Fase 3: Backend & Integrasi</h4>
-                <ul>
-                  <li>Integrasi API supplier (Digiflazz/Apigames)</li>
-                  <li>Integrasi payment gateway</li>
-                  <li>Sistem transaksi otomatis</li>
-                  <li>Notifikasi WhatsApp/Email</li>
-                </ul>
-                <span class="timeline-duration">Hari 8-11</span>
-              </div>
-              <div class="timeline-phase">
-                <h4>🔧 Fase 4: Admin Panel</h4>
-                <ul>
-                  <li>Dashboard admin</li>
-                  <li>Manajemen produk & harga</li>
-                  <li>Laporan & statistik</li>
-                  <li>Pengaturan website</li>
-                </ul>
-                <span class="timeline-duration">Hari 12-14</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker highlight">
-              <span>Minggu 3</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-phase">
-                <h4>🧪 Fase 5: Testing & Optimasi</h4>
-                <ul>
-                  <li>Testing semua fitur</li>
-                  <li>Testing transaksi real</li>
-                  <li>Bug fixing & optimasi</li>
-                  <li>Performance tuning</li>
-                </ul>
-                <span class="timeline-duration">Hari 15-18</span>
-              </div>
-              <div class="timeline-phase highlight">
-                <h4>🚀 Fase 6: Deployment & Launch</h4>
-                <ul>
-                  <li>Setup hosting & domain</li>
-                  <li>SSL & security configuration</li>
-                  <li>Final review & handover</li>
-                  <li>Training penggunaan admin</li>
-                </ul>
-                <span class="timeline-duration">Hari 19-21</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-note">
-          <div class="note-icon">💡</div>
-          <p><strong>Catatan:</strong> Timeline bisa lebih cepat (kurang dari 2 minggu) tergantung kompleksitas fitur dan kecepatan feedback dari klien.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech Stack Section -->
-    <section id="tech" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-badge">🛠️ Teknologi</span>
-          <h2 class="section-title">Tech Stack yang Digunakan</h2>
-          <p class="section-subtitle">Teknologi modern untuk performa dan keamanan terbaik</p>
-        </div>
-
-        <div class="tech-grid">
-          <div class="tech-category">
-            <h4>Frontend</h4>
-            <div class="tech-items">
-              <div class="tech-item">
-                <span class="tech-icon">⚛️</span>
-                <span>React / Next.js</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🎨</span>
-                <span>Tailwind CSS</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🌐</span>
-                <span>Three.js (3D)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tech-category">
-            <h4>Backend</h4>
-            <div class="tech-items">
-              <div class="tech-item">
-                <span class="tech-icon">🟢</span>
-                <span>Node.js / Laravel</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🗄️</span>
-                <span>MySQL / PostgreSQL</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🔴</span>
-                <span>Redis (Cache)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tech-category">
-            <h4>Integrasi</h4>
-            <div class="tech-items">
-              <div class="tech-item">
-                <span class="tech-icon">🔌</span>
-                <span>Digiflazz / Apigames</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">💳</span>
-                <span>Midtrans / Xendit</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">📱</span>
-                <span>WhatsApp API</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tech-category">
-            <h4>Infrastructure</h4>
-            <div class="tech-items">
-              <div class="tech-item">
-                <span class="tech-icon">☁️</span>
-                <span>Cloud Hosting</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🔒</span>
-                <span>SSL Certificate</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-icon">🚀</span>
-                <span>CDN & Caching</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2>Siap Memulai Project?</h2>
-          <p>Isi brief form untuk memulai diskusi lebih lanjut tentang kebutuhan website top up game Anda.</p>
-          <a href="brief.html" class="btn btn-primary btn-large">
-            <span>📝 Isi Brief Form Sekarang</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <p>Project Web Game - Proposal & Perencanaan</p>
-        <p class="footer-note">Dokumen ini dibuat untuk presentasi kepada klien</p>
-      </div>
-    </footer>
-
-    <script type="module" src="/src/js/presentation.js"></script>
+    <script type="module" src="/src/js/index.js"></script>
   </body>
 </html>
