@@ -14,52 +14,52 @@ class VillaGestureApp {
     this.gestureDetector = null;
     this.uiManager = null;
     this.isDeconstructed = false;
-    this.reconstructionProgress = 0;
     this.handPosition = { x: 0, y: 0 };
     this.lastHandOpenness = 0;
+    this.demoMode = false;
   }
 
   async init() {
     try {
-      // Setup Three.js
       this.setupThreeJS();
+      console.log('Three.js setup complete');
 
-      // Initialize Hand Gesture Detector
-      this.gestureDetector = new HandGestureDetector();
-      await this.gestureDetector.init();
-
-      // Create Villa Model
       this.villa = new VillaModel(this.scene);
       await this.villa.create();
+      console.log('Villa model created');
 
-      // Create Particle System
       this.particles = new ParticleSystem(this.scene);
+      console.log('Particle system created');
 
-      // Initialize UI Manager
       this.uiManager = new UIManager();
       this.uiManager.init();
+      console.log('UI Manager initialized');
 
-      // Setup event listeners
+      this.gestureDetector = new HandGestureDetector();
+      try {
+        await this.gestureDetector.init();
+        console.log('Hand gesture detector initialized');
+      } catch (cameraError) {
+        console.warn('Camera access failed, using demo mode');
+        this.uiManager.showMessage('Camera access denied - using demo mode');
+        this.enableDemoMode();
+      }
+
       this.setupEventListeners();
-
-      // Hide loading screen
       this.hideLoadingScreen();
-
-      // Start animation loop
       this.animate();
     } catch (error) {
       console.error('Failed to initialize app:', error);
-      this.uiManager?.showError('Failed to initialize application');
+      this.uiManager?.showError('Failed to initialize: ' + error.message);
+      this.hideLoadingScreen();
     }
   }
 
   setupThreeJS() {
-    // Scene
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0e27);
     this.scene.fog = new THREE.Fog(0x0a0e27, 100, 1000);
 
-    // Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -69,7 +69,6 @@ class VillaGestureApp {
     this.camera.position.set(0, 5, 15);
     this.camera.lookAt(0, 0, 0);
 
-    // Renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: document.getElementById('canvas'),
       antialias: true,
@@ -80,19 +79,14 @@ class VillaGestureApp {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
 
-    // Lighting
     this.setupLighting();
-
-    // Handle window resize
     window.addEventListener('resize', () => this.onWindowResize());
   }
 
   setupLighting() {
-    // Ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     this.scene.add(ambientLight);
 
-    // Directional light
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(10, 20, 10);
     directionalLight.castShadow = true;
@@ -101,12 +95,10 @@ class VillaGestureApp {
     directionalLight.shadow.camera.far = 50;
     this.scene.add(directionalLight);
 
-    // Point light for accent
     const pointLight = new THREE.PointLight(0x8b5cf6, 0.5);
     pointLight.position.set(-10, 10, 10);
     this.scene.add(pointLight);
 
-    // Add ground plane
     const groundGeometry = new THREE.PlaneGeometry(100, 100);
     const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.3 });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -133,8 +125,10 @@ class VillaGestureApp {
   animate = () => {
     requestAnimationFrame(this.animate);
 
-    // Get hand data
-    const handData = this.gestureDetector.getHandData();
+    let handData = null;
+    if (this.gestureDetector && !this.demoMode) {
+      handData = this.gestureDetector.getHandData();
+    }
 
     if (handData) {
       this.updateHandInteraction(handData);
@@ -143,30 +137,24 @@ class VillaGestureApp {
       this.uiManager.updateHandStatus(false);
     }
 
-    // Update particles
     if (this.particles) {
       this.particles.update();
     }
 
-    // Render
     this.renderer.render(this.scene, this.camera);
   };
 
   updateHandInteraction(handData) {
     const openness = handData.openness;
 
-    // Detect hand state change dengan hysteresis
     if (openness > 0.65 && this.lastHandOpenness <= 0.65) {
-      // Hand opened - start deconstruction
       this.startDeconstruction();
     } else if (openness < 0.35 && this.lastHandOpenness >= 0.35) {
-      // Hand closed - start reconstruction
       this.startReconstruction();
     }
 
     this.lastHandOpenness = openness;
 
-    // Update hand position for rotation (smooth lerp)
     const targetX = (handData.x - 0.5) * Math.PI * 0.6;
     const targetY = (handData.y - 0.5) * Math.PI * 0.6;
 
@@ -183,7 +171,6 @@ class VillaGestureApp {
       );
     }
 
-    // Handle zoom with pinch
     if (handData.pinchDistance > 0.1) {
       this.updateZoom(handData.pinchDistance);
     }
@@ -191,11 +178,9 @@ class VillaGestureApp {
 
   startDeconstruction() {
     if (this.isDeconstructed) return;
-
     this.isDeconstructed = true;
     this.uiManager.showMessage('Deconstructing villa...');
 
-    // Create particles from villa
     if (this.villa && this.particles) {
       this.particles.createFromMesh(this.villa.group, 1000);
       this.villa.hide();
@@ -204,11 +189,9 @@ class VillaGestureApp {
 
   startReconstruction() {
     if (!this.isDeconstructed) return;
-
     this.isDeconstructed = false;
     this.uiManager.showMessage('Reconstructing villa...');
 
-    // Reconstruct villa
     if (this.villa && this.particles) {
       this.particles.reconstructToMesh(this.villa.group, () => {
         this.villa.show();
@@ -221,7 +204,6 @@ class VillaGestureApp {
     const targetDistance = 10 + pinchDistance * 20;
     const currentDistance = this.camera.position.length();
     const newDistance = THREE.MathUtils.lerp(currentDistance, targetDistance, 0.1);
-
     const direction = this.camera.position.normalize();
     this.camera.position.copy(direction.multiplyScalar(newDistance));
   }
@@ -235,10 +217,36 @@ class VillaGestureApp {
     this.uiManager.showMessage('View reset');
   }
 
+  enableDemoMode() {
+    this.demoMode = true;
+    let demoTime = 0;
+
+    const demoInterval = setInterval(() => {
+      if (!this.demoMode) {
+        clearInterval(demoInterval);
+        return;
+      }
+
+      demoTime += 0.016;
+      const openness = 0.5 + Math.sin(demoTime * 0.5) * 0.5;
+      const x = 0.5 + Math.sin(demoTime * 0.3) * 0.3;
+      const y = 0.5 + Math.cos(demoTime * 0.2) * 0.3;
+
+      const demoHandData = {
+        openness,
+        x,
+        y,
+        pinchDistance: Math.max(0, Math.sin(demoTime * 0.4)) * 0.5,
+      };
+
+      this.updateHandInteraction(demoHandData);
+      this.uiManager.updateHandStatus(true);
+    }, 16);
+  }
+
   onWindowResize() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
@@ -253,7 +261,6 @@ class VillaGestureApp {
   }
 }
 
-// Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   const app = new VillaGestureApp();
   await app.init();
