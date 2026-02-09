@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Clear Cache - Daily Report Marketing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .version {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .status.checking {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        .steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .steps h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .steps ol {
+            margin-left: 20px;
+        }
+        .steps li {
+            margin-bottom: 10px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .steps code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Clear Cache & Reload</h1>
+        <div class="version">Daily Report Marketing Vertizon v2.1.0</div>
+        
+        <div id="status" class="status checking">
+            <div class="spinner"></div>
+            <p>Memeriksa versi aplikasi...</p>
+        </div>
+
+        <div class="steps">
+            <h3>📋 Langkah Manual (Jika Diperlukan):</h3>
+            <ol>
+                <li>Tekan <code>Ctrl + Shift + Delete</code> (Windows) atau <code>Cmd + Shift + Delete</code> (Mac)</li>
+                <li>Pilih "Cached images and files"</li>
+                <li>Time range: "All time"</li>
+                <li>Klik "Clear data"</li>
+                <li>Atau gunakan <code>Ctrl + Shift + R</code> untuk hard reload</li>
+            </ol>
+        </div>
+
+        <button class="btn" onclick="forceReload()">🚀 Reload Aplikasi Sekarang</button>
+    </div>
+
+    <script>
+        // Force clear service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+
+        // Clear all caches
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
+        }
+
+        // Check version
+        setTimeout(() => {
+            const statusDiv = document.getElementById('status');
+            
+            // Try to fetch main page with no-cache
+            fetch('/', {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                if (html.includes('v2.1')) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '<p>✅ <strong>Versi terbaru terdeteksi!</strong><br>Aplikasi siap digunakan dengan fitur terbaru.</p>';
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '<p>⚠️ <strong>Masih menggunakan versi lama</strong><br>Silakan ikuti langkah manual di bawah.</p>';
+                }
+            })
+            .catch(err => {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<p>❌ <strong>Gagal memeriksa versi</strong><br>Silakan reload manual.</p>';
+            });
+        }, 1000);
+
+        function forceReload() {
+            // Clear localStorage (optional - comment out if you want to keep data)
+            // localStorage.clear();
+            
+            // Clear sessionStorage
+            sessionStorage.clear();
+            
+            // Force reload with cache bypass
+            window.location.href = '/?v=' + Date.now();
+        }
+    </script>
+</body>
+</html>
