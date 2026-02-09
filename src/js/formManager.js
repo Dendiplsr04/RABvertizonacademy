@@ -416,6 +416,7 @@ export class FormManager {
     
     if (fields) {
       fields.classList.remove('hidden');
+      fields.classList.add('active');
       console.log('[FormManager] Fields shown for:', type);
     } else {
       console.error('[FormManager] Fields not found for:', fieldsId);
@@ -425,6 +426,7 @@ export class FormManager {
   hideAllActivityFields() {
     document.querySelectorAll('.activity-fields').forEach(field => {
       field.classList.add('hidden');
+      field.classList.remove('active');
     });
   }
 
