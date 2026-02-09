@@ -9,7 +9,6 @@ export class UIManager {
     this.loadingScreen = null;
     this.currentFilter = {
       date: 'today',
-      category: 'all',
       marketing: 'all'
     };
   }
@@ -32,13 +31,6 @@ export class UIManager {
       this.updateStatistics();
       this.updateTargetProgress();
     });
-
-    document
-      .querySelector('#filter-category')
-      ?.addEventListener('change', (e) => {
-        this.currentFilter.category = e.target.value;
-        this.refreshReportsList();
-      });
 
     document
       .querySelector('#filter-marketing')

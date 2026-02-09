@@ -126,13 +126,6 @@ export class ReportManager {
       });
     }
 
-    // Filter by category
-    if (filters.category && filters.category !== 'all') {
-      filtered = filtered.filter(
-        (report) => report.category === filters.category
-      );
-    }
-
     // Filter by marketing name
     if (filters.marketing && filters.marketing !== 'all') {
       filtered = filtered.filter((report) => report.name === filters.marketing);
