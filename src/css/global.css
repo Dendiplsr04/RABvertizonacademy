@@ -4,38 +4,44 @@
    =================================== */
 
 :root {
-  /* Moss Green Theme Colors */
-  --color-primary: #556B2F; /* Dark Moss Green */
-  --color-primary-light: #6B8E23; /* Olive Drab */
-  --color-primary-dark: #3D4F1F;
-  --color-secondary: #8FBC8F; /* Dark Sea Green */
-  --color-accent: #9ACD32; /* Yellow Green */
+  /* Marketing Energy Theme Colors */
+  --color-primary: #FF6B35; /* Orange Energetic */
+  --color-primary-light: #FF8C61;
+  --color-primary-dark: #E55A2B;
+  --color-secondary: #004E89; /* Blue Professional */
+  --color-accent: #F7B801; /* Yellow Achievement */
   
-  /* Category Colors */
-  --color-canvasing: #4169E1; /* Royal Blue */
-  --color-live: #DC143C; /* Crimson */
-  --color-konten: #32CD32; /* Lime Green */
+  /* Category Colors - Vibrant Gradients */
+  --color-canvasing: #667EEA; /* Purple */
+  --color-canvasing-dark: #764BA2;
+  --color-live: #F093FB; /* Pink */
+  --color-live-dark: #F5576C;
+  --color-konten: #4FACFE; /* Cyan */
+  --color-konten-dark: #00F2FE;
   
   /* Neutral Colors */
-  --color-bg-dark: #0F1419;
-  --color-bg-medium: #1A1F26;
-  --color-bg-light: #252B33;
-  --color-surface: #2A3139;
-  --color-text-primary: #E8F0E8;
-  --color-text-secondary: #A8B8A8;
-  --color-text-muted: #6B7B6B;
+  --color-bg-dark: #0A0E27;
+  --color-bg-medium: #151932;
+  --color-bg-light: #1E2139;
+  --color-surface: #252B45;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B8C5D6;
+  --color-text-muted: #6B7A99;
   
   /* UI Colors */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-  --color-info: #3B82F6;
+  --color-success: #06D6A0;
+  --color-warning: #FFB627;
+  --color-error: #FF6B6B;
+  --color-info: #4FACFE;
   
   /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(85, 107, 47, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.4);
+  --shadow-glow-purple: 0 0 30px rgba(102, 126, 234, 0.4);
+  --shadow-glow-pink: 0 0 30px rgba(240, 147, 251, 0.4);
+  --shadow-glow-cyan: 0 0 30px rgba(79, 172, 254, 0.4);
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -234,57 +240,106 @@ body {
 }
 
 .stat-card {
-  background: rgba(42, 49, 57, 0.8);
+  background: linear-gradient(135deg, rgba(42, 49, 69, 0.9), rgba(30, 33, 57, 0.9));
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
-  border: 1px solid rgba(85, 107, 47, 0.2);
+  border: 1px solid rgba(255, 107, 53, 0.2);
   transition: all var(--transition-base);
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.stat-card:hover::before {
+  opacity: 1;
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
   border-color: var(--color-primary);
 }
 
 .stat-card.canvasing {
   border-left: 4px solid var(--color-canvasing);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(42, 49, 69, 0.9));
+}
+
+.stat-card.canvasing:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-purple);
 }
 
 .stat-card.live {
   border-left: 4px solid var(--color-live);
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.15), rgba(42, 49, 69, 0.9));
+}
+
+.stat-card.live:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-pink);
 }
 
 .stat-card.konten {
   border-left: 4px solid var(--color-konten);
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.15), rgba(42, 49, 69, 0.9));
+}
+
+.stat-card.konten:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-cyan);
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  background: rgba(85, 107, 47, 0.2);
+  font-size: 2.5rem;
+  background: rgba(255, 107, 53, 0.15);
+  position: relative;
+}
+
+.stat-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: -1;
+}
+
+.stat-card:hover .stat-icon::after {
+  opacity: 0.3;
 }
 
 .stat-card.canvasing .stat-icon {
-  background: rgba(65, 105, 225, 0.2);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
 }
 
 .stat-card.live .stat-icon {
-  background: rgba(220, 20, 60, 0.2);
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
 }
 
 .stat-card.konten .stat-icon {
-  background: rgba(50, 205, 50, 0.2);
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
 }
 
 .stat-info {
@@ -357,11 +412,11 @@ body {
 }
 
 .report-card {
-  background: rgba(42, 49, 57, 0.8);
+  background: linear-gradient(135deg, rgba(30, 33, 57, 0.95), rgba(21, 25, 50, 0.95));
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
-  border: 1px solid rgba(85, 107, 47, 0.2);
+  border: 1px solid rgba(255, 107, 53, 0.15);
   transition: all var(--transition-base);
   cursor: pointer;
   position: relative;
@@ -380,25 +435,40 @@ body {
 }
 
 .report-card.canvasing::before {
-  background: var(--color-canvasing);
+  background: linear-gradient(180deg, var(--color-canvasing), var(--color-canvasing-dark));
 }
 
 .report-card.live::before {
-  background: var(--color-live);
+  background: linear-gradient(180deg, var(--color-live), var(--color-live-dark));
 }
 
 .report-card.konten::before {
-  background: var(--color-konten);
+  background: linear-gradient(180deg, var(--color-konten), var(--color-konten-dark));
 }
 
 .report-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-primary);
 }
 
+.report-card.canvasing:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-purple);
+  border-color: var(--color-canvasing);
+}
+
+.report-card.live:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-pink);
+  border-color: var(--color-live);
+}
+
+.report-card.konten:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow-cyan);
+  border-color: var(--color-konten);
+}
+
 .report-card:hover::before {
-  width: 8px;
+  width: 6px;
 }
 
 .report-header {
@@ -520,9 +590,25 @@ body {
   justify-content: center;
 }
 
+.fab::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity var(--transition-base);
+  z-index: -1;
+}
+
+.fab:hover::before {
+  opacity: 0.7;
+}
+
 .fab:hover {
-  transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 30px rgba(85, 107, 47, 0.5);
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), var(--shadow-glow);
 }
 
 .fab:active {
@@ -862,6 +948,28 @@ body {
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   color: white;
   box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before,
+.btn-next::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before,
+.btn-next:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn-primary:hover,

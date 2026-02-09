@@ -18,8 +18,8 @@ export class SceneManager {
   async init() {
     // Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0F1419);
-    this.scene.fog = new THREE.Fog(0x0F1419, 30, 100);
+    this.scene.background = new THREE.Color(0x0A0E27);
+    this.scene.fog = new THREE.Fog(0x0A0E27, 30, 100);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(
@@ -28,8 +28,8 @@ export class SceneManager {
       0.1,
       1000
     );
-    this.camera.position.set(0, 8, 20);
-    this.camera.lookAt(0, 0, 0);
+    this.camera.position.set(0, 10, 25);
+    this.camera.lookAt(0, 2, -5);
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -54,46 +54,81 @@ export class SceneManager {
   }
 
   createEnvironment() {
-    // Ground
+    // Ground with gradient
     const groundGeometry = new THREE.PlaneGeometry(100, 100);
     const groundMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1A1F26,
+      color: 0x0A0E27,
       roughness: 0.9,
       metalness: 0.1,
     });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -2;
+    ground.position.y = -5;
     ground.receiveShadow = true;
     this.scene.add(ground);
 
-    // Grid helper (subtle)
-    const gridHelper = new THREE.GridHelper(50, 50, 0x556B2F, 0x2A3139);
-    gridHelper.position.y = -1.9;
-    gridHelper.material.opacity = 0.2;
-    gridHelper.material.transparent = true;
-    this.scene.add(gridHelper);
+    // Animated waves background
+    this.createWaves();
 
-    // Ambient particles
-    this.createParticles();
+    // Floating particles (confetti style)
+    this.createConfettiParticles();
   }
 
-  createParticles() {
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 200;
-    const positions = new Float32Array(particlesCount * 3);
+  createWaves() {
+    const waveGeometry = new THREE.PlaneGeometry(80, 40, 32, 16);
+    const waveMaterial = new THREE.MeshStandardMaterial({
+      color: 0xFF6B35,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.1,
+    });
 
-    for (let i = 0; i < particlesCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 50;
+    for (let i = 0; i < 3; i++) {
+      const wave = new THREE.Mesh(waveGeometry, waveMaterial.clone());
+      wave.rotation.x = -Math.PI / 3;
+      wave.position.z = -20 - i * 10;
+      wave.position.y = -2;
+      this.scene.add(wave);
+      
+      if (!this.waves) this.waves = [];
+      this.waves.push({ mesh: wave, offset: i * 2 });
+    }
+  }
+
+  createConfettiParticles() {
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 300;
+    const positions = new Float32Array(particlesCount * 3);
+    const colors = new Float32Array(particlesCount * 3);
+    
+    const colorPalette = [
+      new THREE.Color(0xFF6B35), // Orange
+      new THREE.Color(0xF7B801), // Yellow
+      new THREE.Color(0x667EEA), // Purple
+      new THREE.Color(0xF093FB), // Pink
+      new THREE.Color(0x4FACFE), // Cyan
+      new THREE.Color(0x06D6A0), // Teal
+    ];
+
+    for (let i = 0; i < particlesCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 60;
+      positions[i * 3 + 1] = Math.random() * 40 - 10;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+      
+      const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      color: 0x556B2F,
-      size: 0.1,
+      size: 0.15,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.8,
+      vertexColors: true,
       blending: THREE.AdditiveBlending,
     });
 
@@ -103,134 +138,173 @@ export class SceneManager {
   }
 
   createPillars() {
-    const pillarPositions = [
-      { x: -8, color: 0x4169E1, name: 'Canvasing' },
-      { x: 0, color: 0xDC143C, name: 'Live' },
-      { x: 8, color: 0x32CD32, name: 'Konten' },
+    // Create floating achievement badges instead of pillars
+    const badgePositions = [
+      { x: -10, color: 0x667EEA, name: 'Canvasing' },
+      { x: 0, color: 0xF093FB, name: 'Live' },
+      { x: 10, color: 0x4FACFE, name: 'Konten' },
     ];
 
-    pillarPositions.forEach((config, index) => {
-      const pillar = this.createPillar(config.color, config.name);
-      pillar.position.set(config.x, 0, 0);
-      this.scene.add(pillar);
-      this.pillars.push(pillar);
+    badgePositions.forEach((config, index) => {
+      const badge = this.createFloatingBadge(config.color, config.name);
+      badge.position.set(config.x, 3, -5);
+      this.scene.add(badge);
+      this.pillars.push(badge);
     });
   }
 
-  createPillar(color, name) {
+  createFloatingBadge(color, name) {
     const group = new THREE.Group();
 
-    // Base
-    const baseGeometry = new THREE.CylinderGeometry(1.5, 1.8, 0.5, 32);
-    const baseMaterial = new THREE.MeshStandardMaterial({
-      color: 0x556B2F,
-      roughness: 0.4,
-      metalness: 0.6,
-    });
-    const base = new THREE.Mesh(baseGeometry, baseMaterial);
-    base.position.y = -1.75;
-    base.castShadow = true;
-    base.receiveShadow = true;
-    group.add(base);
-
-    // Main pillar
-    const pillarGeometry = new THREE.CylinderGeometry(1.2, 1.2, 8, 32);
-    const pillarMaterial = new THREE.MeshStandardMaterial({
+    // Main badge circle
+    const badgeGeometry = new THREE.CylinderGeometry(2, 2, 0.5, 32);
+    const badgeMaterial = new THREE.MeshStandardMaterial({
       color: color,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: color,
+      emissiveIntensity: 0.3,
+    });
+    const badge = new THREE.Mesh(badgeGeometry, badgeMaterial);
+    badge.rotation.x = Math.PI / 2;
+    badge.castShadow = true;
+    group.add(badge);
+
+    // Inner ring
+    const ringGeometry = new THREE.TorusGeometry(1.5, 0.15, 16, 100);
+    const ringMaterial = new THREE.MeshStandardMaterial({
+      color: 0xFFFFFF,
       roughness: 0.3,
       metalness: 0.7,
-      emissive: color,
-      emissiveIntensity: 0.2,
-    });
-    const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
-    pillar.position.y = 2.5;
-    pillar.castShadow = true;
-    pillar.receiveShadow = true;
-    group.add(pillar);
-
-    // Top cap
-    const capGeometry = new THREE.CylinderGeometry(1.5, 1.2, 0.8, 32);
-    const capMaterial = new THREE.MeshStandardMaterial({
-      color: 0x556B2F,
-      roughness: 0.4,
-      metalness: 0.6,
-    });
-    const cap = new THREE.Mesh(capGeometry, capMaterial);
-    cap.position.y = 7;
-    cap.castShadow = true;
-    group.add(cap);
-
-    // Glow ring
-    const ringGeometry = new THREE.TorusGeometry(1.3, 0.1, 16, 100);
-    const ringMaterial = new THREE.MeshBasicMaterial({
-      color: color,
-      transparent: true,
-      opacity: 0.6,
     });
     const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-    ring.position.y = 2.5;
     ring.rotation.x = Math.PI / 2;
     group.add(ring);
 
-    group.userData = { name, color, ring };
+    // Glow effect
+    const glowGeometry = new THREE.CircleGeometry(2.5, 32);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.3,
+      side: THREE.DoubleSide,
+    });
+    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+    glow.position.z = -0.3;
+    group.add(glow);
+
+    group.userData = { name, color, glow, ring };
     return group;
   }
 
   createLights() {
     // Ambient light
-    const ambientLight = new THREE.AmbientLight(0x556B2F, 0.4);
+    const ambientLight = new THREE.AmbientLight(0xFF6B35, 0.3);
     this.scene.add(ambientLight);
 
     // Main directional light
-    const mainLight = new THREE.DirectionalLight(0x9ACD32, 1);
-    mainLight.position.set(10, 20, 10);
+    const mainLight = new THREE.DirectionalLight(0xFFFFFF, 1.2);
+    mainLight.position.set(15, 25, 15);
     mainLight.castShadow = true;
     mainLight.shadow.mapSize.width = 2048;
     mainLight.shadow.mapSize.height = 2048;
     mainLight.shadow.camera.near = 0.5;
-    mainLight.shadow.camera.far = 50;
-    mainLight.shadow.camera.left = -20;
-    mainLight.shadow.camera.right = 20;
-    mainLight.shadow.camera.top = 20;
-    mainLight.shadow.camera.bottom = -20;
+    mainLight.shadow.camera.far = 60;
+    mainLight.shadow.camera.left = -25;
+    mainLight.shadow.camera.right = 25;
+    mainLight.shadow.camera.top = 25;
+    mainLight.shadow.camera.bottom = -25;
     this.scene.add(mainLight);
 
-    // Accent lights for each pillar
-    const accentColors = [0x4169E1, 0xDC143C, 0x32CD32];
-    const positions = [-8, 0, 8];
+    // Accent lights for each badge
+    const accentColors = [0x667EEA, 0xF093FB, 0x4FACFE];
+    const positions = [-10, 0, 10];
 
     positions.forEach((x, i) => {
-      const light = new THREE.PointLight(accentColors[i], 1, 15);
-      light.position.set(x, 5, 0);
+      const light = new THREE.PointLight(accentColors[i], 2, 20);
+      light.position.set(x, 5, -5);
       this.scene.add(light);
     });
 
-    // Hemisphere light for better ambient
-    const hemiLight = new THREE.HemisphereLight(0x9ACD32, 0x1A1F26, 0.6);
+    // Hemisphere light
+    const hemiLight = new THREE.HemisphereLight(0xFF6B35, 0x0A0E27, 0.8);
     this.scene.add(hemiLight);
+
+    // Spotlight for dramatic effect
+    const spotLight = new THREE.SpotLight(0xF7B801, 1.5);
+    spotLight.position.set(0, 20, 0);
+    spotLight.angle = Math.PI / 6;
+    spotLight.penumbra = 0.3;
+    spotLight.decay = 2;
+    spotLight.distance = 50;
+    this.scene.add(spotLight);
   }
 
   update() {
     this.time += 0.01;
 
-    // Animate pillars
-    this.pillars.forEach((pillar, index) => {
-      const ring = pillar.userData.ring;
+    // Animate floating badges
+    this.pillars.forEach((badge, index) => {
+      // Float up and down
+      badge.position.y = 3 + Math.sin(this.time * 1.5 + index * 2) * 0.5;
+      
+      // Gentle rotation
+      badge.rotation.y = this.time * 0.3 + index;
+      
+      // Pulse glow
+      const glow = badge.userData.glow;
+      if (glow) {
+        glow.material.opacity = 0.2 + Math.sin(this.time * 2 + index) * 0.1;
+      }
+      
+      // Rotate ring
+      const ring = badge.userData.ring;
       if (ring) {
-        ring.rotation.z = this.time + index;
-        ring.position.y = 2.5 + Math.sin(this.time * 2 + index) * 0.2;
+        ring.rotation.z = this.time * 0.5;
       }
     });
 
-    // Animate particles
-    if (this.particles) {
-      this.particles.rotation.y = this.time * 0.05;
+    // Animate waves
+    if (this.waves) {
+      this.waves.forEach((wave, index) => {
+        const positions = wave.mesh.geometry.attributes.position;
+        for (let i = 0; i < positions.count; i++) {
+          const x = positions.getX(i);
+          const y = positions.getY(i);
+          const waveX = Math.sin(x * 0.5 + this.time + wave.offset) * 0.5;
+          const waveY = Math.sin(y * 0.5 + this.time + wave.offset) * 0.5;
+          positions.setZ(i, waveX + waveY);
+        }
+        positions.needsUpdate = true;
+      });
     }
 
-    // Gentle camera sway
-    this.camera.position.x = Math.sin(this.time * 0.2) * 0.5;
-    this.camera.position.y = 8 + Math.sin(this.time * 0.3) * 0.3;
-    this.camera.lookAt(0, 2, 0);
+    // Animate confetti particles (falling and rotating)
+    if (this.particles) {
+      const positions = this.particles.geometry.attributes.position;
+      for (let i = 0; i < positions.count; i++) {
+        let y = positions.getY(i);
+        y -= 0.02; // Fall speed
+        
+        // Reset to top when reaching bottom
+        if (y < -10) {
+          y = 30;
+          positions.setX(i, (Math.random() - 0.5) * 60);
+          positions.setZ(i, (Math.random() - 0.5) * 60);
+        }
+        
+        positions.setY(i, y);
+      }
+      positions.needsUpdate = true;
+      
+      // Gentle rotation
+      this.particles.rotation.y = this.time * 0.1;
+    }
+
+    // Smooth camera movement
+    this.camera.position.x = Math.sin(this.time * 0.15) * 2;
+    this.camera.position.y = 10 + Math.sin(this.time * 0.2) * 0.5;
+    this.camera.lookAt(0, 2, -5);
   }
 
   onWindowResize() {
