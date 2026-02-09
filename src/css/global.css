@@ -304,15 +304,20 @@ body {
 }
 
 .stat-icon {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   background: rgba(255, 107, 53, 0.15);
   position: relative;
+}
+
+.stat-icon svg {
+  width: 28px;
+  height: 28px;
 }
 
 .stat-icon::after {
@@ -669,8 +674,13 @@ body {
 }
 
 .nav-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   transition: transform var(--transition-base);
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .nav-label {
@@ -1534,8 +1544,8 @@ body {
 }
 
 .quick-action-icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .quick-action-btn.canvasing .quick-action-icon {
