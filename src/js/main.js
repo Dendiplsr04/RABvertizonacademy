@@ -1,6 +1,7 @@
 /**
  * Main Application Entry Point
  * Daily Report Marketing Vertizon
+ * Version: 2.1.0 - Production Ready
  */
 
 import '../css/global.css';
@@ -9,6 +10,10 @@ import { FormManager } from './formManager.js';
 import { ReportManager } from './reportManager.js';
 import { SceneManager } from './scene.js';
 import { UIManager } from './ui.js';
+
+const APP_VERSION = '2.1.0';
+console.log(`%c🚀 Daily Report Marketing Vertizon v${APP_VERSION}`, 'color: #556B2F; font-size: 20px; font-weight: bold;');
+console.log('%c✅ File aktif: main.js v2.1.0', 'color: #9ACD32; font-size: 14px; font-weight: bold;');
 
 class DailyReportApp {
   constructor() {
@@ -22,10 +27,6 @@ class DailyReportApp {
   async init() {
     try {
       console.log('[App] Initializing Daily Report Marketing Vertizon...');
-
-      // CLEAR OLD DATA - Force fresh start
-      console.log('[App] Clearing old data...');
-      localStorage.removeItem('vertizon_daily_reports');
 
       // Initialize Report Manager
       this.reportManager = new ReportManager();
