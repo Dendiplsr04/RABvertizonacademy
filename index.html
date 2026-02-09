@@ -49,10 +49,55 @@
       <div id="main-content" class="main-content">
         <!-- Dashboard View -->
         <div id="dashboard-view" class="dashboard-view">
+          <!-- Target Tracker -->
+          <div class="target-tracker">
+            <div class="target-header">
+              <h2 class="target-title">Target Hari Ini</h2>
+              <span class="target-percentage" id="target-percentage">0%</span>
+            </div>
+            <div class="target-progress-bar">
+              <div class="target-progress-fill" id="target-progress-fill"></div>
+            </div>
+            <p class="target-info">
+              <span id="target-current">0</span> / <span id="target-total">30</span> Aktivitas
+            </p>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button class="quick-action-btn canvasing" id="quick-canvasing">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Canvasing</span>
+            </button>
+            <button class="quick-action-btn live" id="quick-live">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+              </svg>
+              <span>Live</span>
+            </button>
+            <button class="quick-action-btn konten" id="quick-konten">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Konten</span>
+            </button>
+          </div>
+
           <!-- Stats Cards -->
           <div class="stats-container">
             <div class="stat-card canvasing">
-              <div class="stat-icon">🎯</div>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="40" height="40">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
               <div class="stat-info">
                 <h3 class="stat-title">Canvasing</h3>
                 <p class="stat-value" id="stat-canvasing">0</p>
@@ -60,7 +105,12 @@
               </div>
             </div>
             <div class="stat-card live">
-              <div class="stat-icon">📹</div>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="40" height="40">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+                </svg>
+              </div>
               <div class="stat-info">
                 <h3 class="stat-title">Live</h3>
                 <p class="stat-value" id="stat-live">0</p>
@@ -68,11 +118,34 @@
               </div>
             </div>
             <div class="stat-card konten">
-              <div class="stat-icon">✨</div>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="40" height="40">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
               <div class="stat-info">
                 <h3 class="stat-title">Konten</h3>
                 <p class="stat-value" id="stat-konten">0</p>
                 <p class="stat-label">Laporan Hari Ini</p>
+              </div>
+            </div>
+            <div class="stat-card leaderboard" id="leaderboard-card">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="40" height="40">
+                  <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                  <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                  <path d="M4 22h16"></path>
+                  <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                  <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                  <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <h3 class="stat-title">Top Performer</h3>
+                <p class="stat-value" id="top-performer-name">-</p>
+                <p class="stat-label">Lihat Leaderboard</p>
               </div>
             </div>
           </div>
@@ -112,20 +185,37 @@
       <!-- Bottom Navigation (Mobile) -->
       <nav class="bottom-nav">
         <button class="nav-item active" data-view="dashboard">
-          <span class="nav-icon">📊</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
           <span class="nav-label">Dashboard</span>
         </button>
-        <button class="nav-item" data-view="reports">
-          <span class="nav-icon">📝</span>
-          <span class="nav-label">Laporan</span>
+        <button class="nav-item" data-view="add">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span class="nav-label">Tambah</span>
         </button>
         <button class="nav-item" data-view="stats">
-          <span class="nav-icon">📈</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
           <span class="nav-label">Statistik</span>
         </button>
-        <button class="nav-item" data-view="profile">
-          <span class="nav-icon">👤</span>
-          <span class="nav-label">Profil</span>
+        <button class="nav-item" data-view="team">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span class="nav-label">Tim</span>
         </button>
       </nav>
     </div>
@@ -282,6 +372,20 @@
         <div class="modal-footer">
           <button class="btn-secondary" id="btn-delete-report">Hapus</button>
           <button class="btn-primary" id="btn-send-whatsapp">Kirim ke WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Leaderboard -->
+    <div id="modal-leaderboard" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Leaderboard Tim</h2>
+          <button class="btn-close" id="btn-close-leaderboard">×</button>
+        </div>
+        <div id="leaderboard-content" class="leaderboard-content">
+          <!-- Leaderboard will be dynamically added here -->
         </div>
       </div>
     </div>

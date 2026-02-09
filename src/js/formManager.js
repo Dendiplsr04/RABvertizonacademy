@@ -158,6 +158,7 @@ export class FormManager {
       this.closeModal();
       this.uiManager.refreshReportsList();
       this.uiManager.updateStatistics();
+      this.uiManager.updateTargetProgress();
     } catch (error) {
       console.error('[FormManager] Error saving report:', error);
       this.uiManager.showToast('Gagal menyimpan laporan', 'error');

@@ -255,4 +255,76 @@ export class ReportManager {
     this.reports = [];
     this.saveReports();
   }
+
+  // Get leaderboard
+  getLeaderboard(date = 'today') {
+    const filtered = this.filterReports({ date });
+    const leaderboard = {};
+
+    // Calculate scores per marketing
+    filtered.forEach(report => {
+      if (!leaderboard[report.name]) {
+        leaderboard[report.name] = {
+          name: report.name,
+          activities: 0,
+          canvasing: 0,
+          live: 0,
+          konten: 0,
+          score: 0,
+        };
+      }
+
+      leaderboard[report.name].activities++;
+      
+      if (report.category === 'canvasing') {
+        leaderboard[report.name].canvasing += report.prospek || 0;
+        leaderboard[report.name].score += (report.prospek || 0) * 2; // 2 points per prospek
+      } else if (report.category === 'live') {
+        leaderboard[report.name].live += report.durasi || 0;
+        leaderboard[report.name].score += (report.durasi || 0) * 1; // 1 point per minute
+      } else if (report.category === 'konten') {
+        leaderboard[report.name].konten += report.jumlahKonten || 0;
+        leaderboard[report.name].score += (report.jumlahKonten || 0) * 3; // 3 points per konten
+      }
+    });
+
+    // Convert to array and sort by score
+    const sorted = Object.values(leaderboard).sort((a, b) => b.score - a.score);
+    
+    return sorted;
+  }
+
+  // Get target progress
+  getTargetProgress(date = 'today') {
+    const stats = this.getStatistics(date);
+    
+    // Default targets
+    const targets = {
+      canvasing: 10,
+      live: 5,
+      konten: 15,
+      total: 30,
+    };
+
+    const current = stats.canvasing + stats.live + stats.konten;
+    const percentage = Math.min(Math.round((current / targets.total) * 100), 100);
+
+    return {
+      current,
+      total: targets.total,
+      percentage,
+      targets,
+      stats,
+    };
+  }
+
+  // Get initial from name
+  getInitial(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
 }

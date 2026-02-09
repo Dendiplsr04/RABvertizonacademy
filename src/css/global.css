@@ -1390,3 +1390,325 @@ body {
 .p-2 { padding: var(--spacing-sm); }
 .p-3 { padding: var(--spacing-md); }
 .p-4 { padding: var(--spacing-lg); }
+
+/* ===================================
+   Target Tracker Widget
+   =================================== */
+
+.target-tracker {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 184, 1, 0.1));
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  backdrop-filter: blur(10px);
+}
+
+.target-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.target-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.target-percentage {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.target-progress-bar {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: var(--spacing-sm);
+}
+
+.target-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 6px;
+  transition: width 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.target-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.target-info {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+.target-info span {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* ===================================
+   Quick Actions
+   =================================== */
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border: 2px solid;
+  border-radius: var(--radius-lg);
+  background: rgba(30, 33, 57, 0.8);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.quick-action-btn.canvasing {
+  border-color: var(--color-canvasing);
+}
+
+.quick-action-btn.live {
+  border-color: var(--color-live);
+}
+
+.quick-action-btn.konten {
+  border-color: var(--color-konten);
+}
+
+.quick-action-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.quick-action-btn.canvasing:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  box-shadow: var(--shadow-lg), var(--shadow-glow-purple);
+}
+
+.quick-action-btn.live:hover {
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
+  box-shadow: var(--shadow-lg), var(--shadow-glow-pink);
+}
+
+.quick-action-btn.konten:hover {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
+  box-shadow: var(--shadow-lg), var(--shadow-glow-cyan);
+}
+
+.quick-action-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.quick-action-btn.canvasing .quick-action-icon {
+  stroke: var(--color-canvasing);
+}
+
+.quick-action-btn.live .quick-action-icon {
+  stroke: var(--color-live);
+}
+
+.quick-action-btn.konten .quick-action-icon {
+  stroke: var(--color-konten);
+}
+
+/* ===================================
+   Leaderboard Card
+   =================================== */
+
+.stat-card.leaderboard {
+  background: linear-gradient(135deg, rgba(247, 184, 1, 0.15), rgba(42, 49, 69, 0.9));
+  border-left: 4px solid var(--color-accent);
+  cursor: pointer;
+}
+
+.stat-card.leaderboard:hover {
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(247, 184, 1, 0.4);
+  border-color: var(--color-accent);
+}
+
+.stat-card.leaderboard .stat-icon {
+  background: linear-gradient(135deg, rgba(247, 184, 1, 0.2), rgba(255, 107, 53, 0.2));
+}
+
+.stat-card.leaderboard .stat-icon svg {
+  stroke: var(--color-accent);
+}
+
+/* ===================================
+   Leaderboard Modal
+   =================================== */
+
+.leaderboard-content {
+  padding: var(--spacing-xl);
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: rgba(30, 33, 57, 0.6);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-base);
+  border: 1px solid transparent;
+}
+
+.leaderboard-item:hover {
+  background: rgba(30, 33, 57, 0.9);
+  border-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.leaderboard-rank {
+  font-size: 1.5rem;
+  font-weight: 800;
+  min-width: 40px;
+  text-align: center;
+}
+
+.leaderboard-rank.gold {
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.leaderboard-rank.silver {
+  color: #C0C0C0;
+  text-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+}
+
+.leaderboard-rank.bronze {
+  color: #CD7F32;
+  text-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+}
+
+.leaderboard-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.leaderboard-info {
+  flex: 1;
+}
+
+.leaderboard-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-xs) 0;
+  color: var(--color-text-primary);
+}
+
+.leaderboard-stats {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.leaderboard-score {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* ===================================
+   Avatar in Report Cards
+   =================================== */
+
+.report-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.report-card.canvasing .report-avatar {
+  background: linear-gradient(135deg, var(--color-canvasing), var(--color-canvasing-dark));
+}
+
+.report-card.live .report-avatar {
+  background: linear-gradient(135deg, var(--color-live), var(--color-live-dark));
+}
+
+.report-card.konten .report-avatar {
+  background: linear-gradient(135deg, var(--color-konten), var(--color-konten-dark));
+}
+
+.report-user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.report-user-details {
+  flex: 1;
+}
+
+.report-user-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.report-user-role {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
