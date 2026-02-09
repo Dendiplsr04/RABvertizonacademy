@@ -49,6 +49,34 @@
       <div id="main-content" class="main-content">
         <!-- Dashboard View -->
         <div id="dashboard-view" class="dashboard-view">
+          <!-- Attendance Summary -->
+          <div class="attendance-summary">
+            <h2 class="section-title">Absensi Hari Ini</h2>
+            <div class="attendance-stats">
+              <div class="attendance-stat-card hadir">
+                <div class="attendance-stat-icon">✓</div>
+                <div class="attendance-stat-info">
+                  <span class="attendance-stat-value" id="attendance-hadir">0</span>
+                  <span class="attendance-stat-label">Hadir</span>
+                </div>
+              </div>
+              <div class="attendance-stat-card tidak-hadir">
+                <div class="attendance-stat-icon">✗</div>
+                <div class="attendance-stat-info">
+                  <span class="attendance-stat-value" id="attendance-tidak-hadir">0</span>
+                  <span class="attendance-stat-label">Tidak Hadir</span>
+                </div>
+              </div>
+              <div class="attendance-stat-card project-lain">
+                <div class="attendance-stat-icon">📋</div>
+                <div class="attendance-stat-info">
+                  <span class="attendance-stat-value" id="attendance-project-lain">0</span>
+                  <span class="attendance-stat-label">Project Lain</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Target Tracker -->
           <div class="target-tracker">
             <div class="target-header">
@@ -233,7 +261,7 @@
           <div class="form-step active" data-step="1">
             <div class="form-group">
               <label class="form-label">Nama Marketing</label>
-              <input type="text" id="input-name" class="form-input" placeholder="Masukkan nama Anda" required />
+              <input type="text" id="input-name" class="form-input" placeholder="Masukkan nama Anda" />
             </div>
             <button type="button" class="btn-primary btn-next">Lanjut ke Absensi</button>
           </div>
@@ -244,7 +272,7 @@
               <label class="form-label">Status Kehadiran</label>
               <div class="attendance-selector">
                 <label class="attendance-option">
-                  <input type="radio" name="attendance" value="hadir" required />
+                  <input type="radio" name="attendance" value="hadir" />
                   <div class="attendance-card hadir">
                     <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -254,7 +282,7 @@
                   </div>
                 </label>
                 <label class="attendance-option">
-                  <input type="radio" name="attendance" value="tidak_hadir" required />
+                  <input type="radio" name="attendance" value="tidak_hadir" />
                   <div class="attendance-card tidak-hadir">
                     <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <circle cx="12" cy="12" r="10"></circle>
@@ -265,7 +293,7 @@
                   </div>
                 </label>
                 <label class="attendance-option">
-                  <input type="radio" name="attendance" value="project_lain" required />
+                  <input type="radio" name="attendance" value="project_lain" />
                   <div class="attendance-card project-lain">
                     <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -281,7 +309,17 @@
             <div id="reason-tidak-hadir" class="attendance-reason hidden">
               <div class="form-group">
                 <label class="form-label">Alasan Tidak Hadir</label>
-                <textarea id="input-reason-tidak-hadir" class="form-textarea" rows="3" placeholder="Jelaskan alasan tidak hadir..."></textarea>
+                <select id="input-reason-type" class="form-input">
+                  <option value="">Pilih Alasan</option>
+                  <option value="sakit">Sakit</option>
+                  <option value="izin">Izin</option>
+                  <option value="cuti">Cuti</option>
+                  <option value="lainnya">Lainnya</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Keterangan</label>
+                <textarea id="input-reason-tidak-hadir" class="form-textarea" rows="3" placeholder="Jelaskan keterangan..."></textarea>
               </div>
             </div>
 
@@ -351,7 +389,7 @@
             <label class="form-label">Jenis Aktivitas</label>
             <div class="activity-type-selector">
               <label class="activity-type-option">
-                <input type="radio" name="activity-type" value="canvasing" required />
+                <input type="radio" name="activity-type" value="canvasing" />
                 <div class="activity-type-card">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -361,7 +399,7 @@
                 </div>
               </label>
               <label class="activity-type-option">
-                <input type="radio" name="activity-type" value="live" required />
+                <input type="radio" name="activity-type" value="live" />
                 <div class="activity-type-card">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -371,7 +409,7 @@
                 </div>
               </label>
               <label class="activity-type-option">
-                <input type="radio" name="activity-type" value="konten" required />
+                <input type="radio" name="activity-type" value="konten" />
                 <div class="activity-type-card">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>

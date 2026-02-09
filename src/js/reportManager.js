@@ -54,6 +54,13 @@ export class ReportManager {
     return this.reports;
   }
 
+  // Check if marketing has attended today
+  hasAttendedToday(name, date) {
+    return this.reports.some(
+      (report) => report.name === name && report.date === date
+    );
+  }
+
   // Update report
   updateReport(id, updatedData) {
     const index = this.reports.findIndex((report) => report.id === id);
@@ -142,12 +149,26 @@ export class ReportManager {
       canvasing: 0,
       live: 0,
       konten: 0,
-      total: filtered.length
+      total: filtered.length,
+      attendance: {
+        hadir: 0,
+        tidak_hadir: 0,
+        project_lain: 0
+      }
     };
 
     for (const report of filtered) {
+      // Count by category
       if (stats.hasOwnProperty(report.category)) {
         stats[report.category]++;
+      }
+      
+      // Count by attendance
+      if (report.attendance) {
+        const attendanceType = report.attendance;
+        if (stats.attendance.hasOwnProperty(attendanceType)) {
+          stats.attendance[attendanceType]++;
+        }
       }
     }
 

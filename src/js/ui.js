@@ -112,6 +112,12 @@ export class UIManager {
   updateStatistics() {
     const stats = this.reportManager.getStatistics(this.currentFilter.date);
 
+    // Update attendance stats
+    document.querySelector('#attendance-hadir').textContent = stats.attendance?.hadir || 0;
+    document.querySelector('#attendance-tidak-hadir').textContent = stats.attendance?.tidak_hadir || 0;
+    document.querySelector('#attendance-project-lain').textContent = stats.attendance?.project_lain || 0;
+
+    // Update activity stats
     document.querySelector('#stat-canvasing').textContent = stats.canvasing;
     document.querySelector('#stat-live').textContent = stats.live;
     document.querySelector('#stat-konten').textContent = stats.konten;
