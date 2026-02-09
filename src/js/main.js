@@ -4,9 +4,10 @@
  */
 
 import '../css/global.css';
-import { SceneManager } from './scene.js';
-import { ReportManager } from './reportManager.js';
+
 import { FormManager } from './formManager.js';
+import { ReportManager } from './reportManager.js';
+import { SceneManager } from './scene.js';
 import { UIManager } from './ui.js';
 
 class DailyReportApp {
@@ -57,10 +58,12 @@ class DailyReportApp {
         this.isInitialized = true;
         console.log('[App] Initialization complete!');
       }, 1000);
-
     } catch (error) {
       console.error('[App] Initialization failed:', error);
-      this.uiManager?.showToast('Gagal memuat aplikasi: ' + error.message, 'error');
+      this.uiManager?.showToast(
+        'Gagal memuat aplikasi: ' + error.message,
+        'error'
+      );
     }
   }
 
@@ -83,30 +86,35 @@ class DailyReportApp {
 document.addEventListener('DOMContentLoaded', async () => {
   const app = new DailyReportApp();
   await app.init();
-  window.app = app; // For debugging
+  globalThis.app = app; // For debugging
 });
 
-
 // Expose helper functions to window for console access
-window.loadDummyData = async () => {
+globalThis.loadDummyData = async () => {
   const { loadDummyData } = await import('./dummyData.js');
   loadDummyData();
-  window.location.reload();
+  globalThis.location.reload();
 };
 
-window.clearAllData = () => {
+globalThis.clearAllData = () => {
   if (confirm('Yakin ingin menghapus semua data?')) {
     localStorage.removeItem('vertizon_daily_reports');
-    window.location.reload();
+    globalThis.location.reload();
   }
 };
 
-window.exportData = () => {
-  window.app?.reportManager?.exportToJSON();
+globalThis.exportData = () => {
+  globalThis.app?.reportManager?.exportToJSON();
 };
 
-console.log('%c🚀 Daily Report Marketing Vertizon', 'color: #556B2F; font-size: 20px; font-weight: bold;');
-console.log('%cHelper Functions:', 'color: #9ACD32; font-size: 14px; font-weight: bold;');
+console.log(
+  '%c🚀 Daily Report Marketing Vertizon',
+  'color: #556B2F; font-size: 20px; font-weight: bold;'
+);
+console.log(
+  '%cHelper Functions:',
+  'color: #9ACD32; font-size: 14px; font-weight: bold;'
+);
 console.log('%c- loadDummyData() : Load 15 dummy reports', 'color: #8FBC8F;');
 console.log('%c- clearAllData()  : Clear all reports', 'color: #8FBC8F;');
 console.log('%c- exportData()    : Export to JSON', 'color: #8FBC8F;');

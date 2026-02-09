@@ -36,7 +36,7 @@ export class ReportManager {
     const report = {
       id: this.generateId(),
       ...reportData,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     };
 
     this.reports.unshift(report);
@@ -46,7 +46,7 @@ export class ReportManager {
 
   // Get report by ID
   getReport(id) {
-    return this.reports.find(report => report.id === id);
+    return this.reports.find((report) => report.id === id);
   }
 
   // Get all reports
@@ -56,12 +56,12 @@ export class ReportManager {
 
   // Update report
   updateReport(id, updatedData) {
-    const index = this.reports.findIndex(report => report.id === id);
+    const index = this.reports.findIndex((report) => report.id === id);
     if (index !== -1) {
       this.reports[index] = {
         ...this.reports[index],
         ...updatedData,
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
       this.saveReports();
       return this.reports[index];
@@ -71,7 +71,7 @@ export class ReportManager {
 
   // Delete report
   deleteReport(id) {
-    const index = this.reports.findIndex(report => report.id === id);
+    const index = this.reports.findIndex((report) => report.id === id);
     if (index !== -1) {
       this.reports.splice(index, 1);
       this.saveReports();
@@ -89,39 +89,46 @@ export class ReportManager {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      filtered = filtered.filter(report => {
+      filtered = filtered.filter((report) => {
         const reportDate = new Date(report.date);
         reportDate.setHours(0, 0, 0, 0);
 
         switch (filters.date) {
-          case 'today':
+          case 'today': {
             return reportDate.getTime() === today.getTime();
-          case 'yesterday':
+          }
+          case 'yesterday': {
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
             return reportDate.getTime() === yesterday.getTime();
-          case 'week':
+          }
+          case 'week': {
             const weekAgo = new Date(today);
             weekAgo.setDate(weekAgo.getDate() - 7);
             return reportDate >= weekAgo;
-          case 'month':
+          }
+          case 'month': {
             const monthAgo = new Date(today);
             monthAgo.setMonth(monthAgo.getMonth() - 1);
             return reportDate >= monthAgo;
-          default:
+          }
+          default: {
             return true;
+          }
         }
       });
     }
 
     // Filter by category
     if (filters.category && filters.category !== 'all') {
-      filtered = filtered.filter(report => report.category === filters.category);
+      filtered = filtered.filter(
+        (report) => report.category === filters.category
+      );
     }
 
     // Filter by marketing name
     if (filters.marketing && filters.marketing !== 'all') {
-      filtered = filtered.filter(report => report.name === filters.marketing);
+      filtered = filtered.filter((report) => report.name === filters.marketing);
     }
 
     return filtered;
@@ -135,14 +142,14 @@ export class ReportManager {
       canvasing: 0,
       live: 0,
       konten: 0,
-      total: filtered.length,
+      total: filtered.length
     };
 
-    filtered.forEach(report => {
+    for (const report of filtered) {
       if (stats.hasOwnProperty(report.category)) {
         stats[report.category]++;
       }
-    });
+    }
 
     return stats;
   }
@@ -150,23 +157,23 @@ export class ReportManager {
   // Get unique marketing names
   getMarketingNames() {
     const names = new Set();
-    this.reports.forEach(report => {
+    for (const report of this.reports) {
       if (report.name) {
         names.add(report.name);
       }
-    });
-    return Array.from(names).sort();
+    }
+    return [...names].sort();
   }
 
   // Generate unique ID
   generateId() {
-    return `report_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `report_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
   }
 
   // Export to JSON
   exportToJSON() {
-    const dataStr = JSON.stringify(this.reports, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const dataString = JSON.stringify(this.reports, null, 2);
+    const dataBlob = new Blob([dataString], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
@@ -179,7 +186,7 @@ export class ReportManager {
   importFromJSON(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.addEventListener('load', (e) => {
         try {
           const imported = JSON.parse(e.target.result);
           if (Array.isArray(imported)) {
@@ -192,7 +199,7 @@ export class ReportManager {
         } catch (error) {
           reject(error);
         }
-      };
+      });
       reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsText(file);
     });
@@ -203,37 +210,48 @@ export class ReportManager {
     const categoryEmoji = {
       canvasing: '🎯',
       live: '📹',
-      konten: '✨',
+      konten: '✨'
     };
 
-    let message = `📊 *LAPORAN HARIAN MARKETING VERTIZON*\n\n`;
+    let message = '📊 *LAPORAN HARIAN MARKETING VERTIZON*\n\n';
     message += `${categoryEmoji[report.category]} *${report.category.toUpperCase()}*\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+    message += '━━━━━━━━━━━━━━━━━━━━\n\n';
     message += `👤 *Nama:* ${report.name}\n`;
     message += `📅 *Tanggal:* ${this.formatDate(report.date)}\n\n`;
 
     // Category specific details
-    if (report.category === 'canvasing') {
-      message += `🎯 *Jumlah Prospek:* ${report.prospek || 0}\n`;
-      message += `📍 *Lokasi:* ${report.lokasi || '-'}\n`;
-      message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
-    } else if (report.category === 'live') {
-      message += `⏱️ *Durasi:* ${report.durasi || 0} menit\n`;
-      message += `📱 *Platform:* ${report.platform || '-'}\n`;
-      message += `👥 *Viewers:* ${report.viewers || 0}\n`;
-      message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
-    } else if (report.category === 'konten') {
-      message += `📝 *Jumlah Konten:* ${report.jumlahKonten || 0}\n`;
-      message += `🎨 *Jenis:* ${report.jenisKonten?.join(', ') || '-'}\n`;
-      message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
+    switch (report.category) {
+      case 'canvasing': {
+        message += `🎯 *Jumlah Prospek:* ${report.prospek || 0}\n`;
+        message += `📍 *Lokasi:* ${report.lokasi || '-'}\n`;
+        message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
+
+        break;
+      }
+      case 'live': {
+        message += `⏱️ *Durasi:* ${report.durasi || 0} menit\n`;
+        message += `📱 *Platform:* ${report.platform || '-'}\n`;
+        message += `👥 *Viewers:* ${report.viewers || 0}\n`;
+        message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
+
+        break;
+      }
+      case 'konten': {
+        message += `📝 *Jumlah Konten:* ${report.jumlahKonten || 0}\n`;
+        message += `🎨 *Jenis:* ${report.jenisKonten?.join(', ') || '-'}\n`;
+        message += `✅ *Hasil:* ${report.hasil || '-'}\n`;
+
+        break;
+      }
+      // No default
     }
 
     if (report.notes) {
       message += `\n📌 *Catatan:*\n${report.notes}\n`;
     }
 
-    message += `\n━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `_Dikirim dari Daily Report Marketing Vertizon_`;
+    message += '\n━━━━━━━━━━━━━━━━━━━━\n';
+    message += '_Dikirim dari Daily Report Marketing Vertizon_';
 
     return message;
   }
@@ -241,11 +259,11 @@ export class ReportManager {
   // Format date
   formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     };
     return date.toLocaleDateString('id-ID', options);
   }
@@ -262,7 +280,7 @@ export class ReportManager {
     const leaderboard = {};
 
     // Calculate scores per marketing
-    filtered.forEach(report => {
+    for (const report of filtered) {
       if (!leaderboard[report.name]) {
         leaderboard[report.name] = {
           name: report.name,
@@ -270,51 +288,63 @@ export class ReportManager {
           canvasing: 0,
           live: 0,
           konten: 0,
-          score: 0,
+          score: 0
         };
       }
 
       leaderboard[report.name].activities++;
-      
-      if (report.category === 'canvasing') {
-        leaderboard[report.name].canvasing += report.prospek || 0;
-        leaderboard[report.name].score += (report.prospek || 0) * 2; // 2 points per prospek
-      } else if (report.category === 'live') {
-        leaderboard[report.name].live += report.durasi || 0;
-        leaderboard[report.name].score += (report.durasi || 0) * 1; // 1 point per minute
-      } else if (report.category === 'konten') {
-        leaderboard[report.name].konten += report.jumlahKonten || 0;
-        leaderboard[report.name].score += (report.jumlahKonten || 0) * 3; // 3 points per konten
+
+      switch (report.category) {
+        case 'canvasing': {
+          leaderboard[report.name].canvasing += report.prospek || 0;
+          leaderboard[report.name].score += (report.prospek || 0) * 2; // 2 points per prospek
+
+          break;
+        }
+        case 'live': {
+          leaderboard[report.name].live += report.durasi || 0;
+          leaderboard[report.name].score += (report.durasi || 0) * 1; // 1 point per minute
+
+          break;
+        }
+        case 'konten': {
+          leaderboard[report.name].konten += report.jumlahKonten || 0;
+          leaderboard[report.name].score += (report.jumlahKonten || 0) * 3; // 3 points per konten
+
+          break;
+        }
+        // No default
       }
-    });
+    }
 
     // Convert to array and sort by score
-    const sorted = Object.values(leaderboard).sort((a, b) => b.score - a.score);
-    
-    return sorted;
+    return Object.values(leaderboard).sort((a, b) => b.score - a.score);
   }
 
   // Get target progress
   getTargetProgress(date = 'today') {
     const stats = this.getStatistics(date);
-    
+
     // Default targets
     const targets = {
       canvasing: 10,
       live: 5,
       konten: 15,
-      total: 30,
+      total: 30
     };
 
     const current = stats.canvasing + stats.live + stats.konten;
-    const percentage = Math.min(Math.round((current / targets.total) * 100), 100);
+    const percentage = Math.min(
+      Math.round((current / targets.total) * 100),
+      100
+    );
 
     return {
       current,
       total: targets.total,
       percentage,
       targets,
-      stats,
+      stats
     };
   }
 
@@ -325,6 +355,6 @@ export class ReportManager {
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
-    return name.substring(0, 2).toUpperCase();
+    return name.slice(0, 2).toUpperCase();
   }
 }

@@ -225,136 +225,265 @@
       <div class="modal-overlay"></div>
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title">Tambah Laporan Harian</h2>
+          <h2 class="modal-title">Laporan Harian Marketing</h2>
           <button class="btn-close" id="btn-close-modal">×</button>
         </div>
         <form id="form-report" class="report-form">
-          <!-- Step 1: Basic Info -->
+          <!-- Step 1: Identity -->
           <div class="form-step active" data-step="1">
             <div class="form-group">
               <label class="form-label">Nama Marketing</label>
               <input type="text" id="input-name" class="form-input" placeholder="Masukkan nama Anda" required />
             </div>
-            <div class="form-group">
-              <label class="form-label">Tanggal</label>
-              <input type="date" id="input-date" class="form-input" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Kategori Aktivitas</label>
-              <div class="category-selector">
-                <label class="category-option">
-                  <input type="radio" name="category" value="canvasing" required />
-                  <div class="category-card">
-                    <span class="category-icon">🎯</span>
-                    <span class="category-name">Canvasing</span>
-                  </div>
-                </label>
-                <label class="category-option">
-                  <input type="radio" name="category" value="live" required />
-                  <div class="category-card">
-                    <span class="category-icon">📹</span>
-                    <span class="category-name">Live</span>
-                  </div>
-                </label>
-                <label class="category-option">
-                  <input type="radio" name="category" value="konten" required />
-                  <div class="category-card">
-                    <span class="category-icon">✨</span>
-                    <span class="category-name">Konten</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <button type="button" class="btn-primary btn-next" data-next="2">Lanjut</button>
+            <button type="button" class="btn-primary btn-next">Lanjut ke Absensi</button>
           </div>
 
-          <!-- Step 2: Details -->
+          <!-- Step 2: Attendance -->
           <div class="form-step" data-step="2">
-            <div id="canvasing-fields" class="category-fields">
-              <div class="form-group">
-                <label class="form-label">Jumlah Prospek</label>
-                <input type="number" id="input-prospek" class="form-input" placeholder="0" min="0" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Lokasi Canvasing</label>
-                <input type="text" id="input-lokasi" class="form-input" placeholder="Contoh: Jakarta Selatan" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Hasil/Achievement</label>
-                <textarea id="input-hasil-canvasing" class="form-textarea" rows="3" placeholder="Deskripsikan hasil canvasing..."></textarea>
-              </div>
-            </div>
-
-            <div id="live-fields" class="category-fields">
-              <div class="form-group">
-                <label class="form-label">Durasi Live (Menit)</label>
-                <input type="number" id="input-durasi" class="form-input" placeholder="0" min="0" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Platform</label>
-                <select id="input-platform" class="form-input">
-                  <option value="">Pilih Platform</option>
-                  <option value="instagram">Instagram</option>
-                  <option value="tiktok">TikTok</option>
-                  <option value="facebook">Facebook</option>
-                  <option value="youtube">YouTube</option>
-                  <option value="shopee">Shopee</option>
-                  <option value="tokopedia">Tokopedia</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Jumlah Viewers</label>
-                <input type="number" id="input-viewers" class="form-input" placeholder="0" min="0" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Hasil/Achievement</label>
-                <textarea id="input-hasil-live" class="form-textarea" rows="3" placeholder="Deskripsikan hasil live..."></textarea>
-              </div>
-            </div>
-
-            <div id="konten-fields" class="category-fields">
-              <div class="form-group">
-                <label class="form-label">Jumlah Konten</label>
-                <input type="number" id="input-jumlah-konten" class="form-input" placeholder="0" min="0" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Jenis Konten</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="jenis-konten" value="foto" />
-                    <span>Foto</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="jenis-konten" value="video" />
-                    <span>Video</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="jenis-konten" value="reels" />
-                    <span>Reels</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="jenis-konten" value="story" />
-                    <span>Story</span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Hasil/Achievement</label>
-                <textarea id="input-hasil-konten" class="form-textarea" rows="3" placeholder="Deskripsikan hasil konten..."></textarea>
-              </div>
-            </div>
-
             <div class="form-group">
-              <label class="form-label">Catatan Tambahan</label>
-              <textarea id="input-notes" class="form-textarea" rows="3" placeholder="Catatan tambahan (opsional)..."></textarea>
+              <label class="form-label">Status Kehadiran</label>
+              <div class="attendance-selector">
+                <label class="attendance-option">
+                  <input type="radio" name="attendance" value="hadir" required />
+                  <div class="attendance-card hadir">
+                    <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span class="attendance-name">Hadir</span>
+                  </div>
+                </label>
+                <label class="attendance-option">
+                  <input type="radio" name="attendance" value="tidak_hadir" required />
+                  <div class="attendance-card tidak-hadir">
+                    <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span class="attendance-name">Tidak Hadir</span>
+                  </div>
+                </label>
+                <label class="attendance-option">
+                  <input type="radio" name="attendance" value="project_lain" required />
+                  <div class="attendance-card project-lain">
+                    <svg class="attendance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span class="attendance-name">Project Lain</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Reason for tidak_hadir -->
+            <div id="reason-tidak-hadir" class="attendance-reason hidden">
+              <div class="form-group">
+                <label class="form-label">Alasan Tidak Hadir</label>
+                <textarea id="input-reason-tidak-hadir" class="form-textarea" rows="3" placeholder="Jelaskan alasan tidak hadir..."></textarea>
+              </div>
+            </div>
+
+            <!-- Project location for project_lain -->
+            <div id="reason-project-lain" class="attendance-reason hidden">
+              <div class="form-group">
+                <label class="form-label">Lokasi Project</label>
+                <input type="text" id="input-project-location" class="form-input" placeholder="Contoh: Jakarta Pusat" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Keterangan Project</label>
+                <textarea id="input-project-note" class="form-textarea" rows="3" placeholder="Jelaskan project yang dikerjakan..."></textarea>
+              </div>
             </div>
 
             <div class="form-actions">
-              <button type="button" class="btn-secondary btn-back" data-back="1">Kembali</button>
-              <button type="submit" class="btn-primary">Simpan Laporan</button>
+              <button type="button" class="btn-secondary btn-back">Kembali</button>
+              <button type="button" class="btn-primary btn-next" id="btn-attendance-next">Lanjut</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Activities -->
+          <div class="form-step" data-step="3">
+            <div class="activities-header">
+              <h3 class="activities-title">Aktivitas Hari Ini</h3>
+              <button type="button" class="btn-add-activity" id="btn-add-activity">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Tambah Aktivitas
+              </button>
+            </div>
+
+            <!-- Activities List -->
+            <div id="activities-list" class="activities-list">
+              <div class="empty-activities">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="12" y1="8" x2="12" y2="16"></line>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                <p>Belum ada aktivitas</p>
+                <p class="text-muted">Klik "Tambah Aktivitas" untuk mulai</p>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary btn-back">Kembali</button>
+              <button type="submit" class="btn-primary" id="btn-submit-report">Simpan Laporan</button>
             </div>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Modal: Add/Edit Activity -->
+    <div id="modal-activity" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="activity-modal-title">Tambah Aktivitas</h2>
+          <button class="btn-close" id="btn-close-activity">×</button>
+        </div>
+        <div class="activity-form">
+          <div class="form-group">
+            <label class="form-label">Jenis Aktivitas</label>
+            <div class="activity-type-selector">
+              <label class="activity-type-option">
+                <input type="radio" name="activity-type" value="canvasing" required />
+                <div class="activity-type-card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Canvasing</span>
+                </div>
+              </label>
+              <label class="activity-type-option">
+                <input type="radio" name="activity-type" value="live" required />
+                <div class="activity-type-card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+                  </svg>
+                  <span>Live</span>
+                </div>
+              </label>
+              <label class="activity-type-option">
+                <input type="radio" name="activity-type" value="konten" required />
+                <div class="activity-type-card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  <span>Konten</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Time Selection with 3D Clock -->
+          <div class="form-group">
+            <label class="form-label">Waktu Mulai</label>
+            <div class="time-input-group">
+              <input type="text" id="input-start-time" class="form-input time-display" readonly placeholder="--:--" />
+              <button type="button" class="btn-clock" id="btn-start-clock">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Waktu Selesai</label>
+            <div class="time-input-group">
+              <input type="text" id="input-end-time" class="form-input time-display" readonly placeholder="--:--" />
+              <button type="button" class="btn-clock" id="btn-end-clock">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Activity Type Specific Fields -->
+          <div id="activity-canvasing-fields" class="activity-fields hidden">
+            <div class="form-group">
+              <label class="form-label">Jumlah Prospek</label>
+              <input type="number" id="activity-prospek" class="form-input" placeholder="0" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lokasi</label>
+              <input type="text" id="activity-lokasi" class="form-input" placeholder="Contoh: Jakarta Selatan" />
+            </div>
+          </div>
+
+          <div id="activity-live-fields" class="activity-fields hidden">
+            <div class="form-group">
+              <label class="form-label">Platform</label>
+              <select id="activity-platform" class="form-input">
+                <option value="">Pilih Platform</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+                <option value="facebook">Facebook</option>
+                <option value="youtube">YouTube</option>
+                <option value="shopee">Shopee</option>
+                <option value="tokopedia">Tokopedia</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Jumlah Viewers</label>
+              <input type="number" id="activity-viewers" class="form-input" placeholder="0" min="0" />
+            </div>
+          </div>
+
+          <div id="activity-konten-fields" class="activity-fields hidden">
+            <div class="form-group">
+              <label class="form-label">Jumlah Video</label>
+              <input type="number" id="activity-video" class="form-input" placeholder="0" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Jumlah Foto</label>
+              <input type="number" id="activity-foto" class="form-input" placeholder="0" min="0" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Catatan</label>
+            <textarea id="activity-notes" class="form-textarea" rows="3" placeholder="Catatan aktivitas (opsional)..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-cancel-activity">Batal</button>
+            <button type="button" class="btn-primary" id="btn-save-activity">Simpan Aktivitas</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: 3D Clock Picker -->
+    <div id="modal-clock" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content clock-modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Pilih Waktu</h2>
+          <button class="btn-close" id="btn-close-clock">×</button>
+        </div>
+        <div class="clock-picker-container">
+          <div id="clock-picker-canvas" class="clock-canvas"></div>
+          <div class="clock-time-display">
+            <span id="clock-time-text">08:00</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btn-cancel-clock">Batal</button>
+          <button type="button" class="btn-primary" id="btn-confirm-clock">Konfirmasi</button>
+        </div>
       </div>
     </div>
 

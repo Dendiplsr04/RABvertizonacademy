@@ -19,35 +19,37 @@ export class FormManager {
 
   setupEventListeners() {
     // Modal open/close
-    const btnAdd = document.getElementById('btn-add-report');
-    const btnClose = document.getElementById('btn-close-modal');
-    const modal = document.getElementById('modal-add-report');
+    const buttonAdd = document.querySelector('#btn-add-report');
+    const buttonClose = document.querySelector('#btn-close-modal');
+    const modal = document.querySelector('#modal-add-report');
     const overlay = modal?.querySelector('.modal-overlay');
 
-    btnAdd?.addEventListener('click', () => this.openModal());
-    btnClose?.addEventListener('click', () => this.closeModal());
+    buttonAdd?.addEventListener('click', () => this.openModal());
+    buttonClose?.addEventListener('click', () => this.closeModal());
     overlay?.addEventListener('click', () => this.closeModal());
 
     // Category selection
     const categoryInputs = document.querySelectorAll('input[name="category"]');
-    categoryInputs.forEach(input => {
-      input.addEventListener('change', (e) => this.handleCategoryChange(e.target.value));
-    });
+    for (const input of categoryInputs) {
+      input.addEventListener('change', (e) =>
+        this.handleCategoryChange(e.target.value)
+      );
+    }
 
     // Step navigation
-    const btnNext = document.querySelector('.btn-next');
-    const btnBack = document.querySelector('.btn-back');
+    const buttonNext = document.querySelector('.btn-next');
+    const buttonBack = document.querySelector('.btn-back');
 
-    btnNext?.addEventListener('click', () => this.nextStep());
-    btnBack?.addEventListener('click', () => this.previousStep());
+    buttonNext?.addEventListener('click', () => this.nextStep());
+    buttonBack?.addEventListener('click', () => this.previousStep());
 
     // Form submission
-    const form = document.getElementById('form-report');
+    const form = document.querySelector('#form-report');
     form?.addEventListener('submit', (e) => this.handleSubmit(e));
   }
 
   setDefaultDate() {
-    const dateInput = document.getElementById('input-date');
+    const dateInput = document.querySelector('#input-date');
     if (dateInput) {
       const today = new Date().toISOString().split('T')[0];
       dateInput.value = today;
@@ -55,19 +57,19 @@ export class FormManager {
   }
 
   openModal() {
-    const modal = document.getElementById('modal-add-report');
+    const modal = document.querySelector('#modal-add-report');
     modal?.classList.add('active');
     this.resetForm();
   }
 
   closeModal() {
-    const modal = document.getElementById('modal-add-report');
+    const modal = document.querySelector('#modal-add-report');
     modal?.classList.remove('active');
     this.resetForm();
   }
 
   resetForm() {
-    const form = document.getElementById('form-report');
+    const form = document.querySelector('#form-report');
     form?.reset();
     this.currentStep = 1;
     this.selectedCategory = null;
@@ -79,7 +81,7 @@ export class FormManager {
   handleCategoryChange(category) {
     this.selectedCategory = category;
     this.hideAllCategoryFields();
-    
+
     const fieldsId = `${category}-fields`;
     const fields = document.getElementById(fieldsId);
     if (fields) {
@@ -89,7 +91,7 @@ export class FormManager {
 
   hideAllCategoryFields() {
     const allFields = document.querySelectorAll('.category-fields');
-    allFields.forEach(field => field.classList.remove('active'));
+    for (const field of allFields) field.classList.remove('active');
   }
 
   nextStep() {
@@ -106,19 +108,19 @@ export class FormManager {
 
   updateSteps() {
     const steps = document.querySelectorAll('.form-step');
-    steps.forEach((step, index) => {
+    for (const [index, step] of steps.entries()) {
       if (index + 1 === this.currentStep) {
         step.classList.add('active');
       } else {
         step.classList.remove('active');
       }
-    });
+    }
   }
 
   validateStep(step) {
     if (step === 1) {
-      const name = document.getElementById('input-name')?.value.trim();
-      const date = document.getElementById('input-date')?.value;
+      const name = document.querySelector('#input-name')?.value.trim();
+      const date = document.querySelector('#input-date')?.value;
       const category = document.querySelector('input[name="category"]:checked');
 
       if (!name) {
@@ -146,7 +148,7 @@ export class FormManager {
     e.preventDefault();
 
     const formData = this.collectFormData();
-    
+
     if (!formData) {
       this.uiManager.showToast('Gagal mengumpulkan data form', 'error');
       return;
@@ -166,10 +168,12 @@ export class FormManager {
   }
 
   collectFormData() {
-    const name = document.getElementById('input-name')?.value.trim();
-    const date = document.getElementById('input-date')?.value;
-    const category = document.querySelector('input[name="category"]:checked')?.value;
-    const notes = document.getElementById('input-notes')?.value.trim();
+    const name = document.querySelector('#input-name')?.value.trim();
+    const date = document.querySelector('#input-date')?.value;
+    const category = document.querySelector(
+      'input[name="category"]:checked'
+    )?.value;
+    const notes = document.querySelector('#input-notes')?.value.trim();
 
     if (!name || !date || !category) {
       return null;
@@ -179,29 +183,53 @@ export class FormManager {
       name,
       date,
       category,
-      notes,
+      notes
     };
 
     // Collect category-specific data
-    if (category === 'canvasing') {
-      formData.prospek = parseInt(document.getElementById('input-prospek')?.value) || 0;
-      formData.lokasi = document.getElementById('input-lokasi')?.value.trim() || '';
-      formData.hasil = document.getElementById('input-hasil-canvasing')?.value.trim() || '';
-    } else if (category === 'live') {
-      formData.durasi = parseInt(document.getElementById('input-durasi')?.value) || 0;
-      formData.platform = document.getElementById('input-platform')?.value || '';
-      formData.viewers = parseInt(document.getElementById('input-viewers')?.value) || 0;
-      formData.hasil = document.getElementById('input-hasil-live')?.value.trim() || '';
-    } else if (category === 'konten') {
-      formData.jumlahKonten = parseInt(document.getElementById('input-jumlah-konten')?.value) || 0;
-      
-      const jenisKonten = [];
-      document.querySelectorAll('input[name="jenis-konten"]:checked').forEach(checkbox => {
-        jenisKonten.push(checkbox.value);
-      });
-      formData.jenisKonten = jenisKonten;
-      
-      formData.hasil = document.getElementById('input-hasil-konten')?.value.trim() || '';
+    switch (category) {
+      case 'canvasing': {
+        formData.prospek =
+          Number.parseInt(document.querySelector('#input-prospek')?.value) || 0;
+        formData.lokasi =
+          document.querySelector('#input-lokasi')?.value.trim() || '';
+        formData.hasil =
+          document.querySelector('#input-hasil-canvasing')?.value.trim() || '';
+
+        break;
+      }
+      case 'live': {
+        formData.durasi =
+          Number.parseInt(document.querySelector('#input-durasi')?.value) || 0;
+        formData.platform =
+          document.querySelector('#input-platform')?.value || '';
+        formData.viewers =
+          Number.parseInt(document.querySelector('#input-viewers')?.value) || 0;
+        formData.hasil =
+          document.querySelector('#input-hasil-live')?.value.trim() || '';
+
+        break;
+      }
+      case 'konten': {
+        formData.jumlahKonten =
+          Number.parseInt(
+            document.querySelector('#input-jumlah-konten')?.value
+          ) || 0;
+
+        const jenisKonten = [];
+        for (const checkbox of document.querySelectorAll(
+          'input[name="jenis-konten"]:checked'
+        )) {
+          jenisKonten.push(checkbox.value);
+        }
+        formData.jenisKonten = jenisKonten;
+
+        formData.hasil =
+          document.querySelector('#input-hasil-konten')?.value.trim() || '';
+
+        break;
+      }
+      // No default
     }
 
     return formData;

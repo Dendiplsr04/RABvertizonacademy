@@ -1,30 +1,30 @@
 /**
  * DIGITAL MULTI SERVICE - Logo Philosophy
- * 
+ *
  * ELEMENTS & MEANING:
- * 
+ *
  * 1. HEXAGON FRAME (Outer shape)
  *    - Represents stability, strength, and modern technology
  *    - Like honeycomb - symbolizes interconnected network
  *    - Common in tech industry - shows digital expertise
- * 
+ *
  * 2. THREE FLOWING PATHS (Inside hexagon)
  *    - Represents "MULTI" - multiple integrated services
  *    - Shows digital transformation flow
  *    - Forms abstract letter "D" for "DIGITAL"
  *    - Curved lines = flexibility and adaptability
- * 
+ *
  * 3. CONNECTION NODES (Circles at path ends)
  *    - Left nodes: Client/Starting point
  *    - Right nodes: Solutions/Goals achieved
  *    - Shows journey from problem to solution
  *    - Represents connectivity in digital world
- * 
+ *
  * 4. GOLD GRADIENT
  *    - Premium quality and trust
  *    - Success and achievement
  *    - Luxury and professionalism
- * 
+ *
  * OVERALL MESSAGE:
  * "We connect clients to digital solutions through multiple integrated services"
  */

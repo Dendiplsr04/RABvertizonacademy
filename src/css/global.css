@@ -1722,3 +1722,476 @@ body {
   color: var(--color-text-muted);
   margin: 0;
 }
+
+/* ===================================
+   Attendance Selector
+   =================================== */
+
+.attendance-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.attendance-option {
+  cursor: pointer;
+}
+
+.attendance-option input[type="radio"] {
+  display: none;
+}
+
+.attendance-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  background: rgba(42, 49, 57, 0.6);
+  border: 2px solid rgba(85, 107, 47, 0.3);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.attendance-option:hover .attendance-card {
+  border-color: var(--color-primary);
+  background: rgba(42, 49, 57, 0.8);
+  transform: translateY(-2px);
+}
+
+.attendance-option input[type="radio"]:checked + .attendance-card {
+  border-color: var(--color-accent);
+  background: rgba(85, 107, 47, 0.2);
+  box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.2);
+}
+
+.attendance-card.hadir {
+  border-color: var(--color-success);
+}
+
+.attendance-option input[type="radio"]:checked + .attendance-card.hadir {
+  border-color: var(--color-success);
+  background: rgba(6, 214, 160, 0.15);
+  box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.2);
+}
+
+.attendance-card.tidak-hadir {
+  border-color: var(--color-error);
+}
+
+.attendance-option input[type="radio"]:checked + .attendance-card.tidak-hadir {
+  border-color: var(--color-error);
+  background: rgba(255, 107, 107, 0.15);
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+.attendance-card.project-lain {
+  border-color: var(--color-info);
+}
+
+.attendance-option input[type="radio"]:checked + .attendance-card.project-lain {
+  border-color: var(--color-info);
+  background: rgba(79, 172, 254, 0.15);
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+
+.attendance-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.attendance-card.hadir .attendance-icon {
+  stroke: var(--color-success);
+}
+
+.attendance-card.tidak-hadir .attendance-icon {
+  stroke: var(--color-error);
+}
+
+.attendance-card.project-lain .attendance-icon {
+  stroke: var(--color-info);
+}
+
+.attendance-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.attendance-reason {
+  margin-top: var(--spacing-md);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ===================================
+   Activities Management
+   =================================== */
+
+.activities-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.activities-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.btn-add-activity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-add-activity:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.activities-list {
+  min-height: 200px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.empty-activities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.empty-activities svg {
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+.empty-activities p {
+  margin: var(--spacing-xs) 0;
+}
+
+.activity-item {
+  background: rgba(30, 33, 57, 0.8);
+  border: 1px solid rgba(85, 107, 47, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-base);
+}
+
+.activity-item:hover {
+  border-color: var(--color-primary);
+  background: rgba(30, 33, 57, 0.95);
+}
+
+.activity-item.canvasing {
+  border-left: 4px solid var(--color-canvasing);
+}
+
+.activity-item.live {
+  border-left: 4px solid var(--color-live);
+}
+
+.activity-item.konten {
+  border-left: 4px solid var(--color-konten);
+}
+
+.activity-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.activity-item-type {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.activity-item-type svg {
+  width: 16px;
+  height: 16px;
+}
+
+.activity-item.canvasing .activity-item-type {
+  color: var(--color-canvasing);
+}
+
+.activity-item.live .activity-item-type {
+  color: var(--color-live);
+}
+
+.activity-item.konten .activity-item-type {
+  color: var(--color-konten);
+}
+
+.activity-item-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.btn-activity-action {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(85, 107, 47, 0.2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-activity-action:hover {
+  background: rgba(85, 107, 47, 0.4);
+  transform: scale(1.1);
+}
+
+.btn-activity-action.edit:hover {
+  background: rgba(79, 172, 254, 0.3);
+  color: var(--color-info);
+}
+
+.btn-activity-action.delete:hover {
+  background: rgba(255, 107, 107, 0.3);
+  color: var(--color-error);
+}
+
+.btn-activity-action svg {
+  width: 16px;
+  height: 16px;
+}
+
+.activity-item-time {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.activity-item-details {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.activity-item-edit-count {
+  font-size: 0.75rem;
+  color: var(--color-warning);
+  margin-top: var(--spacing-xs);
+}
+
+.activity-item-edit-count.limit-reached {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+/* ===================================
+   Activity Type Selector
+   =================================== */
+
+.activity-type-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.activity-type-option {
+  cursor: pointer;
+}
+
+.activity-type-option input[type="radio"] {
+  display: none;
+}
+
+.activity-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background: rgba(42, 49, 57, 0.6);
+  border: 2px solid rgba(85, 107, 47, 0.3);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.activity-type-option:hover .activity-type-card {
+  border-color: var(--color-primary);
+  background: rgba(42, 49, 57, 0.8);
+}
+
+.activity-type-option input[type="radio"]:checked + .activity-type-card {
+  border-color: var(--color-accent);
+  background: rgba(85, 107, 47, 0.2);
+  box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.2);
+}
+
+.activity-type-card svg {
+  color: var(--color-text-primary);
+}
+
+.activity-type-card span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.activity-fields {
+  display: none;
+}
+
+.activity-fields.active {
+  display: block;
+}
+
+/* ===================================
+   Time Input with Clock Picker
+   =================================== */
+
+.time-input-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.time-display {
+  flex: 1;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.btn-clock {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-sm);
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-clock:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===================================
+   3D Clock Picker Modal
+   =================================== */
+
+.clock-modal-content {
+  max-width: 400px;
+}
+
+.clock-picker-container {
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.clock-canvas {
+  width: 300px;
+  height: 300px;
+  border-radius: var(--radius-lg);
+  background: rgba(10, 14, 39, 0.8);
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  overflow: hidden;
+}
+
+.clock-time-display {
+  text-align: center;
+}
+
+#clock-time-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 4px;
+}
+
+/* ===================================
+   Responsive - Attendance & Activities
+   =================================== */
+
+@media (max-width: 768px) {
+  .attendance-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-card {
+    padding: var(--spacing-md);
+  }
+
+  .attendance-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .activity-type-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .activities-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .btn-add-activity {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .clock-canvas {
+    width: 280px;
+    height: 280px;
+  }
+
+  #clock-time-text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .clock-canvas {
+    width: 250px;
+    height: 250px;
+  }
+
+  #clock-time-text {
+    font-size: 1.75rem;
+  }
+}
