@@ -1,100 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <title>Villa Gesture Control - Hand Gesture 3D Configurator</title>
-    <meta name="title" content="Villa Gesture Control" />
-    <meta name="description" content="Interactive 3D Villa Configurator with Hand Gesture Control" />
+    <title>Daily Report Marketing Vertizon</title>
+    <meta name="title" content="Daily Report Marketing Vertizon" />
+    <meta name="description" content="Sistem Laporan Harian Marketing dengan Visualisasi 3D Elegant" />
     
     <link rel="manifest" href="/app.webmanifest" />
     <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#556B2F" />
     <meta name="mobile-web-app-capable" content="yes" />
-    
-    <link rel="stylesheet" href="/src/css/global.css" />
-    <link rel="stylesheet" href="/src/css/villa.css" />
-    
-    <!-- MediaPipe CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.8"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <!-- Main Canvas -->
     <canvas id="canvas"></canvas>
-
-    <!-- Video Feed (Hidden) -->
-    <video id="video" style="display: none;"></video>
 
     <!-- UI Overlay -->
     <div id="ui-container" class="ui-container">
       <!-- Header -->
       <header class="header">
         <div class="header-content">
-          <h1 class="title">🏢 Villa Gesture Control</h1>
-          <p class="subtitle">Use your hand gestures to interact with the villa</p>
+          <div class="logo-section">
+            <div class="logo-icon">📊</div>
+            <div>
+              <h1 class="title">Daily Report Marketing</h1>
+              <p class="subtitle">Vertizon</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button class="btn-icon" id="btn-refresh" title="Refresh">
+              <span>🔄</span>
+            </button>
+            <button class="btn-icon" id="btn-export" title="Export Data">
+              <span>📥</span>
+            </button>
+          </div>
         </div>
       </header>
 
-      <!-- Instructions Panel -->
-      <div class="instructions-panel">
-        <div class="instruction-item">
-          <span class="gesture-icon">✋</span>
-          <span class="gesture-text">Open Hand = Deconstruct</span>
-        </div>
-        <div class="instruction-item">
-          <span class="gesture-icon">✊</span>
-          <span class="gesture-text">Closed Fist = Reconstruct</span>
-        </div>
-        <div class="instruction-item">
-          <span class="gesture-icon">🔄</span>
-          <span class="gesture-text">Move Hand = Rotate</span>
-        </div>
-        <div class="instruction-item">
-          <span class="gesture-icon">🤏</span>
-          <span class="gesture-text">Pinch = Zoom</span>
+      <!-- Main Content -->
+      <div id="main-content" class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="dashboard-view">
+          <!-- Stats Cards -->
+          <div class="stats-container">
+            <div class="stat-card canvasing">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-info">
+                <h3 class="stat-title">Canvasing</h3>
+                <p class="stat-value" id="stat-canvasing">0</p>
+                <p class="stat-label">Laporan Hari Ini</p>
+              </div>
+            </div>
+            <div class="stat-card live">
+              <div class="stat-icon">📹</div>
+              <div class="stat-info">
+                <h3 class="stat-title">Live</h3>
+                <p class="stat-value" id="stat-live">0</p>
+                <p class="stat-label">Laporan Hari Ini</p>
+              </div>
+            </div>
+            <div class="stat-card konten">
+              <div class="stat-icon">✨</div>
+              <div class="stat-info">
+                <h3 class="stat-title">Konten</h3>
+                <p class="stat-value" id="stat-konten">0</p>
+                <p class="stat-label">Laporan Hari Ini</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Section -->
+          <div class="filter-section">
+            <select id="filter-date" class="filter-select">
+              <option value="today">Hari Ini</option>
+              <option value="yesterday">Kemarin</option>
+              <option value="week">Minggu Ini</option>
+              <option value="month">Bulan Ini</option>
+              <option value="all">Semua</option>
+            </select>
+            <select id="filter-category" class="filter-select">
+              <option value="all">Semua Kategori</option>
+              <option value="canvasing">Canvasing</option>
+              <option value="live">Live</option>
+              <option value="konten">Konten</option>
+            </select>
+            <select id="filter-marketing" class="filter-select">
+              <option value="all">Semua Marketing</option>
+            </select>
+          </div>
+
+          <!-- Reports List -->
+          <div id="reports-list" class="reports-list">
+            <!-- Reports will be dynamically added here -->
+          </div>
         </div>
       </div>
 
-      <!-- Property Info Panel -->
-      <div class="property-panel">
-        <h2 class="property-title">Luxury Villa</h2>
-        <div class="property-info">
-          <div class="info-item">
-            <span class="info-label">Area:</span>
-            <span class="info-value">500 m²</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Bedrooms:</span>
-            <span class="info-value">4</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Bathrooms:</span>
-            <span class="info-value">3</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Price:</span>
-            <span class="info-value">$2.5M</span>
-          </div>
-        </div>
-        <button class="btn-inquiry">Inquiry Now</button>
-      </div>
+      <!-- Floating Action Button -->
+      <button class="fab" id="btn-add-report" title="Tambah Laporan">
+        <span class="fab-icon">+</span>
+      </button>
 
-      <!-- Hand Status -->
-      <div class="hand-status">
-        <div class="status-indicator" id="hand-indicator">
-          <span class="status-dot"></span>
-          <span class="status-text">Waiting for hand...</span>
-        </div>
-      </div>
+      <!-- Bottom Navigation (Mobile) -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="reports">
+          <span class="nav-icon">📝</span>
+          <span class="nav-label">Laporan</span>
+        </button>
+        <button class="nav-item" data-view="stats">
+          <span class="nav-icon">📈</span>
+          <span class="nav-label">Statistik</span>
+        </button>
+        <button class="nav-item" data-view="profile">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Profil</span>
+        </button>
+      </nav>
+    </div>
 
-      <!-- Controls -->
-      <div class="controls">
-        <button class="btn-control" id="btn-reset">Reset View</button>
-        <button class="btn-control" id="btn-toggle-info">Toggle Info</button>
+    <!-- Modal: Add Report -->
+    <div id="modal-add-report" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Tambah Laporan Harian</h2>
+          <button class="btn-close" id="btn-close-modal">×</button>
+        </div>
+        <form id="form-report" class="report-form">
+          <!-- Step 1: Basic Info -->
+          <div class="form-step active" data-step="1">
+            <div class="form-group">
+              <label class="form-label">Nama Marketing</label>
+              <input type="text" id="input-name" class="form-input" placeholder="Masukkan nama Anda" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tanggal</label>
+              <input type="date" id="input-date" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kategori Aktivitas</label>
+              <div class="category-selector">
+                <label class="category-option">
+                  <input type="radio" name="category" value="canvasing" required />
+                  <div class="category-card">
+                    <span class="category-icon">🎯</span>
+                    <span class="category-name">Canvasing</span>
+                  </div>
+                </label>
+                <label class="category-option">
+                  <input type="radio" name="category" value="live" required />
+                  <div class="category-card">
+                    <span class="category-icon">📹</span>
+                    <span class="category-name">Live</span>
+                  </div>
+                </label>
+                <label class="category-option">
+                  <input type="radio" name="category" value="konten" required />
+                  <div class="category-card">
+                    <span class="category-icon">✨</span>
+                    <span class="category-name">Konten</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <button type="button" class="btn-primary btn-next" data-next="2">Lanjut</button>
+          </div>
+
+          <!-- Step 2: Details -->
+          <div class="form-step" data-step="2">
+            <div id="canvasing-fields" class="category-fields">
+              <div class="form-group">
+                <label class="form-label">Jumlah Prospek</label>
+                <input type="number" id="input-prospek" class="form-input" placeholder="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lokasi Canvasing</label>
+                <input type="text" id="input-lokasi" class="form-input" placeholder="Contoh: Jakarta Selatan" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hasil/Achievement</label>
+                <textarea id="input-hasil-canvasing" class="form-textarea" rows="3" placeholder="Deskripsikan hasil canvasing..."></textarea>
+              </div>
+            </div>
+
+            <div id="live-fields" class="category-fields">
+              <div class="form-group">
+                <label class="form-label">Durasi Live (Menit)</label>
+                <input type="number" id="input-durasi" class="form-input" placeholder="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Platform</label>
+                <select id="input-platform" class="form-input">
+                  <option value="">Pilih Platform</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="shopee">Shopee</option>
+                  <option value="tokopedia">Tokopedia</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Jumlah Viewers</label>
+                <input type="number" id="input-viewers" class="form-input" placeholder="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hasil/Achievement</label>
+                <textarea id="input-hasil-live" class="form-textarea" rows="3" placeholder="Deskripsikan hasil live..."></textarea>
+              </div>
+            </div>
+
+            <div id="konten-fields" class="category-fields">
+              <div class="form-group">
+                <label class="form-label">Jumlah Konten</label>
+                <input type="number" id="input-jumlah-konten" class="form-input" placeholder="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Jenis Konten</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="jenis-konten" value="foto" />
+                    <span>Foto</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="jenis-konten" value="video" />
+                    <span>Video</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="jenis-konten" value="reels" />
+                    <span>Reels</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="jenis-konten" value="story" />
+                    <span>Story</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hasil/Achievement</label>
+                <textarea id="input-hasil-konten" class="form-textarea" rows="3" placeholder="Deskripsikan hasil konten..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Catatan Tambahan</label>
+              <textarea id="input-notes" class="form-textarea" rows="3" placeholder="Catatan tambahan (opsional)..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary btn-back" data-back="1">Kembali</button>
+              <button type="submit" class="btn-primary">Simpan Laporan</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Report Detail -->
+    <div id="modal-report-detail" class="modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Detail Laporan</h2>
+          <button class="btn-close" id="btn-close-detail">×</button>
+        </div>
+        <div id="report-detail-content" class="report-detail">
+          <!-- Detail will be dynamically added here -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="btn-delete-report">Hapus</button>
+          <button class="btn-primary" id="btn-send-whatsapp">Kirim ke WhatsApp</button>
+        </div>
       </div>
     </div>
 
@@ -102,10 +290,13 @@
     <div id="loading-screen" class="loading-screen">
       <div class="loading-content">
         <div class="loading-spinner"></div>
-        <p>Loading Villa Configurator...</p>
+        <p>Memuat Dashboard...</p>
       </div>
     </div>
 
-    <script type="module" src="/src/js/index.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

@@ -1,180 +1,138 @@
-[node]: https://nodejs.org/en
-[yarn]: https://yarnpkg.com
-[pnpm]: https://pnpm.io
-[demo]: https://vite-three-js.d1a.app
-[license]: https://github.com/doinel1a/vite-three-js/blob/main/LICENSE
-[code-of-conduct]: https://github.com/doinel1a/vite-three-js/blob/main/CODE_OF_CONDUCT.md
-[issues]: https://github.com/doinel1a/vite-three-js/issues
-[pulls]: https://github.com/doinel1a/vite-three-js/pulls
-[browserslist]: https://browsersl.ist/#q=last+3+versions%2C%3E+0.2%25%2C+not+dead
-[graphviz]: https://www.graphviz.org/download
-[commitlint]: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
-[webpack-three-js]: https://github.com/doinel1a/webpack-three-js
-[react-icon]: https://skillicons.dev/icons?i=react
-[ts-icon]: https://skillicons.dev/icons?i=ts
-[js-icon]: https://skillicons.dev/icons?i=js
-[tailwind-icon]: https://skillicons.dev/icons?i=tailwind
-[chrome-icon]: https://github.com/alrra/browser-logos/blob/main/src/chrome/chrome_64x64.png
-[firefox-icon]: https://github.com/alrra/browser-logos/blob/main/src/firefox/firefox_64x64.png
-[edge-icon]: https://github.com/alrra/browser-logos/blob/main/src/edge/edge_64x64.png
-[opera-icon]: https://github.com/alrra/browser-logos/blob/main/src/opera/opera_64x64.png
-[safari-icon]: https://github.com/alrra/browser-logos/blob/main/src/safari/safari_64x64.png
+# Daily Report Marketing Vertizon
 
-# Vite Three JS — Template
+Sistem Laporan Harian Marketing dengan Visualisasi 3D Elegant
 
-This boilerplate starter template is the ultimate solution to help you getting started on your project in no time, without the hassle of setting up and configuring your environment from scratch each time you start developing. <br />
-It's ideal for front-end engineers who want to build modern, fast and reliable **webgl** web applications with the latest cutting edge technologies such as **Three.JS**, **GLSL**, **JavaScript**, **TailwindCSS**, **Vite**, **ESLint**, **Prettier**, **Husky** and much more!
+## 🎯 Fitur Utama
 
-**[Demo][demo]** | **[Bug(label: bug)][issues]** | **[Feature(label: enhancement)][issues]**
+- **Form Input Laporan** - Interface yang mudah untuk input laporan harian
+- **3 Kategori Aktivitas**:
+  - 🎯 Canvasing - Kunjungan lapangan dan prospek
+  - 📹 Live - Siaran langsung di berbagai platform
+  - ✨ Konten - Pembuatan konten marketing
+- **Visualisasi 3D** - Dashboard dengan tampilan 3D yang elegant
+- **Filter & Search** - Filter berdasarkan tanggal, kategori, dan marketing
+- **WhatsApp Integration** - Kirim laporan langsung ke WhatsApp
+- **Export/Import** - Backup dan restore data dalam format JSON
+- **LocalStorage** - Data tersimpan di browser, tidak perlu backend
+- **Mobile Responsive** - Tampilan optimal di semua device
 
-## :bookmark: Table of contents
+## 🎨 Tema Warna
 
-- :computer: [Getting started](#computer-getting-started "Go to 'Getting started' section")
-- :battery: [Features](#battery-features "Go to 'Features' section")
-- :arrows_clockwise: [Versions](#arrows_clockwise-versions "Go to 'Versions' section")
-- :globe_with_meridians: [Browsers support](#globe_with_meridians-browsers-support "Go to 'Browsers support' section")
-- :busts_in_silhouette: [Contribute](#busts_in_silhouette-contribute "Go to 'Contribute' section")
-- :bookmark_tabs: [License](#bookmark_tabs-license "Go to 'License' section")
-- :gem: [Acknowledgements](#gem-acknowledgements "Go to 'Acknowledgements' section")
+- **Primary**: Hijau Lumut (#556B2F)
+- **Accent**: Yellow Green (#9ACD32)
+- **Secondary**: Dark Sea Green (#8FBC8F)
 
----
+## 🚀 Cara Menjalankan
 
-## :computer: Getting started
+### Development
 
-### Prerequisites:
+```bash
+npm install
+npm run dev
+```
 
-- JavaScript runtime **[node.js][node]**;
-- **(OPTIONAL)** Alternative package manager:
-  - **[PNPM][pnpm]** `npm install --global pnpm` <br /> or
-  - **[Yarn][yarn]** `npm install --global yarn`
+Buka browser di `http://localhost:5173`
 
-### Start developing:
+### Build Production
 
-- Get the repository:
-  - click **"Use this template"** &nbsp; or &nbsp; **"Fork"** button <br /> alternately
-  - **clone** the repository through your terminal: <br />
-    `git clone https://github.com/doinel1a/vite-three-js YOUR-PROJECT-NAME`;
-- Open your terminal or code editor to the path your project is located, and run:
-  | | **NPM** | **PNPM** | **Yarn** |
-  | ------------------------------------------------ | ----------------- | -------------- | -------------- |
-  | To **install** the dependencies | `npm install` | `pnpm install` | `yarn install` |
-  | To **run** the **development server** | `npm run dev` | `pnpm dev` | `yarn dev` |
-  | To **build** your app **for production** | `npm run build` | `pnpm build` | `yarn build` |
-  | To **preview** your **production optimized app** | `npm run preview` | `pnpm preview` | `yarn preview` |
+```bash
+npm run build
+```
 
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
+### Preview Production Build
 
----
+```bash
+npm run preview
+```
 
-## :battery: Features
+## 📱 Cara Penggunaan
 
-This repository comes 🔋 packed with:
+### Untuk Marketing
 
-- **Three.JS**: A JavaScript library built on top of **WebGL** that provides an abstraction layer for rendering interactive 3D and 2D scenes in the web browser;
-- **TailwindCSS**: A utility-first CSS framework that provides predefined classes for common styles and layout patterns, allowing quick styling without writing custom CSS;
-- **SASS**: A CSS preprocessor that adds features such as variables, nesting, and mixins to CSS, making it easier to write and maintain large CSS codebases;
-- **PostCSS**: A tool for transforming CSS with JavaScript plugins, allowing to add new features to CSS and improve the development process;
-- **Playwright**: A library for automating web browser interactions, allowing the writing of end-to-end tests and perform browser automation tasks;
-- **Vite**: A build tool and development server that provides fast and efficient development and production builds for modern web applications;
+1. Klik tombol **+** (Floating Action Button)
+2. Isi form laporan:
+   - Nama marketing
+   - Tanggal
+   - Pilih kategori (Canvasing/Live/Konten)
+   - Isi detail sesuai kategori
+   - Tambahkan catatan (opsional)
+3. Klik **Simpan Laporan**
+4. Klik kartu laporan untuk melihat detail
+5. Klik **Kirim ke WhatsApp** untuk share ke grup
 
-And with tools that enhance the development experience:
+### Untuk Manager/Atasan
 
-- **ESLint**: A tool for enforcing coding standards and identifying potential errors in the code;
-- **Prettier**: A code formatter that automatically formats code to conform to a consistent style, making it easier to read and maintain;
-- **Husky**: A Git hook manager that allows easy set up and configuration of Git hooks, which are scripts that run at certain points in the Git workflow;
-- **Commitlint**: A tool for enforcing commit message conventions in Git repositories, helping to ensure consistent and informative commit messages;
+1. Lihat dashboard dengan statistik real-time
+2. Filter laporan berdasarkan:
+   - Tanggal (Hari ini, Kemarin, Minggu ini, Bulan ini)
+   - Kategori aktivitas
+   - Nama marketing
+3. Klik kartu laporan untuk detail lengkap
+4. Export data untuk analisis lebih lanjut
 
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
+## 💾 Data Storage
 
----
+Data disimpan di **localStorage** browser. Untuk backup:
 
-## :arrows_clockwise: Versions
+1. Klik tombol **Export** (📥) di header
+2. File JSON akan terdownload otomatis
+3. Simpan file untuk backup
 
-This repository comes configured with 2 of the industry standards for development tools: **Webpack** and **Vite**. <br />
-Both tools support **SWC (Speedy Web Compiler)**, a **Rust-based compiler**; Vite is optimized for it out of the box.
+Untuk restore:
+- Import file JSON melalui fitur import (akan ditambahkan)
 
-### Vite (SWC compiler)
+## 🔧 Teknologi
 
-Is a simple and fast solution thanks to it's "zero-config" approach which offers a smoother development experience.
+- **Vite** - Build tool
+- **Three.js** - 3D visualization
+- **Vanilla JavaScript** - No framework overhead
+- **CSS3** - Modern styling dengan custom properties
+- **LocalStorage API** - Data persistence
 
-|                   React - TypeScript                   |                   React - JavaScript                   |     |       Vanilla TypeScript        |     Vanilla JavaScript      |
-| :----------------------------------------------------: | :----------------------------------------------------: | :-: | :-----------------------------: | :-------------------------: |
-| ![React][react-icon] & ![TS][ts-icon] <br /> **Soon!** | ![React][react-icon] & ![JS][js-icon] <br /> **Soon!** |     | ![TS][ts-icon] <br /> **Soon!** | ![JS][js-icon] <br /> **/** |
+## 📊 Struktur Data
 
-### Webpack (Babel compiler)
+```javascript
+{
+  id: "unique-id",
+  name: "Nama Marketing",
+  date: "2026-02-09",
+  category: "canvasing|live|konten",
+  
+  // Canvasing specific
+  prospek: 5,
+  lokasi: "Jakarta Selatan",
+  
+  // Live specific
+  durasi: 120,
+  platform: "Instagram",
+  viewers: 1500,
+  
+  // Konten specific
+  jumlahKonten: 3,
+  jenisKonten: ["foto", "video"],
+  
+  hasil: "Deskripsi hasil",
+  notes: "Catatan tambahan",
+  createdAt: "2026-02-09T10:00:00.000Z"
+}
+```
 
-Is more a flexible solution, capable of handling complex configurations.
+## 🎯 Roadmap
 
-|                   React - TypeScript                   |                   React - JavaScript                   |     |       Vanilla TypeScript        |                 Vanilla JavaScript                 |
-| :----------------------------------------------------: | :----------------------------------------------------: | :-: | :-----------------------------: | :------------------------------------------------: |
-| ![React][react-icon] & ![TS][ts-icon] <br /> **Soon!** | ![React][react-icon] & ![JS][js-icon] <br /> **Soon!** |     | ![TS][ts-icon] <br /> **Soon!** | ![JS][js-icon] <br /> **[Repo][webpack-three-js]** |
+- [ ] Import JSON data
+- [ ] Export to Excel
+- [ ] Print report
+- [ ] Advanced statistics & charts
+- [ ] Google Sheets integration
+- [ ] Multi-language support
+- [ ] Dark/Light theme toggle
+- [ ] Notification system
+- [ ] Team collaboration features
 
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
+## 📄 License
 
----
+MIT License
 
-## :globe_with_meridians: Browsers support
+## 👨‍💻 Developer
 
-The provided configuration ensures **92.3%** coverage for all browsers, in particular of the following:
-
-|            Chrome             |             Firefox              |             Edge             |        Opera         | Safari                       |
-| :---------------------------: | :------------------------------: | :--------------------------: | :------------------: | ---------------------------- |
-| ![Google Chrome][chrome-icon] | ![Mozilla Firefox][firefox-icon] | ![Microsoft Edge][edge-icon] | ![Opera][opera-icon] | ![Apple Safari][safari-icon] |
-
-**\*** In order to support a wider percentage of browsers, update the `./.browserslistrc` configuration file:
-
-1. `last 3 versions`: browser version;
-2. `> 0.2%`: browser usage statistics;
-3. `not dead`: whether the browser is officially supported;
-
-Update the configuration [here][browserslist] and check in real-time the **global browsers support**.
-
-**\* The more versions to support, larger JS and CSS bundles size will be.**
-
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
-
----
-
-## :busts_in_silhouette: Contribute
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create.  
-Any contribution is greatly appreciated: big or small, it can be documentation updates, adding new features or something bigger.  
-Please check the [**contributing guide**][code-of-conduct] for details on how to help out and keep in mind that all commits must follow the **[conventional commit format][commitlint]**.
-
-### How to contribute:
-
-1.  **[Get started](#computer-getting-started "Go to 'Getting started' section");**
-2.  **For a new feature:**
-    1.  Create a new branch: `git checkout -b feat/NEW-FEATURE`;
-    2.  Add your changes to the staging area: `git add PATH/TO/FILENAME.EXTENSION`;
-    3.  Commit your changes: `git commit -m "feat: NEW FEATURE"`;
-    4.  Push your new branch: `git push origin feat/NEW-FEATURE`;
-3.  **For a bug fix:**
-    1.  Create a new branch: `git checkout -b fix/BUG-FIX`;
-    2.  Add your changes to the staging area: `git add PATH/TO/FILENAME.EXTENSION`;
-    3.  Commit your changes: `git commit -m "fix: BUG FIX"`;
-    4.  Push your new branch: `git push origin fix/BUG-FIX`;
-4.  **Open a new [pull request][pulls];**
-
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
-
----
-
-## :bookmark_tabs: License
-
-All logos and trademarks are the property of their respective owners.  
-Everything else is distributed under the **MIT License**.  
-See the [LICENSE][license] file for more informations.
-
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
-
----
-
-## :gem: Acknowledgements
-
-Special thanks to:
-
-- [alrra](https://github.com/alrra) for [browser-logos](https://github.com/alrra/browser-logos);
-- [tandpfun](https://github.com/tandpfun) for [skill-icons](https://github.com/tandpfun/skill-icons);
-
-[Back to :arrow_up:](#vite-three-js--template "Back to 'Table of contents' section")
+Developed with ❤️ for Vertizon Marketing Team
