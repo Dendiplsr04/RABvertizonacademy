@@ -63,9 +63,28 @@ export class FormManager {
     document.getElementById('btn-cancel-activity')?.addEventListener('click', () => this.closeActivityModal());
     document.getElementById('btn-save-activity')?.addEventListener('click', () => this.saveActivity());
 
+    // Clock picker buttons
+    document.getElementById('btn-start-clock')?.addEventListener('click', () => this.openClockPicker('start'));
+    document.getElementById('btn-end-clock')?.addEventListener('click', () => this.openClockPicker('end'));
+    document.getElementById('btn-close-clock')?.addEventListener('click', () => this.closeClockPicker());
+    document.getElementById('btn-cancel-clock')?.addEventListener('click', () => this.closeClockPicker());
+    document.getElementById('btn-confirm-clock')?.addEventListener('click', () => this.confirmClockTime());
+
+    // Form submission
+    const form = document.getElementById('form-report');
+    form?.addEventListener('submit', (e) => this.handleSubmit(e));
+    
+    // Setup activity modal event listeners (called once)
+    this.setupActivityModalListeners();
+  }
+  
+  setupActivityModalListeners() {
     // Activity type selection
     document.querySelectorAll('input[name="activity-type"]').forEach(input => {
-      input.addEventListener('change', (e) => this.handleActivityTypeChange(e.target.value));
+      input.addEventListener('change', (e) => {
+        console.log('[FormManager] Activity type radio changed:', e.target.value);
+        this.handleActivityTypeChange(e.target.value);
+      });
     });
 
     // Canvasing lokasi dropdown
@@ -91,22 +110,13 @@ export class FormManager {
         } else {
           detail?.classList.add('hidden');
           // Reset values
-          document.getElementById(`${platform}-video`).value = '0';
-          document.getElementById(`${platform}-foto`).value = '0';
+          const videoInput = document.getElementById(`${platform}-video`);
+          const fotoInput = document.getElementById(`${platform}-foto`);
+          if (videoInput) videoInput.value = '0';
+          if (fotoInput) fotoInput.value = '0';
         }
       });
     });
-
-    // Clock picker buttons
-    document.getElementById('btn-start-clock')?.addEventListener('click', () => this.openClockPicker('start'));
-    document.getElementById('btn-end-clock')?.addEventListener('click', () => this.openClockPicker('end'));
-    document.getElementById('btn-close-clock')?.addEventListener('click', () => this.closeClockPicker());
-    document.getElementById('btn-cancel-clock')?.addEventListener('click', () => this.closeClockPicker());
-    document.getElementById('btn-confirm-clock')?.addEventListener('click', () => this.confirmClockTime());
-
-    // Form submission
-    const form = document.getElementById('form-report');
-    form?.addEventListener('submit', (e) => this.handleSubmit(e));
   }
 
   openModal() {
@@ -396,12 +406,19 @@ export class FormManager {
   }
 
   handleActivityTypeChange(type) {
+    console.log('[FormManager] Activity type changed to:', type);
     this.hideAllActivityFields();
     
     const fieldsId = `activity-${type}-fields`;
+    console.log('[FormManager] Looking for fields:', fieldsId);
     const fields = document.getElementById(fieldsId);
+    console.log('[FormManager] Fields element:', fields);
+    
     if (fields) {
       fields.classList.remove('hidden');
+      console.log('[FormManager] Fields shown for:', type);
+    } else {
+      console.error('[FormManager] Fields not found for:', fieldsId);
     }
   }
 
