@@ -31,6 +31,25 @@ class DailyReportApp {
       // Initialize Report Manager
       this.reportManager = new ReportManager();
       console.log('[App] Report Manager initialized');
+      
+      // Check if there's old dummy data and clear it
+      const existingData = localStorage.getItem('vertizon_daily_reports');
+      if (existingData) {
+        try {
+          const reports = JSON.parse(existingData);
+          // Check if data contains dummy names
+          const dummyNames = ['Budi Santoso', 'Siti Nurhaliza', 'Ahmad Fauzi', 'Dewi Lestari', 'Rudi Hartono'];
+          const hasDummyData = reports.some(r => dummyNames.includes(r.name));
+          
+          if (hasDummyData) {
+            console.log('[App] Detected dummy data, clearing...');
+            localStorage.removeItem('vertizon_daily_reports');
+            this.reportManager = new ReportManager(); // Reinitialize
+          }
+        } catch (error) {
+          console.error('[App] Error checking data:', error);
+        }
+      }
 
       // Initialize UI Manager
       this.uiManager = new UIManager(this.reportManager);
