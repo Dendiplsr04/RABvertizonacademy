@@ -23,17 +23,13 @@ class DailyReportApp {
     try {
       console.log('[App] Initializing Daily Report Marketing Vertizon...');
 
+      // CLEAR OLD DATA - Force fresh start
+      console.log('[App] Clearing old data...');
+      localStorage.removeItem('vertizon_daily_reports');
+
       // Initialize Report Manager
       this.reportManager = new ReportManager();
       console.log('[App] Report Manager initialized');
-
-      // Load dummy data if localStorage is empty (first time)
-      if (this.reportManager.getAllReports().length === 0) {
-        console.log('[App] No data found, loading dummy data...');
-        const { loadDummyData } = await import('./dummyData.js');
-        loadDummyData();
-        this.reportManager = new ReportManager(); // Reload to get dummy data
-      }
 
       // Initialize UI Manager
       this.uiManager = new UIManager(this.reportManager);

@@ -111,6 +111,8 @@ export class UIManager {
 
   updateStatistics() {
     const stats = this.reportManager.getStatistics(this.currentFilter.date);
+    
+    console.log('[UIManager] Updating statistics:', stats);
 
     // Update attendance stats
     document.querySelector('#attendance-hadir').textContent = stats.attendance?.hadir || 0;
