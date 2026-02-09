@@ -321,19 +321,52 @@ export class FormManager {
   }
 
   resetActivityForm() {
+    // Reset activity type
     document.querySelectorAll('input[name="activity-type"]').forEach(input => {
       input.checked = false;
     });
     
-    document.getElementById('input-start-time').value = '';
-    document.getElementById('input-end-time').value = '';
-    document.getElementById('activity-prospek').value = '';
-    document.getElementById('activity-lokasi').value = '';
-    document.getElementById('activity-platform').value = '';
-    document.getElementById('activity-viewers').value = '';
-    document.getElementById('activity-video').value = '';
-    document.getElementById('activity-foto').value = '';
-    document.getElementById('activity-notes').value = '';
+    // Reset time inputs
+    const startTime = document.getElementById('input-start-time');
+    const endTime = document.getElementById('input-end-time');
+    if (startTime) startTime.value = '';
+    if (endTime) endTime.value = '';
+    
+    // Reset canvasing fields
+    const lokasiDropdown = document.getElementById('activity-lokasi-dropdown');
+    const lokasiCustom = document.getElementById('activity-lokasi-custom');
+    const prospek = document.getElementById('activity-prospek');
+    const fotoLokasi = document.getElementById('activity-foto-lokasi');
+    if (lokasiDropdown) lokasiDropdown.value = '';
+    if (lokasiCustom) lokasiCustom.value = '';
+    if (prospek) prospek.value = '';
+    if (fotoLokasi) fotoLokasi.value = '';
+    
+    // Reset konten platform checkboxes
+    document.querySelectorAll('input[name="platform"]').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    
+    // Reset konten platform details
+    const platforms = ['instagram', 'tiktok', 'facebook'];
+    platforms.forEach(platform => {
+      const video = document.getElementById(`${platform}-video`);
+      const foto = document.getElementById(`${platform}-foto`);
+      const detail = document.getElementById(`detail-${platform}`);
+      if (video) video.value = '0';
+      if (foto) foto.value = '0';
+      if (detail) detail.classList.add('hidden');
+    });
+    
+    // Reset notes
+    const notes = document.getElementById('activity-notes');
+    if (notes) notes.value = '';
+    
+    // Hide lokasi lain fields
+    const lokasiLain = document.getElementById('canvasing-lokasi-lain');
+    const fotoUpload = document.getElementById('canvasing-foto-upload');
+    if (lokasiLain) lokasiLain.classList.add('hidden');
+    if (fotoUpload) fotoUpload.classList.add('hidden');
     
     this.hideAllActivityFields();
   }
@@ -368,13 +401,13 @@ export class FormManager {
     const fieldsId = `activity-${type}-fields`;
     const fields = document.getElementById(fieldsId);
     if (fields) {
-      fields.classList.add('active');
+      fields.classList.remove('hidden');
     }
   }
 
   hideAllActivityFields() {
     document.querySelectorAll('.activity-fields').forEach(field => {
-      field.classList.remove('active');
+      field.classList.add('hidden');
     });
   }
 
